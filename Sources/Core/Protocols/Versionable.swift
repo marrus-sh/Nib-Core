@@ -9,7 +9,7 @@
 ///  +  Version:
 ///     `0.1.0`.
 public protocol Versionable
-where Version: VersionProtocol {
+where Version : VersionProtocol {
 
 	/// The versioning associated with this type.
 	///

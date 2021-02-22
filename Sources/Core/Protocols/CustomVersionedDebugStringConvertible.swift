@@ -30,7 +30,7 @@ public protocol CustomVersionedDebugStringConvertible:
 }
 
 extension CustomVersionedDebugStringConvertible
-where Version: Defaultable {
+where Version : Defaultable {
 
 	/// The default versioned debug description for this value.
 	///

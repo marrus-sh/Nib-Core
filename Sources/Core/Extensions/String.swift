@@ -23,7 +23,7 @@ extension String {
 	public init <T> (
 		reflecting subject: T,
 		version: T.Version
-	) where T: CustomVersionedDebugStringConvertible {
+	) where T : CustomVersionedDebugStringConvertible {
 		self = subject.debugDescription(
 			version: version
 		)
