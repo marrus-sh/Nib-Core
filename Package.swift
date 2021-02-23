@@ -7,7 +7,14 @@ let package = Package(
 	name: "Nib",
 
 	products: [
-		.library(name: "Nib", targets: ["Nib"]),
+		.library(
+			name: "Nib",
+			targets: [
+//				"EBNF",
+//				"XML11",
+//				"XSD"
+			]
+		),
 	],
 
 	dependencies: [
@@ -15,8 +22,26 @@ let package = Package(
 	],
 
 	targets: [
-		.target(name: "Nib", dependencies: []),
-		.testTarget(name: "NibTests", dependencies: ["Nib"]),
+//		.target(
+//			name: "EBNF",
+//			dependencies: []
+//		),
+//		.target(
+//			name: "XML11",
+//			dependencies: ["EBNF"]
+//		),
+//		.target(
+//			name: "XSD",
+//			dependencies: ["XML11"]
+//		),
+//		.testTarget(
+//			name: "XML11Tests",
+//			dependencies: ["XML11"]
+//		),
+//		.testTarget(
+//			name: "XSDTests",
+//			dependencies: ["XSD"]
+//		)
 	],
 
 	swiftLanguageVersions: [.v4_2]
