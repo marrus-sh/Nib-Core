@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -10,7 +10,7 @@ let package = Package(
 		.library(
 			name: "Nib",
 			targets: ["Core"]
-		),
+		)
 	],
 
 	dependencies: [
@@ -20,10 +20,11 @@ let package = Package(
 	targets: [
 		.target(
 			name: "Core",
-			dependencies: []
-		),
+			dependencies: [],
+			exclude: ["Documentation"]
+		)
 	],
 
-	swiftLanguageVersions: [.v4_2]
+	swiftLanguageVersions: [.v5]
 
 )
