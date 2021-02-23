@@ -5,10 +5,10 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 extension Unicode.Scalar:
-	LosslessTextConvertible
+	CustomTextConvertible
 {
 
-	/// The type of text associated with this `LosslessTextConvertible`.
+	/// The type of text associated with this `CustomTextConvertible`.
 	///
 	///  +  Version:
 	///     `0.2.0`.
@@ -24,6 +24,12 @@ extension Unicode.Scalar:
 	@inlinable
 	public var text: Text
 	{ Text(self) }
+
+}
+
+extension Unicode.Scalar:
+	LosslessTextConvertible
+{
 
 	/// Creates a new `Unicode.Scalar` from the provided `text`.
 	///

@@ -5,10 +5,10 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 extension Substring.UnicodeScalarView:
-	LosslessTextConvertible
+	CustomTextConvertible
 {
 
-	/// The type of text associated with this `LosslessTextConvertible`.
+	/// The type of text associated with this `CustomTextConvertible`.
 	///
 	///  +  Version:
 	///     `0.2.0`.
@@ -27,7 +27,13 @@ extension Substring.UnicodeScalarView:
 	public var text: Text
 	{ self }
 
-	/// Creates a new `Substring.UnicodeScalarView` from the provided `text`.
+}
+
+extension Substring.UnicodeScalarView:
+	LosslessTextConvertible
+{
+
+	/// Creates a new `Text` from the provided `text`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).

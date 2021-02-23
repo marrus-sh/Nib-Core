@@ -8,22 +8,9 @@
 ///
 ///  +  Version:
 ///     `0.2.0`.
-public protocol LosslessTextConvertible
-where
-	Text : Collection,
-	Text.Element == Unicode.Scalar
+public protocol LosslessTextConvertible:
+	CustomTextConvertible
 {
-
-	/// A sequence of zero or more `Unicode.Scalar`s.
-	///
-	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-text>.
-	associatedtype Text
-
-	/// The `Text` which represents this value.
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	var text: Text { get }
 
 	/// Makes a new value from the provided `text`, if possible.
 	///
