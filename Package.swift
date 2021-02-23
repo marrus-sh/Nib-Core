@@ -9,11 +9,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: [
-//				"EBNF",
-//				"XML11",
-//				"XSD"
-			]
+			targets: ["Core"]
 		),
 	],
 
@@ -22,26 +18,10 @@ let package = Package(
 	],
 
 	targets: [
-//		.target(
-//			name: "EBNF",
-//			dependencies: []
-//		),
-//		.target(
-//			name: "XML11",
-//			dependencies: ["EBNF"]
-//		),
-//		.target(
-//			name: "XSD",
-//			dependencies: ["XML11"]
-//		),
-//		.testTarget(
-//			name: "XML11Tests",
-//			dependencies: ["XML11"]
-//		),
-//		.testTarget(
-//			name: "XSDTests",
-//			dependencies: ["XSD"]
-//		)
+		.target(
+			name: "Core",
+			dependencies: []
+		),
 	],
 
 	swiftLanguageVersions: [.v4_2]
