@@ -6,17 +6,23 @@
 
 /// A sequence of zero or more `Text.Character`s.
 ///
-/// <https://www.w3.org/TR/xml11/#dt-text>.
+/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-text>.
+///
+///  +  Version:
+///     `0.1.0`.
 public typealias Text = String.UnicodeScalarView
 
 extension Text {
 
 	/// An atomic unit of text as specified by the Universal Character Set (UCS), ISO/IEC 10646.
 	///
-	/// <https://www.w3.org/TR/xml11/#dt-character>.
+	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-character>.
 	///
 	///  +  Note:
 	///     This is a different definition of “character” than is used by `Swift.Character`.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public typealias Character = Unicode.Scalar
 
 }

@@ -5,7 +5,7 @@ Intended for use with RDF tools and libraries, but conceivably could be utilized
 
 | Swift version | Package version |
 | :-: | :-: |
-| 5.3 | 0.1 |
+| 5.3 | 0.2.0-development |
 
 ##  Should I Use This Library?  ##
 
