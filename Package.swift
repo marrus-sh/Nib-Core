@@ -1,9 +1,9 @@
 // swift-tools-version:5.3
 import PackageDescription
 
+/// __Nib ✒💦:__ A Swift implementation of the XML suite of specifications.
 let package = Package(
 
-	/// ✒💦 A Swift implementation of XSD datatypes for RDF.
 	name: "Nib",
 
 	products: [
