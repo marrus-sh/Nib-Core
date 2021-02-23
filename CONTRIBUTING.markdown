@@ -35,26 +35,23 @@ Place extensions to an aliased type in the same file as the typealias.
 
 ##  Character Input  ##
 
-Having [Kibben Keyboard](https://github.com/marrus-sh/KibbenKeyboard) installed will help.
-That’s the keyboard layout I use for my daily life, and all of the characters in these source files are drawn from there.
-Alternatively; copy and paste lol.
+As far as source code characters go, anything from [Macintosh Roman](https://en.wikipedia.org/wiki/Mac_OS_Roman) is game.
+These characters are all inputtable via the standard Macintosh U.S. Keyboard Layout via various option combinations.
+Other characters (i.e. anything from Unicode) may be used in string literals, comments, and other output.
 
-Use of the following non‐ASCII characters is planned:
+For your convenience, use of the following non‐ASCII characters is planned:
 
 | Codepoint | Character | Unicode Name | Macintosh U.S. Keyboard Input |
 | :-: | :-: | --- | --- |
 | U+00AB | « | LEFT-POINTING DOUBLE ANGLE QUOTATION MARK | `⌥ option` + `\` |
 | U+00B0 | ° | DEGREE SIGN | `⌥ option` + `⇧ shift` + `8` |
+| U+00AE | ® | REGISTERED SIGN | `⌥ option` + `R` |
 | U+00B7 | · | MIDDLE DOT | `⌥ option` + `⇧ shift` + `9` |
 | U+00BB | » | RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK | `⌥ option` + `⇧ shift` + `\` |
 | U+00F7 | ÷ | DIVISION SIGN | `⌥ option` + `/` |
-| U+2016 | ‖ | DOUBLE VERTICAL LINE | *Not available* |
-| U+2032 | ′ | PRIME | *Not available* |
-| U+2033 | ″ | DOUBLE PRIME | *Not available* |
+| U+2022 | • | BULLET | `⌥ option` + `8` |
 | U+2039 | ‹ | SINGLE LEFT-POINTING ANGLE QUOTATION MARK | `⌥ option` + `⇧ shift` + `3` |
 | U+203A | › | SINGLE RIGHT-POINTING ANGLE QUOTATION MARK | `⌥ option` + `⇧ shift` + `4` |
-| U+2053 | ⁓ | SWUNG DASH | *Not available* |
-| U+2212 | − | MINUS SIGN | *Not available* |
 | U+221A | √ | SQUARE ROOT | `⌥ option` + `V` |
 | U+25CA | ◊ | LOZENGE | `⌥ option` + `⇧ shift` + `V` |
 
@@ -70,9 +67,9 @@ It is also used in abbreviations in place of Swift’s more idiomatic “just wr
 Properties, functions, or methods explicitly provided for by a specification are written surrounded by middle dots, like `·this·`; this is to distinguish them from both (a) grammars et cetera which might have the same name, and (b) the idiomatic Swift interfaces, where better ones exist.
 In the actual specifications, you might see `[this]` or `·this·` or `{this}` or similar.
 
-##  Documentation Conventions  ##
+##  Doccomment Conventions  ##
 
-Documentation should follow [ordinary Swift conventions](https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_markup_formatting_ref/SymbolDocumentation.html).
+Documentation comments should follow [ordinary Swift conventions](https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_markup_formatting_ref/SymbolDocumentation.html).
 All public API terms should be documented, and each should have a `Version` callout describing when they were added.
 Additional `Version` callouts should be used when additional features are added.
 
@@ -82,6 +79,16 @@ All contributors to the implementation should put their names here.
 Use `Note` callouts for documenting ambiguous cases in the spec, differences in the implementation, or common gotchas with use.
 
 Functions which take parameters should have a `Parameters` section; functions which return should have a `Returns`, and functions which throw should have a `Throws`.
+
+##  Branches and Pull Requests  ##
+
+Git branches whose names begin with a capital letter (e.g. `Core`) are dedicated to development of their respective module.
+*All* pull requests involving code should be contained to a single module and sent to the appropriate branch.
+When the branches are in a stable place, they will be merged into the `development` branch which will then be merged into `current` for a release.
+
+**If you send a pull request which affects more than one module, it will be rejected.**
+
+Documentation or other non‐code·related things may be merged onto `current` or `development` directly.
 
 ---
 

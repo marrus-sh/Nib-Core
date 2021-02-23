@@ -1,4 +1,4 @@
-//  #  Core :: String  #
+//  #  Core :: Swift.String  #
 //
 //  Copyright © 2021 kibigo!
 //
@@ -20,6 +20,7 @@ extension String {
 	///         A `CustomVersionedDebugStringConvertible` value.
 	///      +  version:
 	///         The `Version` of the representation to provide.
+	@inlinable
 	public init <T> (
 		reflecting subject: T,
 		version: T.Version
@@ -28,5 +29,30 @@ extension String {
 			version: version
 		)
 	}
+
+}
+
+extension String:
+	LosslessTextConvertible
+{
+
+	/// The type of text associated with this `LosslessTextConvertible`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	public typealias Text = UnicodeScalarView
+
+	/// This value, as `Text`.
+	///
+	/// This is effectively an alias for `.unicodeScalars`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	@inlinable
+	public var text: Text
+	{ self.unicodeScalars }
 
 }

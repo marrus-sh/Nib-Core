@@ -14,7 +14,7 @@ Nib is built as a highly precise/exact implementation of the algorithms present 
 *However,* there is something of a paucity of highly‐optimized native Swift implementations for the sorts of things that Nib accomplishes, so **you may find that it is the best, most‐reliable tool for the job nonetheless.**
 
 Nib takes advantage of the flexibility of the Swift language to implement a number of DSLs for expressing common data structures or operations.
-If you are going to be scared off by something like `.EmptyElemTag′ | [.STag′, .content′, .ETag′]` then you might want to pick a different library.
+If you are going to be scared off by something like `.EmptyElemTag® | [.STag®, .content®, .ETag®]` then you might want to pick a different library.
 
 **Nib requires an editor which supports Unicode and a programmer willing to input Unicode characters.**
 

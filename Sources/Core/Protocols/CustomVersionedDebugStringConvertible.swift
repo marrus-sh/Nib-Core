@@ -40,7 +40,10 @@ where Version : Defaultable {
 	///  +  Version:
 	///     `0.1.0`.
 	@inlinable
-	public var debugDescription: String
-	{ debugDescription(version: Version.default) }
+	public var debugDescription: String {
+		debugDescription(
+			version: Version.default
+		)
+	}
 
 }

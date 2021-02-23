@@ -35,6 +35,7 @@ public protocol Validatable {
 
 public extension Validatable {
 
+	/// Whether `.validating()` throws an error.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
