@@ -21,6 +21,11 @@ where Self : LosslessTextConvertible {
 	@inlinable
 	init? (
 		_ description: String
-	) { self.init(description.text) }
+	) {
+		if let text = Text(description.text)
+		{ self.init(text) }
+		else
+		{ return nil }
+	}
 
 }

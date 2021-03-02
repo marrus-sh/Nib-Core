@@ -52,8 +52,10 @@ extension String:
 	///  +  Version:
 	///     `0.2.0`.
 	@inlinable
-	public var text: Text
-	{ self.unicodeScalars }
+	public var text: Text {
+		get { self.unicodeScalars }
+		set { self = String(newValue) }
+	}
 
 }
 

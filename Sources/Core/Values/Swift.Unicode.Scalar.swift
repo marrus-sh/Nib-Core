@@ -22,30 +22,16 @@ extension Unicode.Scalar:
 	///  +  Version:
 	///     `0.2.0`.
 	@inlinable
-	public var text: Text
-	{ Text(self) }
+	public var text: Text {
+		get { Text(self) }
+		set { self = newValue[0] }
+	}
 
 }
 
 extension Unicode.Scalar:
 	LosslessTextConvertible
 {
-
-	/// Creates a new `Unicode.Scalar` from the provided `text`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  text:
-	///         The `Text` of the new value.
-	@inlinable
-	public init (
-		_ text: Text
-	) { self = text[0] }
 
 	/// Creates a new `Unicode.Scalar` from the provided `text`, if possible.
 	///
@@ -54,17 +40,9 @@ extension Unicode.Scalar:
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `LosslessTextConvertible` represeting the new value.
-	public init? <TextConvertible> (
-		_ text: TextConvertible
-	) where TextConvertible : LosslessTextConvertible {
-		let innerText = text.text
-		if
-			innerText.count == 1,
-			let char = innerText.first
-		{ self = char }
-		else
-		{ return nil }
-	}
+	///         A `Text` (i.e., `CollectionOfOne<Unicode.Scalar>`) represeting the new value.
+	public init? (
+		_ text: Text
+	) { self = text[0] }
 
 }
