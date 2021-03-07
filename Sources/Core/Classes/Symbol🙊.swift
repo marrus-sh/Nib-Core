@@ -24,13 +24,6 @@ where Atom : Atomic {
 	var expression: Expression
 	{ .never }
 
-	/// The `name` of the wrapped `Symbolic` value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var name: String
-	{ "" }
-
 	/// Returns a `Symbol🙊` which wraps the provided `Symbol`.
 	///
 	/// When accessed multiple times with the same `symbol`, this will always return the same `Symbol🙊` instance.

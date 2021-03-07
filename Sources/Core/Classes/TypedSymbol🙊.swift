@@ -27,13 +27,6 @@ where
 	override var hash: Int
 	{ symbol🙈.hashValue }
 
-	/// The `name` of the wrapped `Symbol`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var name: String
-	{ symbol🙈.name }
-
 	/// The wrapped `Symbol`.
 	///
 	///  +  Authors:
