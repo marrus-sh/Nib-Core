@@ -29,3 +29,33 @@ where Self : LosslessTextConvertible {
 	}
 
 }
+
+public extension LosslessStringConvertible
+where
+	Self : Symbolic,
+	ID : LosslessStringConvertible
+{
+
+	/// Creates a new `Symbolic` value whose `id` matches the given `description`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  description:
+	///         The `String` name of the `Symbol` to create.
+	init? (
+		_ description: String
+	) {
+		if
+			let 🔙 = ID(description),
+			let 🔜 = Self[🔙]
+		{ self = 🔜 }
+		else
+		{ return nil }
+	}
+
+}

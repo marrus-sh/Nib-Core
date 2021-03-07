@@ -6,22 +6,14 @@
 
 /// A named expression.
 ///
-/// `Symbolic` types are required to be `Identifiable`, with an `ID` type which is `LosslessStringConvertible`.
-/// Additionally, they must have a subscript which maps `ID`s to the corresponding `Symbolic` values.
-/// This allows for lossless conversion of `Symbolic` values to and from a `String` value.
-///
 ///  +  Version:
-///     `0.2.0`.
+///     `0.1.0`.
 public protocol Symbolic:
 	CaseIterable,
-	LosslessStringConvertible,
 	Expressible,
 	Hashable,
 	Identifiable
-where
-	Atom : Atomic,
-	ID : LosslessStringConvertible
-{
+where Atom : Atomic {
 
 	/// The `Atomic` type associated with this `Symbolic` value.
 	associatedtype Atom
@@ -48,44 +40,6 @@ where
 		_ identifier: ID
 	) -> Self?
 	{ get }
-
-}
-
-public extension Symbolic {
-
-	/// The text description of the value.
-	///
-	/// For `Symbolic` values, this defaults to the string representation of their `id`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	var description: String
-	{ String(id) }
-
-	/// Creates a new `Symbolic` value whose `id` matches the given `description`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  description:
-	///         The `String` name of the `Symbol` to create.
-	init? (
-		_ description: String
-	) {
-		if
-			let 🔙 = ID(description),
-			let 🔜 = Self[🔙]
-		{ self = 🔜 }
-		else
-		{ return nil }
-	}
 
 }
 

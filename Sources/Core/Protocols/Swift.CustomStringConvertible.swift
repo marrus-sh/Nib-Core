@@ -19,3 +19,25 @@ where Self : CustomTextConvertible {
 	{ String(String.Text(text)) }
 
 }
+
+public extension CustomStringConvertible
+where
+	Self : Symbolic,
+	ID : CustomStringConvertible
+{
+
+	/// The `id` of this `Symbolic`, as a `String`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	@inlinable
+	var description: String {
+		String(
+			describing: id
+		)
+	}
+
+}
