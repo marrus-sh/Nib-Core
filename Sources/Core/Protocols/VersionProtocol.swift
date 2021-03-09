@@ -10,6 +10,7 @@
 ///     `0.1.0`.
 public protocol VersionProtocol:
 	CaseIterable,
+	Hashable,
 	LosslessStringConvertible,
 	RawRepresentable
 where RawValue == String
@@ -42,6 +43,10 @@ public extension VersionProtocol {
 	@inlinable
 	init? (
 		_ description: String
-	) { self.init(rawValue: description) }
+	) {
+		self.init(
+			rawValue: description
+		)
+	}
 
 }
