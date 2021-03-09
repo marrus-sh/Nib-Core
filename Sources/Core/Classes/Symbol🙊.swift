@@ -4,7 +4,6 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 /// A wrapper for a `Symbolic` value which preserves its `Atom` type but erases other type information.
 ///
 /// This class effectively allows multiple different `Symbolic` types to be mixed in the same context.
@@ -24,7 +23,7 @@ where Atom : Atomic {
 	var expression: Expression
 	{ .never }
 
-	/// Returns a `Symbol🙊` which wraps the provided `Symbol`.
+	/// Returns a `Symbol🙊` which wraps the provided `symbol`.
 	///
 	/// When accessed multiple times with the same `symbol`, this will always return the same `Symbol🙊` instance.
 	///

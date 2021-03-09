@@ -12,7 +12,7 @@ public protocol ExclusionProtocol:
 	Excludable
 where Exclusion == Self {
 
-	/// Creates an `ExclusionProtocol` value which excludes the provided `exclusion` from the provided `match`.
+	/// Creates a new `ExclusionProtocol` value which excludes the provided `exclusion` from the provided `match`.
 	///
 	///  +  Version:
 	///     `0.2.0`.

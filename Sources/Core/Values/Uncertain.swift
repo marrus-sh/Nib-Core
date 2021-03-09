@@ -19,7 +19,7 @@ extension Uncertain {
 
 	/// Performs a “deep” nil‐coalescing operation, returning the wrapped value of an Uncertain instance or a default value.
 	///
-	/// The `???` is equivalent to `??` except that it requires this `Uncertain` value to not be `.some(nil)` in addition to not being `nil`.
+	/// The `???` operator is equivalent to `??` except that it requires the passed `Uncertain` value to not be `.some(nil)` in addition to not being `nil`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).

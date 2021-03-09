@@ -10,6 +10,10 @@ extension CollectionOfOne:
 	TextProtocol
 where Element == Unicode.Scalar {
 
+	/// The type of text associated with this `CustomTextConvertible`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
 	public typealias Text = CollectionOfOne<Unicode.Scalar>
 
 	/// Creates a new value from the provided `text`, if possible.
@@ -19,7 +23,7 @@ where Element == Unicode.Scalar {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `LosslessTextConvertible` represeting the new value.
+	///         A `TextProtocol` value represeting the new value.
 	@inlinable
 	public init? <OtherText> (
 		_ text: OtherText
