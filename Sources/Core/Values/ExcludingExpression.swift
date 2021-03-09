@@ -184,6 +184,51 @@ where Atom : Atomic {
 		)
 	}
 
+	/// Returns whether the given `Sequence` matches the given `ExcludingExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `ExcludingExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
+	public static func ~= <Seq> (
+		_ l·h·s: ExcludingExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{
+		var 〽️ = l·h·s.fragment🙈.start.resolved
+		if (
+			r·h·s.drop { 🆙 in
+				//  Drop matching elements from the sequence; a successful match will drop every element.
+				〽️ = 〽️.reduce(
+					into: [] as States🙊
+				) { 🔜, 🈁 in
+					//  Attempt to consume the element which is currently `🆙` and collect the next states if this succeeds.
+					if
+						let 🔙 = 🈁 as? OpenState🙊<Atom>,
+						🔙.consumes(🆙)
+					{ 🔜.formUnion(🔙.next) }
+				}
+				return 〽️.count > 0
+			}.first { _ in true }
+		) != nil
+		{ return false }
+		else
+		{ return 〽️.contains(.match) }
+	}
+
 	/// Returns an `ExcludingExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
 	///
 	///  +  Authors:

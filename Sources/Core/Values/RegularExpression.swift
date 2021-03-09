@@ -137,6 +137,180 @@ where Atom : Atomic {
 		)
 	}
 
+	/// Returns whether the given `Sequence` matches the given `RegularExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `RegularExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
+	public static func ~= <Seq> (
+		_ l·h·s: RegularExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{ l·h·s.excludableExpression ~= r·h·s }
+
+	/// Returns a new `AtomicExpression` which catenates the provided values.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `RegularExpression`.
+	///      +  r·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
+	@inlinable
+	static func & <Expressing> (
+		_ l·h·s: RegularExpression<Atom>,
+		_ r·h·s: Expressing
+	) -> Expressing
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ Expressing(l·h·s) & r·h·s }
+
+	/// Returns a new `AtomicExpression` which catenates the provided values.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
+	@inlinable
+	static func & <Expressing> (
+		_ l·h·s: Self,
+		_ r·h·s: RegularExpression<Atom>
+	) -> Expressing
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ l·h·s & Expressing(r·h·s) }
+
+	/// Catenates the given `RegularExpression` to the end of the given `AtomicExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	@inlinable
+	static func &= <Expressing> (
+		_ l·h·s: inout Expressing,
+		_ r·h·s: RegularExpression<Atom>
+	)
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ l·h·s &= Expressing(r·h·s) }
+
+	/// Returns a new `AtomicExpression` which alternates the provided values.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `RegularExpression`.
+	///      +  r·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
+	@inlinable
+	static func | <Expressing> (
+		_ l·h·s: RegularExpression<Atom>,
+		_ r·h·s: Self
+	) -> Expressing
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ Expressing(l·h·s) | r·h·s }
+
+	/// Returns a new `AtomicExpression` which alternates the provided values.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
+	@inlinable
+	static func | <Expressing> (
+		_ l·h·s: Expressing,
+		_ r·h·s: RegularExpression<Atom>
+	) -> Expressing
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ l·h·s | Expressing(r·h·s) }
+
+	/// Alternates the given `AtomicExpression` with the given `RegularExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	@inlinable
+	static func |= <Expressing> (
+		_ l·h·s: inout Expressing,
+		_ r·h·s: RegularExpression<Atom>
+	) where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom
+	{ l·h·s |= Expressing(r·h·s) }
+
 	/// Returns a `RegularExpression` equivalent to the provided `RegularExpression` repeated some number of times as indicated by the provided `PartialRangeFrom`.
 	///
 	///  +  Authors:
@@ -189,6 +363,60 @@ where Atom : Atomic {
 		)
 	}
 
+	/// Returns a new `Exclusion` which excludes the first value from the second.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `RegularExpression`.
+	///      +  r·h·s:
+	///         An `Excludable` `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
+	@inlinable
+	static func ÷ <Expressing> (
+		_ l·h·s: RegularExpression<Atom>,
+		_ r·h·s: Expressing
+	) -> Expressing.Exclusion
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom,
+		Expressing : Excludable
+	{ Expressing(l·h·s) ÷ r·h·s }
+
+	/// Returns a new `Exclusion` which excludes the first value from the second.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `Excludable` `AtomicExpression` whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
+	@inlinable
+	static func ÷ <Expressing> (
+		_ l·h·s: Expressing,
+		_ r·h·s: RegularExpression<Atom>
+	) -> Expressing.Exclusion
+	where
+		Expressing : AtomicExpression,
+		Expressing.Atom == Atom,
+		Expressing : Excludable
+	{ l·h·s ÷ Expressing(r·h·s) }
+
 	/// Returns a `ExclusionProtocol` `AtomicExpression` which excludes the second `RegularExpression` from the first.
 	///
 	///  +  Authors:
@@ -215,5 +443,28 @@ where Atom : Atomic {
 		Excluding.Atom == Atom,
 		Excluding : ExclusionProtocol
 	{ Excluding(l·h·s) ÷ Excluding(r·h·s) }
+
+	/// Excludes the given `RegularExpression` from the given `ExclusionProtocol` value.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression` which is an `ExclusionProtocol` value and whose `Atom` matches that of the `RegularExpression`.
+	///      +  r·h·s:
+	///         A `RegularExpression`.
+	@inlinable
+	static func ÷= <Excluding> (
+		_ l·h·s: inout Excluding,
+		_ r·h·s: RegularExpression<Atom>
+	) where
+		Excluding : AtomicExpression,
+		Excluding.Atom == Atom,
+		Excluding : ExclusionProtocol
+	{ l·h·s ÷= Excluding(r·h·s) }
 
 }

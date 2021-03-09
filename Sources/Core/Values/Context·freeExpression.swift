@@ -154,6 +154,31 @@ where Atom : Atomic {
 		)
 	}
 
+	/// Returns whether the given `Sequence` matches the given `Context·freeExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `Context·freeExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
+	public static func ~= <Seq> (
+		_ l·h·s: Context·freeExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{ l·h·s.excludableExpression ~= r·h·s }
+
 	/// Returns a `Context·freeExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
 	///
 	///  +  Authors:

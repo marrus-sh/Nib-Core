@@ -40,10 +40,31 @@ where Atom : Atomic {
 	///
 	///  +  Parameters:
 	///      +  regex:
-	///         An `RegularExpression` value.
+	///         A `RegularExpression`.
 	init (
 		_ regex: RegularExpression<Atom>
 	)
+
+	/// Returns whether the given `Sequence` matches the given `AtomicExpression`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `AtomicExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
+	static func ~= <Seq> (
+		_ l·h·s: Self,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
 
 }
 
@@ -64,210 +85,5 @@ public extension AtomicExpression {
 	init (
 		_ atom: Atom
 	) { self.init(RegularExpression(atom)) }
-
-	/// Returns a new `AtomicExpression` which catenates the provided values.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///      +  r·h·s:
-	///         An `AtomicExpression`.
-	///
-	///  +  Returns:
-	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
-	@inlinable
-	static func & (
-		_ l·h·s: RegularExpression<Atom>,
-		_ r·h·s: Self
-	) -> Self
-	{ Self(l·h·s) & r·h·s }
-
-	/// Returns a new `AtomicExpression` which catenates the provided values.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression`.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///
-	///  +  Returns:
-	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
-	@inlinable
-	static func & (
-		_ l·h·s: Self,
-		_ r·h·s: RegularExpression<Atom>
-	) -> Self
-	{ l·h·s & Self(r·h·s) }
-
-	/// Catenates the given `RegularExpression` to the end of the given `AtomicExpression`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression`.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	@inlinable
-	static func &= (
-		_ l·h·s: inout Self,
-		_ r·h·s: RegularExpression<Atom>
-	) { l·h·s &= Self(r·h·s) }
-
-	/// Returns a new `AtomicExpression` which alternates the provided values.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///      +  r·h·s:
-	///         An `AtomicExpression`.
-	///
-	///  +  Returns:
-	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
-	@inlinable
-	static func | (
-		_ l·h·s: RegularExpression<Atom>,
-		_ r·h·s: Self
-	) -> Self
-	{ Self(l·h·s) | r·h·s }
-
-	/// Returns a new `AtomicExpression` which alternates the provided values.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression`.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///
-	///  +  Returns:
-	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
-	@inlinable
-	static func | (
-		_ l·h·s: Self,
-		_ r·h·s: RegularExpression<Atom>
-	) -> Self
-	{ l·h·s | Self(r·h·s) }
-
-	/// Alternates the given `AtomicExpression` with the given `RegularExpression`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression`.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	@inlinable
-	static func |= (
-		_ l·h·s: inout Self,
-		_ r·h·s: RegularExpression<Atom>
-	) { l·h·s |= Self(r·h·s) }
-
-}
-
-public extension AtomicExpression
-where Self : Excludable {
-
-	/// Returns a new `Exclusion` which excludes the first value from the second.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///      +  r·h·s:
-	///         An `AtomicExpression` which is `Excludable`.
-	///
-	///  +  Returns:
-	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
-	@inlinable
-	static func ÷ (
-		_ l·h·s: RegularExpression<Atom>,
-		_ r·h·s: Self
-	) -> Exclusion
-	{ Self(l·h·s) ÷ r·h·s }
-
-	/// Returns a new `Exclusion` which excludes the first value from the second.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression` which is `Excludable`.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	///
-	///  +  Returns:
-	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
-	@inlinable
-	static func ÷ (
-		_ l·h·s: Self,
-		_ r·h·s: RegularExpression<Atom>
-	) -> Exclusion
-	{ l·h·s ÷ Self(r·h·s) }
-
-}
-
-public extension AtomicExpression
-where Self : ExclusionProtocol {
-
-	/// Excludes the given `RegularExpression` from the given `ExclusionProtocol` value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `AtomicExpression` which is an `ExclusionProtocol` value.
-	///      +  r·h·s:
-	///         A `RegularExpression` whose `Atom` matches that of the `AtomicExpression`.
-	@inlinable
-	static func ÷= (
-		_ l·h·s: inout Self,
-		_ r·h·s: RegularExpression<Atom>
-	) { l·h·s ÷= Self(r·h·s) }
 
 }
