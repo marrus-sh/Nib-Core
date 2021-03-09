@@ -1,30 +1,30 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 import PackageDescription
 
-/// __Nib ✒💦:__ A Swift implementation of the XML suite of specifications.
+/// __Nib Core:__ Core types and behaviours for the Nib 🖋 family of packages.
 let package = Package(
-
-	name: "Nib",
-
+	name: "Nib-Core",
+	platforms: [
+		.iOS(.v13),
+		.macOS(.v10_15),
+		.tvOS(.v13),
+		.watchOS(.v6)
+	],
 	products: [
 		.library(
-			name: "Nib",
+			name: "🖋Core",
 			targets: ["Core"]
 		)
 	],
-
-	dependencies: [
-
-	],
-
 	targets: [
 		.target(
 			name: "Core",
-			dependencies: [],
-			exclude: ["Documentation"]
+			dependencies: []
+		),
+		.testTarget(
+			name: "CoreTests",
+			dependencies: ["Core"]
 		)
 	],
-
 	swiftLanguageVersions: [.v5]
-
 )
