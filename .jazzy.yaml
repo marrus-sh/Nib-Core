@@ -1,0 +1,18 @@
+abstract: "Documentation/Abstracts/*.markdown"
+author: "kibigo!"
+author_url: "https://go.KIBI.family/About/#me"
+clean: true
+copyright: |-
+    The Source Code Form from which this documentation was generated is subject to the terms of the [_Mozilla Public License, version 2.0_](https://mozilla.org/MPL/2.0/).
+documentation: "Documentation/*.markdown"
+github_file_prefix: "https://github.com/marrus-sh/Nib-Core/blob/current"
+github_url: "https://github.com/marrus-sh/Nib-Core"
+module: "Core"
+module_version: "0.2.0-development"
+output: .jazzy-docs
+root_url: "https://go.KIBI.family/Nib-Core/"
+separate_global_declarations: true
+swift_build_tool: spm
+swift_version: 5.4
+theme: fullwidth
+title: "Nib Core 0·2"
