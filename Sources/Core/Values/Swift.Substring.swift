@@ -4,17 +4,21 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-extension Substring:
-	CustomTextConvertible
+/// Extends `Substring` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `Substring.UnicodeScalarView`.
+///
+///  +  Version:
+///     0·2.
+extension Swift.Substring:
+	LosslessTextConvertible
 {
 
-	/// The type of text associated with this `CustomTextConvertible`.
+	/// The `TextProtocol` type associated with this `Substring`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Text = UnicodeScalarView
 
-	/// This value, as `Text`.
+	/// This `Substring`, as `Text`.
 	///
 	/// This is effectively an alias for `.unicodeScalars`.
 	///
@@ -22,15 +26,11 @@ extension Substring:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	@inlinable
 	public var text: Text {
-		get { self.unicodeScalars }
+		get { unicodeScalars }
 		set { self = Substring(newValue) }
 	}
 
 }
-
-extension Substring:
-	LosslessTextConvertible
-{}

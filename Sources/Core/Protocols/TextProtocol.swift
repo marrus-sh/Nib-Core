@@ -4,44 +4,55 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+/// A `Collection` of `Unicode.Scalar`s which can be interpreted as [text](http://www.w3.org/TR/xml11#dt-text).
+///
+/// Conformance
+/// -----------
+///
+/// To conform to the `TextProtocol`, a type must implement the required `TextProtocol.init(_:)` initializer, enabling conversion to that type from other `TextProtocol` values.
+///
+///  +  Version:
+///     0·2.
 public protocol TextProtocol:
 	Collection,
-	LosslessTextConvertible
+	LosslessTextConvertible,
+	TextOutputStreamable
 where
 	Element == Unicode.Scalar,
 	Text == Self
 {
 
+	/// This `TextProtocol` value.
+	///
+	///  +  Version:
+	///     0·2.
 	var text: Text
 	{ get set }
 
+	/// Attempts to create a new `TextProtocol` value from an existing `text`.
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  text:
+	///         A `TextProtocol` value.
 	init? <OtherText> (
 		_ text: OtherText
 	) where OtherText : TextProtocol
-
-	/// Returns whether two text values are codepoint·equal.
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         A `TextProtocol` value.
-	///      +  r·h·s:
-	///         A `TextProtocol` value.
-	///
-	///  +  Returns:
-	///     `true` if the two operands are codepoint·equal; `false` otherwise.
-	static func •=• <R·H·S> (
-		_ l·h·s: Self,
-		_ r·h·s: R·H·S
-	) -> Bool
-	where R·H·S : TextProtocol
 
 }
 
 public extension TextProtocol {
 
+	/// This `TextProtocol` value.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	@inlinable
 	var text: Text {
 		get
 		{ self }
@@ -49,17 +60,49 @@ public extension TextProtocol {
 		{ self = newValue }
 	}
 
-	init? (
-		_ text: Text
-	) { self = text }
-
-	/// Returns whether two text values are codepoint·equal.
+	/// Creates a new `TextProtocol` value from the provided `text`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  text:
+	///         A `Text`.
+	@inlinable
+	init (
+		_ text: Text
+	) { self = text }
+
+	/// Writes a textual representation of this `TextProtocol` value to the given `target`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  target:
+	///         A `TextOutputStream`.
+	@inlinable
+	func write <Target> (
+		to target: inout Target
+	) where Target : TextOutputStream {
+		Substring(Substring.UnicodeScalarView(self)).write(
+			to: &target
+		)
+	}
+
+	/// Returns whether two `TextProtocol` values are codepoint·equal.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -68,7 +111,7 @@ public extension TextProtocol {
 	///         A `TextProtocol` value.
 	///
 	///  +  Returns:
-	///     `true` if the two operands have the same elements in the same order; `false` otherwise.
+	///     `true` if `l·h·s` and `r·h·s` have the same `Element`s in the same order; `false` otherwise.
 	@inlinable
 	static func •=• <R·H·S> (
 		_ l·h·s: Self,

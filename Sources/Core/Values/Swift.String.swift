@@ -4,45 +4,21 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Nib `String` extensions.
-extension String {
-
-	/// Creates a `String` with a detailed representation of the `subject`, according to the versioning specified in `version`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  subject:
-	///         A `CustomVersionedDebugStringConvertible` value.
-	///      +  version:
-	///         The `Version` of the representation to provide.
-	@inlinable
-	public init <T> (
-		reflecting subject: T,
-		version: T.Version
-	) where T : CustomVersionedDebugStringConvertible {
-		self = subject.debugDescription(
-			version: version
-		)
-	}
-
-}
-
-extension String:
-	CustomTextConvertible
+/// Extends `String` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `String.UnicodeScalarView`.
+///
+///  +  Version:
+///     0·2.
+extension Swift.String:
+	LosslessTextConvertible
 {
 
-	/// The type of text associated with this `CustomTextConvertible`.
+	/// The `TextProtocol` type associated with this `String`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Text = UnicodeScalarView
 
-	/// This value, as `Text`.
+	/// This `String`, as `Text`.
 	///
 	/// This is effectively an alias for `.unicodeScalars`.
 	///
@@ -50,15 +26,11 @@ extension String:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	@inlinable
 	public var text: Text {
-		get { self.unicodeScalars }
+		get { unicodeScalars }
 		set { self = String(newValue) }
 	}
 
 }
-
-extension String:
-	LosslessTextConvertible
-{}
