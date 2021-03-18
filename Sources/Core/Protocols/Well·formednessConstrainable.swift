@@ -4,46 +4,59 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be wellformed (or, more specifically, not).
+/// A value which can be welformed (or, more specifically, not).
+///
+/// The name of this type is `Well·formednessConstrainable` because the X·M·L specification spells it ‹ well‐formed ›.
+///
+/// Conformance
+/// -----------
+///
+/// To conform to the `Well·formednessConstrainable` protocol, a type must implement the required `❗️` postfix operator.
 ///
 ///  +  Version:
-///     `0.1.0`.
+///     0·1.
 public protocol Well·formednessConstrainable {
 
-	/// Whether this value is wellformed.
-	///
-	/// This value should be `false` if `.checkingIfWell·formed()` throws an error, and `true` otherwise.
+	/// Throws if the provided `Well·formednessConstrainable` value is not welformed; otherwise returns the same value.
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	var isWell·formed: Bool
-	{ get }
-
-	/// Throws if this value is not wellformed.
+	///     0·2.
 	///
-	/// This can be used instead of `isWell·formed` to gain specific error information pertaining to wellformedness.
+	///  +  Parameters:
+	///      +  operand:
+	///         A `Well·formednessConstrainable` value.
 	///
-	///  +  Version:
-	///     `0.1.0`.
+	///  +  Returns:
+	///     `operand`.
 	///
 	///  +  Throws:
-	///     An `Error`, if this value is not wellformed.
-	func checkingIfWell·formed ()
-	throws
+	///     An `Error`, if this `Well·formednessConstrainable` value is not welformed.
+	@discardableResult
+	static postfix func ❗️ (
+		_ operand: Self
+	) throws -> Self
 
 }
 
 public extension Well·formednessConstrainable {
 
-	/// Whether `.checkingIfWell·formed()` throws an error.
+	/// Returns `nil` if the provided `Well·formednessConstrainable` value is not welformed; otherwise returns the same value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	@inlinable
-	var isWell·formed: Bool
-	{ (try? checkingIfWell·formed()) != nil }
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         A `Well·formednessConstrainable` value.
+	///
+	///  +  Returns:
+	///     `operand` if welformed; `nil` otherwise.
+	static postfix func ❓ (
+		_ operand: Self
+	) -> Self?
+	{ try? operand❗️ }
 
 }

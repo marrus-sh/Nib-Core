@@ -7,7 +7,7 @@
 /// Exclusion precedence.
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 precedencegroup ExclusionPrecedence {
 	higherThan: MultiplicationPrecedence
 	lowerThan: BitwiseShiftPrecedence
@@ -17,7 +17,7 @@ precedencegroup ExclusionPrecedence {
 /// Times precedence.
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 precedencegroup TimesPrecedence {
 	higherThan: CastingPrecedence
 	lowerThan: RangeFormationPrecedence
