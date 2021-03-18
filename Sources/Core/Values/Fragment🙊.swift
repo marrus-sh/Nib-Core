@@ -12,7 +12,7 @@ where Terminal : Atomic {
 	/// A tuple of a start `State🙊` and a `Set` of `States🙊` which have not yet had all their paths connected.
 	private typealias WorkingState🙈 = (
 		start: State🙊,
-		open: States🙊
+		open: Set<State🙊>
 	)
 
 	/// A reference to a nonterminal value.
@@ -65,7 +65,7 @@ where Terminal : Atomic {
 	///     This creates a new `WorkingState🙊` every time.
 	private var open🙈: (
 		start: State🙊,
-		open: States🙊
+		open: Set<State🙊>
 	) {
 		switch self {
 			case .terminal(
@@ -108,7 +108,7 @@ where Terminal : Atomic {
 					let 🆕 = OptionState🙊<Terminal>()
 					let 🆙 = 🈁.open🙈
 					🆕.forward = 🔜.start
-					🆕.alternateForward = 🆙.start
+					🆕.alternate = 🆙.start
 					return (
 						start: 🆕,
 						open: 🔜.open.union(🆙.open)
@@ -122,7 +122,7 @@ where Terminal : Atomic {
 				🆕.forward = 🆙.start
 				return (
 					start: 🆕,
-					open: States🙊([🆕]).union(🆙.open)
+					open: Set([🆕]).union(🆙.open)
 				)
 			case .zeroOrMore (
 				let 🔙
@@ -131,7 +131,7 @@ where Terminal : Atomic {
 				let 🆙 = 🔙.open🙈
 				🆕.forward = Fragment🙊<Terminal>.patch🙈(
 					🆙,
-					backward: (
+					forward: (
 						start: 🆕,
 						open: []
 					)
@@ -145,7 +145,7 @@ where Terminal : Atomic {
 			):
 				let 🆕 = OptionState🙊<Terminal>()
 				let 🆙 = 🔙.open🙈
-				🆕.alternateBackward = 🆙.start
+				🆕.alternate = 🆙.start
 				return Fragment🙊<Terminal>.patch🙈(
 					🆙,
 					forward: (
@@ -187,52 +187,18 @@ where Terminal : Atomic {
 	) -> WorkingState🙈 {
 		for 🈁 in fragment.open {
 			if let 🔙 = 🈁 as? OptionState🙊<Terminal> {
-				if 🔙.forward ?? 🔙.backward == nil
+				if 🔙.forward == nil
 				{ 🔙.forward = forward.start }
-				if 🔙.alternateForward ?? 🔙.alternateBackward == nil
-				{ 🔙.alternateForward = forward.start }
+				if 🔙.alternate == nil
+				{ 🔙.alternate = forward.start }
 			} else if let 🔙 = 🈁 as? OpenState🙊<Terminal> {
-				if 🔙.forward ?? 🔙.backward == nil
+				if 🔙.forward == nil
 				{ 🔙.forward = forward.start }
 			}
 		}
 		return (
 			start: fragment.start,
 			open: forward.open
-		)
-	}
-
-	/// Patches `fragment` so that all of its `.open` `States🙈` point to the `.start` of `backward` through an unowned reference, and returns the resulting `WorkingState🙈`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  fragment:
-	///         A `WorkingState🙈`.
-	///      +  backward:
-	///         A `WorkingState🙈`.
-	///
-	///  +  Returns:
-	///     A `WorkingState🙈`.
-	private static func patch🙈 (
-		_ fragment: WorkingState🙈,
-		backward: WorkingState🙈
-	) -> WorkingState🙈 {
-		for 🈁 in fragment.open {
-			if let 🔙 = 🈁 as? OptionState🙊<Terminal> {
-				if 🔙.forward ?? 🔙.backward == nil
-				{ 🔙.backward = backward.start }
-				if 🔙.alternateForward ?? 🔙.alternateBackward == nil
-				{ 🔙.alternateBackward = backward.start }
-			} else if let 🔙 = 🈁 as? OpenState🙊<Terminal> {
-				if 🔙.forward ?? 🔙.backward == nil
-				{ 🔙.backward = backward.start }
-			}
-		}
-		return (
-			start: fragment.start,
-			open: backward.open
 		)
 	}
 

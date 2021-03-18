@@ -12,12 +12,19 @@ internal class State🙊:
 	Identifiable
 {
 
+	/// The `State🙊` which this `State🙊` was originally derived from, or `nil` if it was not derived from an existing `State🙊`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	var base: State🙊?
+	{ self }
+
 	/// The `States🙊` which this `State🙊` will result in after a correct match.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var next: States🙊
-	{ self === State🙊.match ? [.match] : [] }
+	var next: [State🙊]
+	{ [] }
 
 	/// The `States🙊` which this `State🙊` is equivalent to.
 	///
@@ -31,7 +38,7 @@ internal class State🙊:
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var resolved: States🙊
+	var resolved: [State🙊]
 	{ self === State🙊.never ? [] : [self] }
 
 	/// Creates a new `State🙊`.
@@ -39,6 +46,13 @@ internal class State🙊:
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	init ()
+	{}
+	
+	/// Wipes the internal memory of this `State🙊` to prevent reference cycles / memory leakage.
+	///
+	/// After a `blast()`, this `State🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// Only call this function when this `State🙊` is guaranteed to never be used again.
+	func blast ()
 	{}
 
 	/// Hashes this `State🙊` into the provided `hasher`.

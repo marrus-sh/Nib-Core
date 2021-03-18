@@ -179,7 +179,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
 	@inlinable
-	static func & <Expressing> (
+	public static func & <Expressing> (
 		_ l·h·s: RegularExpression<Atom>,
 		_ r·h·s: Expressing
 	) -> Expressing
@@ -205,7 +205,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `AtomicExpression` equivalent to `l·h·s` catenated with `r·h·s`.
 	@inlinable
-	static func & <Expressing> (
+	public static func & <Expressing> (
 		_ l·h·s: Self,
 		_ r·h·s: RegularExpression<Atom>
 	) -> Expressing
@@ -228,7 +228,7 @@ where Atom : Atomic {
 	///      +  r·h·s:
 	///         A `RegularExpression`.
 	@inlinable
-	static func &= <Expressing> (
+	public static func &= <Expressing> (
 		_ l·h·s: inout Expressing,
 		_ r·h·s: RegularExpression<Atom>
 	)
@@ -254,7 +254,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
 	@inlinable
-	static func | <Expressing> (
+	public static func | <Expressing> (
 		_ l·h·s: RegularExpression<Atom>,
 		_ r·h·s: Self
 	) -> Expressing
@@ -280,7 +280,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `AtomicExpression` equivalent to `l·h·s` alternated with `r·h·s`.
 	@inlinable
-	static func | <Expressing> (
+	public static func | <Expressing> (
 		_ l·h·s: Expressing,
 		_ r·h·s: RegularExpression<Atom>
 	) -> Expressing
@@ -303,7 +303,7 @@ where Atom : Atomic {
 	///      +  r·h·s:
 	///         A `RegularExpression`.
 	@inlinable
-	static func |= <Expressing> (
+	public static func |= <Expressing> (
 		_ l·h·s: inout Expressing,
 		_ r·h·s: RegularExpression<Atom>
 	) where
@@ -380,7 +380,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
 	@inlinable
-	static func ÷ <Expressing> (
+	public static func ÷ <Expressing> (
 		_ l·h·s: RegularExpression<Atom>,
 		_ r·h·s: Expressing
 	) -> Expressing.Exclusion
@@ -407,7 +407,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     An `Exclusion` equivalent to `r·h·s` excluded from `l·h·s`.
 	@inlinable
-	static func ÷ <Expressing> (
+	public static func ÷ <Expressing> (
 		_ l·h·s: Expressing,
 		_ r·h·s: RegularExpression<Atom>
 	) -> Expressing.Exclusion
@@ -458,7 +458,7 @@ where Atom : Atomic {
 	///      +  r·h·s:
 	///         A `RegularExpression`.
 	@inlinable
-	static func ÷= <Excluding> (
+	public static func ÷= <Excluding> (
 		_ l·h·s: inout Excluding,
 		_ r·h·s: RegularExpression<Atom>
 	) where

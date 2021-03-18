@@ -113,9 +113,13 @@ where Atom : Atomic {
 	public init (
 		alternating choices: [ExcludingExpression<Atom>]
 	) {
-		self.init(
-			🙈: .alternation(choices.map(\.fragment🙈))
-		)
+		if choices.count == 1
+		{ self = choices[0] }
+		else {
+			self.init(
+				🙈: .alternation(choices.map(\.fragment🙈))
+			)
+		}
 	}
 
 	/// Creates a new `ExcludingExpression` which catenates the provided `sequence`.
@@ -132,9 +136,13 @@ where Atom : Atomic {
 	public init (
 		catenating sequence: [ExcludingExpression<Atom>]
 	) {
-		self.init(
-			🙈: .catenation(sequence.map(\.fragment🙈))
-		)
+		if sequence.count == 1
+		{ self = sequence[0] }
+		else {
+			self.init(
+				🙈: .catenation(sequence.map(\.fragment🙈))
+			)
+		}
 	}
 
 	/// Creates a new `ExcludingExpression` value which excludes the provided `exclusion` from the provided `match`.
@@ -208,18 +216,46 @@ where Atom : Atomic {
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
 	{
-		var 〽️ = l·h·s.fragment🙈.start.resolved
+		let 🔙 = l·h·s.fragment🙈.start  //  keep to prevent early dealloc
+		defer {
+			//  Walk the `State🙊` graph and `.blast()` each.
+			//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
+			var 〽️ = [🔙] as Set<State🙊>
+			while 〽️.count > 0 {
+				var 🔜 = [] as Set<State🙊>
+				for 🈁 in 〽️
+				where !🈁.next.isEmpty {
+					if let 💱 = 🈁 as? OptionState🙊<Atom> {
+						if let 🆙 = 💱.forward
+						{ 🔜.insert(🆙) }
+						if let 🆙 = 💱.alternate
+						{ 🔜.insert(🆙) }
+					} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
+						if let 🆙 = 💱.forward
+						{ 🔜.insert(🆙) }
+					}
+					🈁.blast()
+				}
+				〽️ = 🔜
+			}
+		}
+		var 〽️ = Array(Set(🔙.resolved))
 		if (
 			r·h·s.drop { 🆙 in
 				//  Drop matching elements from the sequence; a successful match will drop every element.
+				var 🆒 = [] as Set<State🙊>
 				〽️ = 〽️.reduce(
-					into: [] as States🙊
+					into: []
 				) { 🔜, 🈁 in
 					//  Attempt to consume the element which is currently `🆙` and collect the next states if this succeeds.
 					if
 						let 🔙 = 🈁 as? OpenState🙊<Atom>,
 						🔙.consumes(🆙)
-					{ 🔜.formUnion(🔙.next) }
+					{
+						for 🆕 in 🔙.next
+						where 🆒.insert(🆕).inserted
+						{ 🔜.append(🆕) }
+					}
 				}
 				return 〽️.count > 0
 			}.first { _ in true }

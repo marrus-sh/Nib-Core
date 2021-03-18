@@ -10,28 +10,42 @@ internal class OpenState🙊 <Atom>:
 where Atom : Atomic {
 
 	/// A later `State🙊` pointed to by this `OpenState🙊`.
+	///
+	///  +  Note:
+	///     This property introduces the potential for strong reference cycles.
+	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
 	var forward: State🙊? = nil
 
-	/// An earlier `State🙊` pointed to by this `OpenState🙊`.
-	unowned var backward: State🙊? = nil
-
-	/// The `States🙊` which this `OpenState🙊` will result in after a correct match (privately stored).
-	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
-	private lazy var next🙈: States🙊 = (forward ?? backward).map { ($0 as? OptionState🙊<Atom>)?.next ?? [$0] } ?? [.match]
-
-	/// The `Set` of `State🙊`s which this `OpenState🙊` will result in after a correct match.
+	/// The `States🙊` which this `OpenState🙊` will result in after a correct match.
 	///
 	/// This is computed lazily and follows `OptionState🙊` paths.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var next: States🙊
+	override var next: [State🙊]
 	{ next🙈 }
+
+	/// The `States🙊` which this `OpenState🙊` will result in after a correct match (privately stored).
+	///
+	/// This is computed lazily and follows `OptionState🙊` paths.
+	///
+	///  +  Note:
+	///     The stored backing of this property introduces the potential for strong reference cycles.
+	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
+	private lazy var next🙈: [State🙊] = forward.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom>)?.next ?? [$0] } ?? [.match]
+
+	/// Wipes the internal memory of this `OpenState🙊` to prevent reference cycles / memory leakage.
+	///
+	/// After a `blast()`, this `OpenState🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// Only call this function when this `OpenState🙊` is guaranteed to never be used again.
+	override func blast () {
+		forward = nil
+		next🙈 = []
+	}
 
 	/// Returns whether this `OpenState🙊` does consume the provided `element`.
 	///
-	/// This is a default implementation which always returns `true`.
+	/// This is a default implementation which always returns `false`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -45,6 +59,6 @@ where Atom : Atomic {
 	func consumes (
 		_ element: Atom.SourceElement
 	) -> Bool
-	{ true }
+	{ false }
 
 }
