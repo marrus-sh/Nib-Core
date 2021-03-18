@@ -1,14 +1,26 @@
+//  #  Core :: UniqueValueArray  #
+//
+//  Copyright © 2021 kibigo!
+//
+//  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 /// A `RandomAccessCollection` of ordered, unique values.
-///
-/// `UniqueValueArray` provides efficient access to its elements at the cost of requiring additional memory to store them.
-/// If you do not need to guarantee that the values are unique, use `Array` instead.
-/// If you do not need to preserve the insertion order of the elements, use `Set`.
 ///
 /// `UniqueValueArray` implements both `Array`like and `Set`like methods.
 /// In general, `Set`like methods (i.e. `.insert(_:)`) preserve the argument’s existing location (when it already exists in the `UniqueValueArray`), whereas `Array`like methods (i.e. `.append(_:)`) force the argument to take up a new position at the end.
 /// Consequently, `Set`like methods are generally more efficient when dealing with values which may already be present in a `UniqueValueArray`.
 ///
 /// `UniqueValueArray` implements all of the methods of `SetAlgebra`, but does not conform to the protocol because it has stricter equality requirements.
+///
+///  +  Note:
+///     `UniqueValueArray` provides efficient access to its elements at the cost of additional memory and fewer optimizations.
+///     If you do not need to guarantee that the values are unique, use `Array` instead.
+///     If you do not need to preserve the insertion order of the elements, use `Set`.
+///     If you do not need to access the index of elements in constant time, simply using an `Array` and `Set` side‐by‐side may be faster.
+///     Use `UniqueValueArray` when you need the specific features that this struct provides, or when clarity is of greater benefit than a slight boost to performance
+///
+///  +  SeeAlso:
+///     Swift TSC Basic’s `OrderedSet` ([seen here](https://github.com/apple/swift-tools-support-core/blob/main/Sources/TSCBasic/OrderedSet.swift)) is more minimal and has a slower `.firstIndex(of:)`, but may be faster overall.
 ///
 ///  +  Version:
 ///     0.2.0
@@ -35,6 +47,12 @@ where Element : Hashable {
 	///     0.2.0
 	public typealias Indices = Array<Element>.Indices
 
+	/// The type of `Iterator` used by this `UniqueValueArray`.
+	///
+	///  +  Version:
+	///     0.2.0
+	public typealias Iterator = Array<Element>.Iterator
+
 	/// The number of elements which this `UniqueValueArray` can hold without allocating new storage, assuming all new elements have unique `.hashValue`s.
 	///
 	/// When adding an element with the same `.hashValue` as the `.hashValue` of an existing element in this `UniqueValueArray`, whether new storage will be allocated is not possible to guarantee.
@@ -45,7 +63,7 @@ where Element : Hashable {
 	///  +  Version:
 	///     0.2.0
 	public var capacity: Int
-	{ Swift.min(storage🙈.capacity, storage🙈.count + (hashMap🙈.capacity - hashMap🙈.count)) }
+	{ Swift.min(storage🐵.capacity, storage🐵.count + (hashMap🙈.capacity - hashMap🙈.count)) }
 
 	/// The index after the final `Element` in this `UniqueValueArray`.
 	///
@@ -54,10 +72,11 @@ where Element : Hashable {
 	///
 	///  +  Version:
 	///     0.2.0
+	@inlinable
 	public var endIndex: Index
-	{ storage🙈.endIndex }
+	{ storage🐵.endIndex }
 
-	/// Maps hash values to an array of indices in `.storage🙈` which have those values.
+	/// Maps hash values to a set of indices in `.storage🐵` which have those values.
 	private var hashMap🙈: [Int:Set<Index>]
 
 	/// Whether this `UniqueValueArray` has any `Element`s.
@@ -67,8 +86,9 @@ where Element : Hashable {
 	///
 	///  +  Version:
 	///     0.2.0
+	@inlinable
 	public var isEmpty: Bool
-	{ storage🙈.isEmpty }
+	{ storage🐵.isEmpty }
 
 	/// The index of the first `Element` in this `UniqueValueArray`.
 	///
@@ -77,11 +97,13 @@ where Element : Hashable {
 	///
 	///  +  Version:
 	///     0.2.0
+	@inlinable
 	public var startIndex: Index
-	{ storage🙈.startIndex }
+	{ storage🐵.startIndex }
 
 	/// The internal `Element` storage for this `UniqueValueArray`.
-	private var storage🙈: [Element] = []
+	@usableFromInline
+	internal var storage🐵: [Element] = []
 
 	/// Creates a new, empty `UniqueValueArray`.
 	///
@@ -95,6 +117,8 @@ where Element : Hashable {
 
 	/// Creates a new `UniqueValueArray` from the provided `arrayLiteral`.
 	///
+	/// If the same element appears in the `elements` multiple times, later appearances update earlier appearances inplace.
+	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -106,7 +130,14 @@ where Element : Hashable {
 	///         `ArrayLiteralElement`s.
 	public init (
 		arrayLiteral elements: ArrayLiteralElement...
-	) { self.init(elements) }
+	) {
+		self.init(
+			minimumCapacity: elements.count
+		)
+		update(
+			withContentsOf: elements
+		)
+	}
 
 	/// Creates a new `UniqueValueArray` with the `.capacity` to store at least `minimumCapacity` `Element`s.
 	///
@@ -125,12 +156,12 @@ where Element : Hashable {
 		hashMap🙈 = Dictionary(
 			minimumCapacity: minimumCapacity
 		)
-		storage🙈.reserveCapacity(minimumCapacity)
+		storage🐵.reserveCapacity(minimumCapacity)
 	}
 
 	/// Creates a new `UniqueValueArray` from the provided `sequence` of `Element`s.
 	///
-	/// If the same element appears in the `sequence` multiple times, later appearances are ignored.
+	/// If the same element appears in the `sequence` multiple times, later appearances update earlier appearances inplace.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -147,10 +178,12 @@ where Element : Hashable {
 		Source : Sequence,
 		Source.Element == Element
 	{
-		self.init()
-		for 🈁 in sequence
-		where !contains(🈁)
-		{ append(🈁) }
+		self.init(
+			minimumCapacity: sequence.underestimatedCount
+		)
+		update(
+			withContentsOf: sequence
+		)
 	}
 
 	/// Returns the `Element` at the given `index` in this `UniqueValueArray`.
@@ -169,10 +202,11 @@ where Element : Hashable {
 	///
 	///  +  Returns:
 	///     An `Element`.
+	@inlinable
 	public subscript (
 		index: Index
 	) -> Element
-	{ storage🙈[index] }
+	{ storage🐵[index] }
 
 	/// Unconditionally appends the provided `newElement` to the end of this `UniqueValueArray`.
 	///
@@ -199,7 +233,7 @@ where Element : Hashable {
 		if let ℹ️ = firstIndex(
 			of: newElement
 		) {
-			🈁 = storage🙈[ℹ️]
+			🈁 = storage🐵[ℹ️]
 			remove(
 				at: ℹ️
 			)
@@ -268,7 +302,7 @@ where Element : Hashable {
 	public func filter (
 		_ isIncluded: (Element) throws -> Bool
 	) rethrows -> UniqueValueArray<Element> {
-		try storage🙈.reduce(
+		try storage🐵.reduce(
 			into: []
 		) { 🔜, 🈁 in
 			if try isIncluded(🈁)
@@ -297,7 +331,7 @@ where Element : Hashable {
 		else
 		{ return nil }
 		for ℹ️ in 🔙 {
-			if storage🙈[ℹ️] == element
+			if storage🐵[ℹ️] == element
 			{ return ℹ️ }
 		}
 		return nil
@@ -320,7 +354,7 @@ where Element : Hashable {
 		S : Sequence,
 		S.Element == Element
 	{
-		for 🈁 in storage🙈.reversed()
+		for 🈁 in storage🐵.reversed()
 		where !other.contains(🈁)
 		{ remove(🈁) }
 	}
@@ -345,7 +379,9 @@ where Element : Hashable {
 		S : Sequence,
 		S.Element == Element
 	{
-		var 🆒 = [] as Set<Element>
+		var 🆒 = Set(
+			minimumCapacity: other.underestimatedCount
+		) as Set<Element>
 		for 🈁 in other
 		where !🆒.contains(🈁) {
 			🆒.insert(🈁)
@@ -355,8 +391,11 @@ where Element : Hashable {
 				remove(
 					at: ℹ️
 				)
-			} else
-			{ insert(🈁) }
+			} else {
+				unsafeAppend🙈(
+					🆘: 🈁
+				)
+			}
 		}
 	}
 
@@ -392,10 +431,11 @@ where Element : Hashable {
 	///
 	///  +  Returns:
 	///     The `Index` immediately after `i`.
+	@inlinable
 	public func index (
 		after i: Index
 	) -> Index {
-		storage🙈.index(
+		storage🐵.index(
 			after: i
 		)
 	}
@@ -414,10 +454,11 @@ where Element : Hashable {
 	///
 	///  +  Returns:
 	///     The `Index` immediately before `i`.
+	@inlinable
 	public func index (
 		before i: Index
 	) -> Index {
-		storage🙈.index(
+		storage🐵.index(
 			before: i
 		)
 	}
@@ -450,14 +491,12 @@ where Element : Hashable {
 		) {
 			return (
 				inserted: false,
-				memberAfterInsert: storage🙈[ℹ️]
+				memberAfterInsert: storage🐵[ℹ️]
 			)
 		} else {
-			let 🔣 = newElement.hashValue
-			var 🔜 = hashMap🙈[🔣] ?? []
-			🔜.insert(storage🙈.count)
-			storage🙈.append(newElement)
-			hashMap🙈[🔣] = 🔜
+			unsafeAppend🙈(
+				🆘: newElement
+			)
 			return (
 				inserted: true,
 				memberAfterInsert: newElement
@@ -504,7 +543,7 @@ where Element : Hashable {
 		S : Sequence,
 		S.Element == Element
 	{
-		storage🙈.reduce(
+		storage🐵.reduce(
 			into: [] as UniqueValueArray<Element>
 		) { 🔜, 🈁 in
 			if other.contains(🈁)
@@ -596,7 +635,7 @@ where Element : Hashable {
 			{ return false }
 			🆒.insert(🈁)
 		}
-		return 🆒.count < storage🙈.count
+		return 🆒.count < storage🐵.count
 	}
 
 	/// Returns whether every `Element` in this `UniqueValueArray` is in the provided `other`.
@@ -652,7 +691,7 @@ where Element : Hashable {
 	///
 	///  +  Note:
 	///     This will always provide the same result as `.firstIndex(of:)`, which should be used instead.
-	///     It is provided only to override the default `BidirectionalCollection` implementation
+	///     It is provided only to override the default `BidirectionalCollection` implementation.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -666,6 +705,7 @@ where Element : Hashable {
 	///
 	///  +  Returns:
 	///     The `Index` of an `Element` equal to the given `element`, if one exists in this `UniqueValueArray`; `nil` otherwise.
+	@inlinable
 	public func lastIndex (
 		of element: Element
 	) -> Index? {
@@ -673,6 +713,21 @@ where Element : Hashable {
 			of: element
 		)
 	}
+
+	/// Returns an `Iterator` over the `Element`s of this `UniqueValueArray`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0.2.0
+	///
+	///  +  Returns:
+	///     An `Iterator` over the `Element`s of this `UniqueValueArray`.
+	@inlinable
+	public func makeIterator()
+	-> Iterator
+	{ storage🐵.makeIterator() }
 
 	/// Removes and returns the last `Element` in this `UniqueValueArray`.
 	///
@@ -741,7 +796,7 @@ where Element : Hashable {
 	public mutating func remove (
 		at index: Index
 	) -> Element {
-		let 🈁 = storage🙈[index]
+		let 🈁 = storage🐵[index]
 		let 🔣 = 🈁.hashValue
 		hashMap🙈[🔣]?.remove(index)
 		if hashMap🙈[🔣]?.isEmpty == true {
@@ -749,15 +804,14 @@ where Element : Hashable {
 				forKey: 🔣
 			)
 		}
-		for ℹ️ in (index + 1)..<storage🙈.count {
+		for ℹ️ in (index + 1)..<storage🐵.count {
 			//  Decrement all later indices by one.
-			let 🔣ℹ️ = storage🙈[ℹ️].hashValue
+			let 🔣ℹ️ = storage🐵[ℹ️].hashValue
 			hashMap🙈[🔣ℹ️]?.remove(ℹ️)
 			hashMap🙈[🔣ℹ️]?.insert(ℹ️ - 1)
+			storage🐵[ℹ️ - 1] = storage🐵[ℹ️]
 		}
-		storage🙈.remove(
-			at: index
-		)
+		storage🐵.removeLast()
 		return 🈁
 	}
 
@@ -778,7 +832,7 @@ where Element : Hashable {
 		hashMap🙈.removeAll(
 			keepingCapacity: keepCapacity
 		)
-		storage🙈.removeAll(
+		storage🐵.removeAll(
 			keepingCapacity: keepCapacity
 		)
 	}
@@ -797,7 +851,7 @@ where Element : Hashable {
 	public mutating func removeAll (
 		where shouldBeRemoved: (Element) throws -> Bool
 	) rethrows {
-		for (ℹ️, 🈁) in storage🙈.enumerated().reversed()
+		for (ℹ️, 🈁) in storage🐵.enumerated().reversed()
 		where try shouldBeRemoved(🈁) {
 			remove(
 				at: ℹ️
@@ -901,8 +955,8 @@ where Element : Hashable {
 		let 🆒 = bounds.relative(
 			to: self
 		)
-		for ℹ️ in (🆒.lowerBound..<storage🙈.count).reversed() {
-			let 🔣 = storage🙈[ℹ️].hashValue
+		for ℹ️ in (🆒.lowerBound..<storage🐵.count).reversed() {
+			let 🔣 = storage🐵[ℹ️].hashValue
 			if 🆒 ~= ℹ️ {
 				//  Remove indices within the range.
 				hashMap🙈[🔣]?.remove(ℹ️)
@@ -911,7 +965,7 @@ where Element : Hashable {
 						forKey: 🔣
 					)
 				}
-				storage🙈.remove(
+				storage🐵.remove(
 					at: ℹ️
 				)
 			} else {
@@ -922,7 +976,7 @@ where Element : Hashable {
 		}
 	}
 
-	/// Ensures this `UniqueValueArray` has enough `.capacity` to store the provided `minimumCapacity` of `Element`s.
+	/// Ensures this `UniqueValueArray` has enough `.capacity` to store the provided `minimumCapacity` of new `Element`s.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -937,7 +991,7 @@ where Element : Hashable {
 		_ minimumCapacity: Int
 	) {
 		hashMap🙈.reserveCapacity(minimumCapacity)
-		storage🙈.reserveCapacity(minimumCapacity)
+		storage🐵.reserveCapacity(minimumCapacity)
 	}
 
 	/// Removes each `Element` in the provided `other` from this `UniqueValueArray`, if present.
@@ -1007,7 +1061,12 @@ where Element : Hashable {
 		S.Element == Element
 	{
 		other.reduce(
-			into: (self, [] as Set<Element>)
+			into: (
+				self,
+				Set(
+					minimumCapacity: other.underestimatedCount
+				) as Set<Element>
+			)
 		) { 🔜, 🈁 in
 			guard !🔜.1.contains(🈁)
 			else
@@ -1020,8 +1079,8 @@ where Element : Hashable {
 					at: ℹ️
 				)
 			} else {
-				🔜.0.update(
-					with: 🈁
+				🔜.0.unsafeAppend🙈(
+					🆘: 🈁
 				)
 			}
 		}.0
@@ -1052,13 +1111,25 @@ where Element : Hashable {
 	{
 		other.reduce(
 			into: self
-		) { 🔜, 🈁 in
-			if !🔜.contains(🈁) {
-				🔜.update(
-					with: 🈁
-				)
-			}
-		}
+		) { $0.insert($1) }
+	}
+
+	/// Unsafely appends the provided `newElement` into this `UniqueValueArray`, without first checking if it already exists in `storage🐵`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  newElement:
+	///         An `Element`.
+	private mutating func unsafeAppend🙈 (
+		🆘 newElement: Element
+	) {
+		let 🔣 = newElement.hashValue
+		var 🔜 = hashMap🙈[🔣] ?? []
+		🔜.insert(storage🐵.count)
+		storage🐵.append(newElement)
+		hashMap🙈[🔣] = 🔜
 	}
 
 	/// Unconditionally updates this `UniqueValueArray` to contain the provided `newElement`.
@@ -1084,15 +1155,13 @@ where Element : Hashable {
 		if let ℹ️ = firstIndex(
 			of: newElement
 		) {
-			let 🈁 = storage🙈[ℹ️]
-			storage🙈[ℹ️] = newElement
+			let 🈁 = storage🐵[ℹ️]
+			storage🐵[ℹ️] = newElement
 			return 🈁
 		} else {
-			let 🔣 = newElement.hashValue
-			var 🔜 = hashMap🙈[🔣] ?? []
-			🔜.insert(storage🙈.count)
-			storage🙈.append(newElement)
-			hashMap🙈[🔣] = 🔜
+			unsafeAppend🙈(
+				🆘: newElement
+			)
 			return nil
 		}
 	}
@@ -1143,11 +1212,12 @@ extension UniqueValueArray:
 	///
 	///  +  Returns:
 	///     `true` if `l·h·s` and `r·h·s` have the same `Element`s in the same order; `false` otherwise.
+	@inlinable
 	public static func == (
 		_ l·h·s: Self,
 		_ r·h·s: Self
 	) -> Bool
-	{ l·h·s.storage🙈 == r·h·s.storage🙈 }
+	{ l·h·s.storage🐵 == r·h·s.storage🐵 }
 
 }
 
@@ -1166,8 +1236,9 @@ extension UniqueValueArray:
 	///  +  Parameters:
 	///      +  hasher:
 	///         A `Hasher`.
+	@inlinable
 	public func hash (
 		into hasher: inout Hasher
-	) { hasher.combine(storage🙈) }
+	) { hasher.combine(storage🐵) }
 
 }
