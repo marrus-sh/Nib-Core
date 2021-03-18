@@ -1,0 +1,24 @@
+#  Nib Core: Implementation Notes  #
+
+Various things noted while implementing.
+
+Likely only useful if you are already familiar with the source code.
+
+
+##  State Path Optimizations  ##
+
+I noticed that providing `State🙊` `.next` values as `Array`s and just manually removing duplicates was actually about twice as fast (running not very characteristic tests) as using `UniqueValueArray`, presumably because of Swift optimizing things and also not needing to persistently allocate as much memory.
+Using `Set`s instead of `Array`s (and thus not preserving order) was about twice as fast again.
+
+Because of this, I’ve allowed `.next` values to contain duplicates, deferring duplicate resolution to the actual parse step.
+In addition, parsing simply uses an `Array` and a `Set` side·by·side rather than a proper `UniqueValueArray`.
+While I think `UniqueValueArray` is a valuable type in situations where being able to determine the index of an object in constant time is important, it is overkill for this application.
+
+– **kibigo!**, 2021·03·17
+🍀 Happy St Patrick’s Day!
+
+<!--
+Copyright © 2021 kibigo!
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
