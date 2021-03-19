@@ -30,18 +30,6 @@ where Atom : Atomic {
 	///     `0.2.0`.
 	public typealias Expression = ExcludingExpression<Atom>
 
-	/// The `Exclusion` which represents this value.
-	///
-	/// This is the same as `self` for `ExcludingExpression`s.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	public var excludableExpression: Exclusion
-	{ self }
-
 	/// The `Fragment🙊` which represents this value.
 	private let fragment🙈: Fragment🙊<Atom>
 
@@ -73,7 +61,7 @@ where Atom : Atomic {
 	///         An `RegularExpression` value which has the same `Atom` type as this `ExcludingExpression` type.
 	public init (
 		_ regex: RegularExpression<Atom>
-	) { fragment🙈 = regex.excludableExpression.fragment🙈 }
+	) { fragment🙈 = regex^!.fragment🙈 }
 
 	/// Creates a new `ExcludingExpression` from the provided `symbol`.
 	///

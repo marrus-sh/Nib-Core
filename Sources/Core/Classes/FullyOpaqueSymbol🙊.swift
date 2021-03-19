@@ -10,8 +10,18 @@
 /// `FullyOpaqueSymbol🙊`s abstract away the typing information of `Symbol🙊`s to allow them to be collected together in a single cache.
 /// This is used to enable the `getSymbol(for:)` function to always return the same `Symbol🙊` instance for the same argument, preventing needless memory usage in expressions with large numbers of symbols.
 internal class FullyOpaqueSymbol🙊:
+	CustomStringConvertible,
 	Hashable
 {
+
+	public var description: String {
+		"""
+			Symbol@\(
+				String(
+					reflecting: ObjectIdentifier(self)
+				)
+			)
+			""" }
 
 	/// The hash value of this `FullyOpaqueSymbol🙊`’s underlying `Symbolic` value, or `0` if this is not a `TypedSymbol🙊`.
 	///

@@ -4,10 +4,21 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A value which can be alternated, catenated, and repeated a variable number of times.
+/// A value which can be alternated, catenated, and repeated an indefinite number of times, producing a new value of the same type.
+///
+/// Conformance
+/// -----------
+///
+/// To conform to the `ExpressionProtocol`, a type must implement the following required initializers:—
+///
+///  +  `ExpressionProtocol.init(alternating:)`
+///  +  `ExpressionProtocol.init(catenating:)`
+///
+/// —:as well as the `×` operator with a lefthand‐side operand of both `PartialRangeFrom<Int>` and `PartialRangeThrough<Int>`.
+/// `ExpressionProtocol`s must declare an `Expression` type of themselves.
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 public protocol ExpressionProtocol:
 	Expressible
 where Expression == Self {
@@ -15,7 +26,7 @@ where Expression == Self {
 	/// Creates an `ExpressionProtocol` value which alternates the provided `choices`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  choices:
@@ -27,7 +38,7 @@ where Expression == Self {
 	/// Creates an `ExpressionProtocol` value which catenates the provided `sequence`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  sequence:
@@ -36,24 +47,17 @@ where Expression == Self {
 		catenating sequence: [Self]
 	)
 
-	/// An `ExpressionProtocol` value which does not represent anything.
-	///
-	///  +  Version:
-	///     `0.2.0`.
-	static var never: Self
-	{ get }
-
 	/// An `ExpressionProtocol` value which represents a null (empty) value.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0.2.
 	static var null: Self
 	{ get }
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `ClosedRange`.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `ClosedRange`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -69,10 +73,10 @@ where Expression == Self {
 		_ r·h·s: Self
 	) -> Self
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `PartialRangeFrom` value.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `PartialRangeFrom` value.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -88,10 +92,10 @@ where Expression == Self {
 		_ r·h·s: Self
 	) -> Self
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `PartialRangeThrough` value.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `PartialRangeThrough` value.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -117,7 +121,7 @@ public extension ExpressionProtocol {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  expressible:
@@ -136,7 +140,7 @@ public extension ExpressionProtocol {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	@inlinable
 	static var null: Self {
 		Self(
@@ -150,7 +154,7 @@ public extension ExpressionProtocol {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -170,13 +174,13 @@ public extension ExpressionProtocol {
 		)
 	}
 
-	/// Catenates the `ExpressionProtocol` value of a given `Expressible` value to the end of the given `ExpressionProtocol` value.
+	/// Catenates the `ExpressionProtocol` value of a provided `Expressible` value to the end of the provided `ExpressionProtocol` value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -202,7 +206,7 @@ public extension ExpressionProtocol {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -222,13 +226,13 @@ public extension ExpressionProtocol {
 		)
 	}
 
-	/// Alternates the given `ExpressionProtocol` value with the `ExpressionProtocol` value of a given `Expressible` value.
+	/// Alternates the provided `ExpressionProtocol` value with the `ExpressionProtocol` value of a provided `Expressible` value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -248,13 +252,13 @@ public extension ExpressionProtocol {
 		)
 	}
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `ClosedRange`.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the given `ClosedRange`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -281,13 +285,13 @@ public extension ExpressionProtocol {
 		)
 	}
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `Int`.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `Int`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -305,13 +309,13 @@ public extension ExpressionProtocol {
 	) -> Self
 	{ l·h·s...l·h·s × r·h·s }
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `Range`.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `Range`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -329,13 +333,13 @@ public extension ExpressionProtocol {
 	) -> Self
 	{ l·h·s.lowerBound...(l·h·s.upperBound - 1) × r·h·s }
 
-	/// Returns an `ExpressionProtocol` value equivalent to the given `ExpressionProtocol` value repeated some number of times indicated by the given `PartialRangeUpTo` value.
+	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `PartialRangeUpTo` value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -353,13 +357,13 @@ public extension ExpressionProtocol {
 	) -> Self
 	{ ...(l·h·s.upperBound - 1) × r·h·s }
 
-	/// Returns the given `ExpressionProtocol` value.
+	/// Returns the provided `ExpressionProtocol` value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  operand:

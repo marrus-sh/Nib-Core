@@ -33,7 +33,7 @@ where Atom : Atomic {
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	public let excludableExpression: Exclusion
+	private let excludableExpression🙈: Exclusion
 
 	/// Creates a new `RegularExpression` from the provided `atom`.
 	///
@@ -46,10 +46,9 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  atom:
 	///         An `Atom`.
-	@inlinable
 	public init (
 		_ atom: Atom
-	) { excludableExpression = Exclusion(atom) }
+	) { excludableExpression🙈 = Exclusion(atom) }
 
 	/// Creates a new `RegularExpression` from the provided `regex`.
 	///
@@ -80,12 +79,11 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Array` of `RegularExpression` values, representing choices.
-	@inlinable
 	public init (
 		alternating choices: [RegularExpression<Atom>]
 	) {
-		excludableExpression = Exclusion(
-			alternating: choices.map(\.excludableExpression)
+		excludableExpression🙈 = Exclusion(
+			alternating: choices.map(\.excludableExpression🙈)
 		)
 	}
 
@@ -100,12 +98,11 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Array` of `RegularExpression` values, interpreted in sequence.
-	@inlinable
 	public init (
 		catenating sequence: [RegularExpression<Atom>]
 	) {
-		excludableExpression = Exclusion(
-			catenating: sequence.map(\.excludableExpression)
+		excludableExpression🙈 = Exclusion(
+			catenating: sequence.map(\.excludableExpression🙈)
 		)
 	}
 
@@ -122,7 +119,7 @@ where Atom : Atomic {
 	///         An `Exclusion`.
 	private init (
 		unsafe🙈 excludable: Exclusion
-	) { excludableExpression = excludable }
+	) { excludableExpression🙈 = excludable }
 
 	/// A `RegularExpression` which never matches.
 	///
@@ -160,7 +157,7 @@ where Atom : Atomic {
 	where
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
-	{ l·h·s.excludableExpression ~= r·h·s }
+	{ l·h·s.excludableExpression🙈 ~= r·h·s }
 
 	/// Returns a new `AtomicExpression` which catenates the provided values.
 	///
@@ -333,7 +330,7 @@ where Atom : Atomic {
 		_ r·h·s: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			unsafe🙈: l·h·s × r·h·s.excludableExpression
+			unsafe🙈: l·h·s × r·h·s.excludableExpression🙈
 		)
 	}
 
@@ -359,7 +356,7 @@ where Atom : Atomic {
 		_ r·h·s: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			unsafe🙈: l·h·s × r·h·s.excludableExpression
+			unsafe🙈: l·h·s × r·h·s.excludableExpression🙈
 		)
 	}
 
@@ -466,5 +463,21 @@ where Atom : Atomic {
 		Excluding.Atom == Atom,
 		Excluding : ExclusionProtocol
 	{ l·h·s ÷= Excluding(r·h·s) }
+
+	/// Returns an `Exclusion` representing the provided `RegularExpression`.
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         The `RegularExpression`.
+	///
+	///  +  Returns:
+	///     An `Exclusion`.
+	public static postfix func ^! (
+		_ operand: RegularExpression<Atom>
+	) -> Exclusion
+	{ operand.excludableExpression🙈 }
 
 }

@@ -6,8 +6,14 @@
 
 /// An `ExpressionProtocol` value which is able to represent exclusions.
 ///
+/// Conformance
+/// -----------
+///
+/// To conform to the `ExclusionProtocol`, a type must implement the required `ExclusionProtocol.init(excluding:from:)` initializer.
+/// `ExclusionProtocol`s must declare an `Exclusion` type of themselves.
+///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 public protocol ExclusionProtocol:
 	Excludable
 where Exclusion == Self {
@@ -15,7 +21,7 @@ where Exclusion == Self {
 	/// Creates a new `ExclusionProtocol` value which excludes the provided `exclusion` from the provided `match`.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  exclusion:
@@ -37,7 +43,7 @@ public extension ExclusionProtocol {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  excludable:
@@ -47,15 +53,15 @@ public extension ExclusionProtocol {
 	) where
 		Expressing : Excludable,
 		Expressing.Exclusion == Self
-	{ self = excludable.excludableExpression }
+	{ self = excludable^! }
 
-	/// Excludes the `ExclusionProtocol` value of a given `Excludable` value from the given `ExclusionProtocol` value.
+	/// Excludes the `ExclusionProtocol` value of a provided `Excludable` value from the provided `ExclusionProtocol` value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -70,7 +76,7 @@ public extension ExclusionProtocol {
 		Excluding.Exclusion == Self
 	{
 		l·h·s = Self(
-			excluding: r·h·s.excludableExpression,
+			excluding: r·h·s^!,
 			from: l·h·s
 		)
 	}

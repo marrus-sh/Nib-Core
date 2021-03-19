@@ -9,7 +9,6 @@
 ///  +  Version:
 ///     `0.1.0`.
 public protocol Symbolic:
-	CaseIterable,
 	Expressible,
 	Hashable,
 	Identifiable
@@ -129,6 +128,58 @@ where
 		Self(
 			rawValue: identifier
 		)
+	}
+
+}
+
+public extension Symbolic
+where
+	Self : CustomStringConvertible,
+	ID : CustomStringConvertible
+{
+
+	/// The `id` of this `Symbolic` value, as a `String`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·1.
+	@inlinable
+	var description: String {
+		String(
+			describing: id
+		)
+	}
+
+}
+
+public extension Symbolic
+where
+	Self : LosslessStringConvertible,
+	ID : LosslessStringConvertible
+{
+
+	/// Creates a new `Symbolic` value whose `id` matches the given `description`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  description:
+	///         The `String` identifier of the `Symbolic` value to create.
+	init? (
+		_ description: String
+	) {
+		if
+			let 💱 = ID(description),
+			let 🆕 = Self[💱]
+		{ self = 🆕 }
+		else
+		{ return nil }
 	}
 
 }

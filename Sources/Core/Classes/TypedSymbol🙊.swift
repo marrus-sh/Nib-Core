@@ -13,12 +13,24 @@ where
 	Symbol.Expression.Exclusion == ExcludingExpression<Symbol.Atom>
 {
 
+	public override var description: String {
+		if let 💱 = symbol🙈.id as? CustomStringConvertible {
+			return String(
+				describing: 💱
+			)
+		} else {
+			return String(
+				reflecting: symbol🙈.id
+			)
+		}
+	}
+
 	/// The `expression` of the wrapped `Symbol`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var expression: ExcludingExpression<Symbol.Atom>
-	{ symbol🙈.expression.excludableExpression }
+	{ symbol🙈.expression^! }
 
 	/// The `hashValue` of the wrapped `Symbol`.
 	///

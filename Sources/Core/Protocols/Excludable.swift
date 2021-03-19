@@ -4,12 +4,17 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// An `ExpressionProtocol` value which is has an equivalent `ExclusionProtocol` value accessible via its `excludableExpression` property.
+/// An `ExpressionProtocol` value which is has an equivalent `ExclusionProtocol` value.
 ///
-/// `Excludable` expressions are subsets of `ExclusionProtocol` expressions and can create exclusions using the `÷` operator.
+/// `Excludable` expressions are logical subsets of `ExclusionProtocol` expressions and can create exclusions using the `÷` operator.
+///
+/// Conformance
+/// -----------
+///
+/// To conform to the `Excludable` protocol, a type must implement the `^!` postfix operator to produce an `ExclusionProtocol` value.
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 public protocol Excludable:
 	ExpressionProtocol
 where Exclusion : ExclusionProtocol {
@@ -17,27 +22,35 @@ where Exclusion : ExclusionProtocol {
 	/// The `ExclusionProtocol` type which this value is convertible to.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	associatedtype Exclusion
 
-	/// An `Exclusion` value which is equivalent to this value.
+	/// Returns an `Exclusion` representing the provided `Excludable` value.
 	///
 	///  +  Version:
-	///     `0.2.0`.
-	var excludableExpression: Exclusion
-	{ get }
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         The `Excludable` value.
+	///
+	///  +  Returns:
+	///     An `Exclusion`.
+	static postfix func ^! (
+		_ operand: Self
+	) -> Exclusion
 
 }
 
 public extension Excludable {
 
-	/// Returns a new `ExclusionProtocol` value which excludes the first value from the second.
+	/// Returns a new `ExclusionProtocol` value which excludes the first provided value from the second.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -56,8 +69,8 @@ public extension Excludable {
 		Excluding.Exclusion == Exclusion
 	{
 		Exclusion(
-			excluding: r·h·s.excludableExpression,
-			from: l·h·s.excludableExpression
+			excluding: r·h·s^!,
+			from: l·h·s^!
 		)
 	}
 

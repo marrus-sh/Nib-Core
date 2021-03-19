@@ -1,0 +1,47 @@
+<!--
+Copyright © 2021 kibigo!
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
+A regular expression, as it is commonly conceived, has the following properties:—
+
+ +  It can be alternated with other regular expressions,
+ +  It can be catenated with other regular expressions, and
+ +  It can be repeated a variable, and possibly infinite, number of times
+
+—:all of which produce a new, meaningful regular expression.
+
+In 🖋🍎 Nib Core, these properties make up the requirements of the aptly‐named `ExpressionProtocol`.
+`ExpressionProtocol` types must implement the following:—
+
+ +  `.init(alternating:...)`, to produce a new expression which alternates its arguments.
+    The infix operator `|` is defined for `ExpressionProtocol` values such that `A | B` is equivalent to `init(alternating: A, B)`.
+
+ +  `.init(catenating:...)`, to produce a new expression which represents its arguments in sequence.
+    The infix operator `&` is defined for `ExpressionProtocol` values such that `A & B` is equivalent to `init(catenating: A, B)`.
+
+ +  `range × expression`, to produce a new expression which represents `expression` repeated `range` times.
+    The postfix operators `^?`, `^+`, and `^*` are defined for `ExpressionProtocol` values to be equivalent to `0...1 × expression`, `1... × expression`, and `0... × expression`, respectively.
+
+ +  For `ExclusionProtocol` types **only**, `.init(excluding:from:)`, to produce a new expression which excludes its first argument from its second.
+    The infix operator `÷` is defined for `ExclusionProtocol` values such that `A ÷ B` is equivalent to `.init(excluding: B, from: A)`.
+
+Types whose values represent specific expressions can conform to the `Expressible` protocol by implementing the `^!` postfix operator, which returns the associated `ExpressionProtocol` value.
+The `^?`, `^+`, and `^*` postfix operators are similarly defined for `Expressible` types, as a convenience over writing `(🎱^!)^?` or similar.
+All `ExpressionProtocol` types are required to be `Expressible` as themselves.
+
+When combined, the above operators provide a powerful D·S·L for building `ExpressionProtocol` values.
+For example:—
+
+```swift
+2...5 × A & (B | C)^?
+```
+
+—:means “the expression formed from repeating `A`, optionally followed by `B` or `C`, two to five times”.
+
+The compactness of this D·S·L makes it very easy to write expressions which are more complex than Swift can typecheck in reasonable time.
+The `&=`, `|=`, and `÷=` operators are provided to make it easier to break up expressions over multiple lines.
+
+Nib makes *no* guarantees about the semantics or results of operations on types conforming to `ExpressionProtocol`; it is up to the type implementation to determine exactly what is meant by such things as “alternation”, “catenation”, “repetition”, or “exclusion” and what kinds of expressions result from these operations.
+Conforming to `ExpressionProtocol` simply indicates that values of a type may be constructed using the D·S·L as above.
