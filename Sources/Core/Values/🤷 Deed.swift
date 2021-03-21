@@ -1,4 +1,5 @@
-//  #  Core :: Deed  #
+//  🖋🍎 Nib Core :: Core :: Deed
+//  =============================
 //
 //  Copyright © 2021 kibigo!
 //

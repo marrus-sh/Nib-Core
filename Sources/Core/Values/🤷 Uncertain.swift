@@ -1,4 +1,5 @@
-//  #  Core :: Uncertain  #
+//  🖋🍎 Nib Core :: Core :: Uncertain
+//  ==================================
 //
 //  Copyright © 2021 kibigo!
 //
