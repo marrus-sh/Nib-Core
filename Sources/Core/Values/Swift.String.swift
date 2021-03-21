@@ -1,4 +1,5 @@
-//  #  Core :: Swift.String  #
+//  🖋🍎 Nib Core :: Core :: Swift.String
+//  =====================================
 //
 //  Copyright © 2021 kibigo!
 //

@@ -1,15 +1,16 @@
-//  #  Core :: TextProtocol  #
+//  🖋🍎 Nib Core :: Core :: 📚 TextProtocol
+//  ========================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A `Collection` of `Unicode.Scalar`s which can be interpreted as [text](http://www.w3.org/TR/xml11#dt-text).
+/// A `Collection` of `Literal.Element`s which can be interpreted as [text](http://www.w3.org/TR/xml11#dt-text).
 ///
 /// Conformance
 /// -----------
 ///
-/// To conform to the `TextProtocol`, a type must implement the required `TextProtocol.init(_:)` initializer, enabling conversion to that type from other `TextProtocol` values.
+/// To conform to the `TextProtocol`, a type must implement the `TextProtocol.init(_:)` initializer, enabling conversion to that type from other `TextProtocol` values.
 ///
 ///  +  Version:
 ///     0·2.
@@ -18,7 +19,7 @@ public protocol TextProtocol:
 	LosslessTextConvertible,
 	TextOutputStreamable
 where
-	Element == Unicode.Scalar,
+	Element == Literal.Element,
 	Text == Self
 {
 
@@ -91,7 +92,7 @@ public extension TextProtocol {
 	func write <Target> (
 		to target: inout Target
 	) where Target : TextOutputStream {
-		Substring(Substring.UnicodeScalarView(self)).write(
+		Substring(Literal.SubSequence(self)).write(
 			to: &target
 		)
 	}

@@ -1,22 +1,72 @@
-abstract: "Documentation/Abstracts/*.markdown"
+# Change These Every Release:
+github_file_prefix: "https://github.com/marrus-sh/Nib-Core/blob/0.2.0"
+module_version: "0.2.0"
+swift_version: 5.4
+title: "🖋🍎 Nib Core 0·2 / revision 0"
+
+# Categories:
+custom_categories:
+- name: "📚 Text"
+  children:
+  - TextProtocol
+  - CustomTextConvertible
+  - LosslessTextConvertible
+  - Literal
+- name: "🤷 Knowability"
+  children:
+  - Uncertain
+  - Deed
+- name: "☑️ Validation"
+  children:
+  - Well·formednessConstrainable
+  - Validatable
+- name: "💬 Expressions"
+  children:
+  - ExpressionProtocol
+  - Expressible
+  - ExclusionProtocol
+  - Excludable
+- name: "⚛️ Atomics"
+  children:
+  - Atomic
+  - AtomicExpression
+  - RegularExpression
+- name: "🔣 Symbols"
+  children:
+  - Symbolic
+  - Context·freeExpression
+  - ExcludingExpression
+  - WrappedExpression
+- name: "🔢 Versioning"
+  children:
+  - VersionProtocol
+  - Versionable
+  - Defaultable
+custom_categories_unlisted_prefix: "Bonus! "
+
+# Constants:
+abstract: "Sources/Documentation/Abstracts/*"
 author: "kibigo!"
 author_url: "https://go.KIBI.family/About/#me"
 clean: true
 copyright: |-
   The Source Code Form from which this documentation was generated is subject to the terms of the [_Mozilla Public License, version 2.0_](https://mozilla.org/MPL/2.0/).
-documentation: "Documentation/*.markdown"
-github_file_prefix: "https://github.com/marrus-sh/Nib-Core/blob/current"
+documentation: "Sources/Documentation/*"
 github_url: "https://github.com/marrus-sh/Nib-Core"
 head: |-
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;600&family=Nanum+Gothic+Coding:wght@400;700&display=swap');
-  body{ Color: #DEDBD9; Background: #1F1A14; Font: 200 1REM / 1.7 Inter, Sans-Serif }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Nanum+Gothic+Coding:wght@400;700&display=swap');
+  body{ Color: #DEDBD9; Background: #1F1A14; Font: 300 1REM / 1.7 Inter, Sans-Serif }
   h1,h2,h3,h4,h5{ Color: #FAF8F7; Font-Weight: 600 }
   h6{ Color: Inherit; Font-Weight: 600 }
   blockquote{ Border-Color: #F56E97; Color: #FAF8F7 }
   a{ Color: #DEDBD9; Font-Weight: Bold }
   a:Hover{ Color: #FAF8F7 }
   a.discouraged{ Font-Weight: Normal }
+  .item-container p>a,
+  .item-container li>a,
+  .top-matter p>a,
+  .top-matter li>a{ Color: #1AACEB }
   table{ Color: #FAF8F7; Background: #302F2B }
   tr:Nth-Child(2N){ Background-Color: #57534C }
   th,td{ Border-Color: #B8B3B0 }
@@ -25,7 +75,7 @@ head: |-
   .item-container p>code,
   .item-container li>code,
   .top-matter p>code,
-  .top-matter li>code{ Color: #FAF8F7; Background: #302F2B }
+  .top-matter li>code{ Color: #FAF8F7; Background: #4B2DF7 }
   .header{ Color: #FAF8F7; Background: #4B2DF7 }
   a.header-link{ Color: Inherit }
   .breadcrumbs{ Border-Color: #75706A; Color: #1F1A14; Background: #F56E97 }
@@ -118,12 +168,8 @@ head: |-
   .highlight .vi { Color: #FAF8F7 } /* Name.Variable.Instance */
   .highlight .il { Color: #1AACEB } /* Literal.Number.Integer.Long */
   </style>
-module: "Core"
-module_version: "0.2.0-development"
-output: .jazzy-docs
+module: Core
+output: ♪♫
 root_url: "https://go.KIBI.family/Nib-Core/"
-separate_global_declarations: true
 swift_build_tool: spm
-swift_version: 5.4
 theme: fullwidth
-title: "Nib Core 0·2"

@@ -1,4 +1,5 @@
-//  #  Core :: Swift.Character  #
+//  🖋🍎 Nib Core :: Core :: Swift.Character
+//  ========================================
 //
 //  Copyright © 2021 kibigo!
 //

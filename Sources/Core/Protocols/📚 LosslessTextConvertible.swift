@@ -1,15 +1,16 @@
-//  #  Core :: LosslessTextConvertible  #
+//  🖋🍎 Nib Core :: Core :: 📚 LosslessTextConvertible
+//  ===================================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be losslessly converted to and from a `Collection` of zero or more `Unicode.Scalar`s.
+/// A type which can be losslessly converted to and from a `Collection` of zero or more `Literal.Element`s.
 ///
 /// Conformance
 /// -----------
 ///
-/// To conform to the `LosslessTextConvertible` protocol, a type must conform to `CustomTextConvertible` and implement the required `LosslessTextConvertible.init(_:)` initializer, creating a value from its `TextProtocol` value equivalent.
+/// To conform to the `LosslessTextConvertible` protocol, a type must conform to `CustomTextConvertible` and implement the `LosslessTextConvertible.init(_:)` initializer, creating a value from its `TextProtocol` value equivalent.
 ///
 ///  +  Version:
 ///     0·2.

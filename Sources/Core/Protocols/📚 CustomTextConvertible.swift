@@ -1,15 +1,16 @@
-//  #  Core :: CustomTextConvertible  #
+//  🖋🍎 Nib Core :: Core :: 📚 CustomTextConvertible
+//  =================================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be converted to a `Collection` of zero or more `Unicode.Scalar`s, not necessarily losslessly.
+/// A type which can be converted to a `Collection` of zero or more `Literal.Element`s, not necessarily losslessly.
 ///
 /// Conformance
 /// -----------
 ///
-/// To conform to the `CustomTextConvertible` protocol, a type must implement the required `CustomTextConvertible.text` property, providing a value’s `TextProtocol` equivalent.
+/// To conform to the `CustomTextConvertible` protocol, a type must implement the `CustomTextConvertible.text` property, providing a value’s `TextProtocol` equivalent.
 ///
 ///  +  Version:
 ///     0·2.
@@ -44,6 +45,6 @@ where Self : CustomStringConvertible {
 	///     0·2.
 	@inlinable
 	var description: String
-	{ String(String.Text(text)) }
+	{ String(Literal(text)) }
 
 }

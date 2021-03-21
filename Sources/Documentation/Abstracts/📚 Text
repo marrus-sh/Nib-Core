@@ -1,10 +1,13 @@
 <!--
+🖋🍎 Nib Core :: Documentation :: 📚 Text
+=========================================
+
 Copyright © 2021 kibigo!
 
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-X·M·L defines “text” and “characters” as follows:
+X·M·L [defines “text” and “characters” as follows](http://www.w3.org/TR/xml11#dt-text):—
 
 > [Definition: A parsed entity contains <b>text</b>, a sequence of <a title="Character" href="http://www.w3.org/TR/xml11#dt-character">characters</a>, which may
 represent markup or character data.]
@@ -16,12 +19,12 @@ is an atomic unit of text as specified by ISO/IEC 10646 <a href="http://www.w3.o
 This is a somewhat different definition than Swift’s own idea of a `String` and `Character`.
 Swift conceives as a character as a Unicode extended grapheme cluster, which may be multiple codepoints in length, and may be equated with other characters through canonical equivalence.
 X·M·L, on the other hand, conceives as a character as a singular codepoint, which may be equated with other characters only if they have the same codepoint value.
-This concept of “character” is represented in Swift using the type `Unicode.Scalar`.
+This concept of “character” is represented in Swift using the type `Unicode.Scalar`, which is aliased as `Literal.Element`.
 
-🖋🍎 Nib Core provides a number of protocols for dealing with sequences of X·M·L characters, represented as `Collection`s of `Unicode.Scalar`s, as above.
+🖋🍎 Nib Core provides a number of protocols for dealing with sequences of X·M·L characters, represented as `Collection`s of `Unicode.Scalar`s, as above.
 The first of these is `TextProtocol`, which can be conformed to by such a `Collection`—the `•=•` operator allows for quick codepoint comparison of two `TextProtocol` instances.
-Not all `Collection`s of `Unicode.Scalar`s necessarily conform to `TextProtocol`—for example, a `Set<Unicode.Scalar>` most definitely should *not*—but both `String.UnicodeScalarView` and `Substring.UnicodeScalarView` do, so you can use them as `TextProtocol` values without any further configuration.
+Not all `Collection`s of `Unicode.Scalar`s necessarily conform to `TextProtocol`—for example, a `Set<Unicode.Scalar>` most definitely should *not*—but both `String.UnicodeScalarView` (`Literal`) and `Substring.UnicodeScalarView` (`Literal.SubSequence`) do, so you can use them as `TextProtocol` values without any further configuration.
 
-Akin to `CustomStringConvertible` and `LosslessStringConvertible`, 🖋🍎 Nib Core provides a `CustomTextConvertible` and `LosslessTextConvertible`.
+Akin to `CustomStringConvertible` and `LosslessStringConvertible`, 🖋🍎 Nib Core provides a `CustomTextConvertible` and `LosslessTextConvertible`.
 Types which conform to one of these protocols must be convertible to a `TextProtocol` value via the `.text` property.
 `LosslessTextConvertible` conformance is provided for `String`, `Substring`, and `Unicode.Scalar`, and required for `TextProtocol` types (they must be convertible to themselves).

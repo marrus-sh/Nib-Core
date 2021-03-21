@@ -1,4 +1,5 @@
-//  #  Core :: Swift.Substring  #
+//  🖋🍎 Nib Core :: Core :: Swift.Substring
+//  ========================================
 //
 //  Copyright © 2021 kibigo!
 //
