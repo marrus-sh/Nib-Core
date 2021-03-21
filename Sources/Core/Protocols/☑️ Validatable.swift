@@ -1,4 +1,5 @@
-//  #  Core :: Validatable  #
+//  🖋🍎 Nib Core :: Core :: ☑️ Validatable
+//  =======================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -9,7 +10,7 @@
 /// Conformance
 /// -----------
 ///
-/// To conform to the `Validatable` protocol, a type must implement the required `‼️` postfix operator.
+/// To conform to the `Validatable` protocol, a type must implement the `‼️` postfix operator.
 ///
 ///  +  Version:
 ///     0·1.

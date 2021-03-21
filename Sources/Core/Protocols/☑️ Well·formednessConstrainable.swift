@@ -1,4 +1,5 @@
-//  #  Core :: Well·formednessConstrainable  #
+//  🖋🍎 Nib Core :: Core :: ☑️ Well·formednessConstrainable
+//  ========================================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -11,7 +12,7 @@
 /// Conformance
 /// -----------
 ///
-/// To conform to the `Well·formednessConstrainable` protocol, a type must implement the required `❗️` postfix operator.
+/// To conform to the `Well·formednessConstrainable` protocol, a type must implement the `❗️` postfix operator.
 ///
 ///  +  Version:
 ///     0·1.
