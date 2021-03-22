@@ -1,4 +1,5 @@
-//  #  Core :: FullyOpaqueSymbol🙊  #
+//  🖋🍎 Nib Core :: Core :: FullyOpaqueSymbol🙊
+//  ============================================
 //
 //  Copyright © 2021 kibigo!
 //

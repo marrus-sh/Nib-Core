@@ -1,4 +1,5 @@
-//  #  Core :: OptionState🙊  #
+//  🖋🍎 Nib Core :: Core :: OptionState🙊
+//  ======================================
 //
 //  Copyright © 2021 kibigo!
 //

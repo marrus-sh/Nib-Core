@@ -1,4 +1,5 @@
-//  #  Core :: Context·freeExpression  #
+//  🖋🍎 Nib Core :: Core :: 🔣 Context·freeExpression
+//  ==================================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -7,32 +8,25 @@
 /// A generic contextfree expression.
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 public struct Context·freeExpression <Atom>:
 	AtomicExpression,
-	Excludable,
-	Hashable
+	Excludable
 where Atom : Atomic {
 
 	/// The `ExclusionProtocol` type which this value is convertible to.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Exclusion = ExcludingExpression<Atom>
 
 	/// The `ExpressionProtocol` type which this value is convertible to.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Expression = Context·freeExpression<Atom>
 
 	/// The `Exclusion` which represents this value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
 	private let excludableExpression🙈: Exclusion
 
 	/// Creates a new `Context·freeExpression` from the provided `atom`.
@@ -41,7 +35,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  atom:
@@ -56,14 +50,14 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  regex:
 	///         An `RegularExpression` value which has the same `Atom` type as this `Context·freeExpression` type.
 	public init (
 		_ regex: RegularExpression<Atom>
-	) { excludableExpression🙈 = Exclusion(regex) }
+	) { excludableExpression🙈 = regex^! }
 
 	/// Creates a new `Context·freeExpression` from the provided `symbol`.
 	///
@@ -71,7 +65,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  symbol:
@@ -90,7 +84,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  choices:
@@ -109,7 +103,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  choices:
@@ -134,8 +128,37 @@ where Atom : Atomic {
 	///      +  excludable:
 	///         An `Exclusion`.
 	private init (
-		unsafe🙈 excludable: Exclusion
+		🆘🙈 excludable: Exclusion
 	) { excludableExpression🙈 = excludable }
+
+	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `Context·freeExpression`.
+	///
+	///  +  Note:
+	///     It is generally recommended to use the `.prefix(matching:)` methods on `Collection`s instead of calling this method directly.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  collection:
+	///         A `Collection` whose `Element`s are `SourceElement`s of this `Context·freeExpression`’s `Atom` type.
+	///
+	///  +  Returns:
+	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `Context·freeExpression`.
+	public func longestMatchingPrefix <Col> (
+		in collection: Col
+	) -> Col.SubSequence?
+	where
+		Col : Collection,
+		Col.Element == Atom.SourceElement
+	{
+		excludableExpression🙈.longestMatchingPrefix(
+			in: collection
+		)
+	}
 
 	/// A `Context·freeExpression` which never matches.
 	///
@@ -143,26 +166,51 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public static var never: Context·freeExpression<Atom> {
 		Context·freeExpression(
-			unsafe🙈: .never
+			🆘🙈: .never
 		)
 	}
 
-	/// Returns whether the given `Sequence` matches the given `Context·freeExpression`.
+	/// Returns whether the given `Sequence` has a prefix which matches the provided `Context·freeExpression`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
 	///         A `Context·freeExpression`.
 	///      +  r·h·s:
-	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///         A `Sequence` whose `Element` type is a `SourceElement` of `l·h·s`’s `Atom` type.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` has a prefix which is a match for `l·h·s`; `false` otherwise.
+	public static func ...~= <Seq> (
+		_ l·h·s: Context·freeExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{ l·h·s.excludableExpression🙈 ...~= r·h·s }
+
+	/// Returns whether the given `Sequence` matches the provided `Context·freeExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `Context·freeExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is a `SourceElement` of `l·h·s`’s `Atom` type.
 	///
 	///  +  Returns:
 	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
@@ -175,13 +223,13 @@ where Atom : Atomic {
 		Seq.Element == Atom.SourceElement
 	{ l·h·s.excludableExpression🙈 ~= r·h·s }
 
-	/// Returns a `Context·freeExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
+	/// Returns a `Context·freeExpression` equivalent to the provided `Context·freeExpression` repeated some number of times indicated by the provided `PartialRangeFrom`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -192,22 +240,22 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `Context·freeExpression` equivalent to `r·h·s` repeated at least `l·h·s.lowerBound` times (inclusive).
-	public static func × (
+	public static func ✖️ (
 		_ l·h·s: PartialRangeFrom<Int>,
 		_ r·h·s: Context·freeExpression<Atom>
 	) -> Context·freeExpression<Atom> {
 		Context·freeExpression(
-			unsafe🙈: l·h·s × r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
 		)
 	}
 
-	/// Returns a `Context·freeExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
+	/// Returns a `Context·freeExpression` equivalent to the provided `Context·freeExpression` repeated some number of times indicated by the provided `PartialRangeThrough`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -218,12 +266,12 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `Context·freeExpression` equivalent to `r·h·s` repeated up to `l·h·s.upperBound` times (inclusive).
-	public static func × (
+	public static func ✖️ (
 		_ l·h·s: PartialRangeThrough<Int>,
 		_ r·h·s: Context·freeExpression<Atom>
 	) -> Context·freeExpression<Atom> {
 		Context·freeExpression(
-			unsafe🙈: l·h·s × r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
 		)
 	}
 
@@ -244,3 +292,19 @@ where Atom : Atomic {
 	{ operand.excludableExpression🙈 }
 
 }
+
+/// Extends `Context·freeExpression` to conform to `Equatable` when its `Atom` type is `Equatable`.
+///
+///  +  Version:
+///     0·2.
+extension Context·freeExpression:
+	Equatable
+where Atom : Equatable {}
+
+/// Extends `Context·freeExpression` to conform to `Hashable` when its `Atom` type is `Hashable`.
+///
+///  +  Version:
+///     0·2.
+extension Context·freeExpression:
+	Hashable
+where Atom : Hashable {}

@@ -1,4 +1,5 @@
-//  #  Core :: Symbol🙊  #
+//  🖋🍎 Nib Core :: Core :: Symbol🙊
+//  =================================
 //
 //  Copyright © 2021 kibigo!
 //

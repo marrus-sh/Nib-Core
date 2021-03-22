@@ -1,4 +1,5 @@
-//  #  Core :: Expressible  #
+//  🖋🍎 Nib Core :: Core :: 💬 Expressible
+//  =======================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -60,7 +61,7 @@ public extension Expressible {
 	static postfix func ^? (
 		_ operand: Self
 	) -> Expression
-	{ 0...1 × operand^! }
+	{ 0...1 ✖️ operand^! }
 
 	/// Returns an `Expression` representing the provided `Expressible` value repeated one or more times.
 	///
@@ -80,7 +81,7 @@ public extension Expressible {
 	static postfix func ^+ (
 		_ operand: Self
 	) -> Expression
-	{ 1... × operand^! }
+	{ 1... ✖️ operand^! }
 
 	/// Returns an `Expression` representing the provided `Expressible` value repeated zero or more times.
 	///
@@ -100,6 +101,6 @@ public extension Expressible {
 	static postfix func ^* (
 		_ operand: Self
 	) -> Expression
-	{ 0... × operand^! }
+	{ 0... ✖️ operand^! }
 
 }

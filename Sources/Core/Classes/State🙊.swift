@@ -1,4 +1,5 @@
-//  #  Core :: State🙊  #
+//  🖋🍎 Nib Core :: Core :: State🙊
+//  ================================
 //
 //  Copyright © 2021 kibigo!
 //

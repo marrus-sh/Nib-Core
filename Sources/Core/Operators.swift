@@ -1,8 +1,15 @@
-//  #  Core :: Operators  #
+//  🖋🍎 Nib Core :: Core :: Operators
+//  ==================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+/// Prefix·match.
+///
+///  +  Version:
+///     0·2.
+infix operator ...~=: ComparisonPrecedence
 
 /// Exclusion.
 ///
@@ -16,29 +23,17 @@ infix operator ÷: ExclusionPrecedence
 ///     0·2.
 infix operator ÷=: AssignmentPrecedence
 
-/// Of.
-///
-///  +  Version:
-///     0·2.
-infix operator ×: TimesPrecedence
-
 /// Codepoint·equal.
 ///
 ///  +  Version:
 ///     0·2.
 infix operator •=•: ComparisonPrecedence
 
-/// As·optional.
+/// Of.
 ///
 ///  +  Version:
 ///     0·2.
-postfix operator .?
-
-/// As·force·unwrapped·optional.
-///
-///  +  Version:
-///     0·2.
-postfix operator .!
+infix operator ✖️: TimesPrecedence
 
 /// Zero·or·one·of.
 ///

@@ -1,4 +1,5 @@
-//  #  Core :: AtomicState🙊  #
+//  🖋🍎 Nib Core :: Core :: AtomicState🙊
+//  ======================================
 //
 //  Copyright © 2021 kibigo!
 //

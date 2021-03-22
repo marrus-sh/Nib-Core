@@ -1,4 +1,5 @@
-//  #  Core :: ExcludingExpression  #
+//  🖋🍎 Nib Core :: Core :: 🔣 ExcludingExpression
+//  ===============================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -11,23 +12,22 @@
 ///     It is impossible to guarantee efficient processing of `ExcludingExpression`s in all cases
 ///
 ///  +  Version:
-///     `0.2.0`.
+///     0·2.
 public struct ExcludingExpression <Atom>:
 	AtomicExpression,
-	ExclusionProtocol,
-	Hashable
+	ExclusionProtocol
 where Atom : Atomic {
 
 	/// The `ExclusionProtocol` type which this value is convertible to.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Exclusion = ExcludingExpression<Atom>
 
 	/// The `ExpressionProtocol` type which this value is convertible to.
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	public typealias Expression = ExcludingExpression<Atom>
 
 	/// The `Fragment🙊` which represents this value.
@@ -39,7 +39,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  atom:
@@ -54,7 +54,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  regex:
@@ -69,7 +69,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  symbol:
@@ -93,7 +93,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  choices:
@@ -116,7 +116,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  choices:
@@ -139,7 +139,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  exclusion:
@@ -167,44 +167,42 @@ where Atom : Atomic {
 		🙈 fragment: Fragment🙊<Atom>
 	) { fragment🙈 = fragment }
 
-	/// An `ExcludingExpression` which never matches.
+	/// Creates a new `ExcludingExpression` value which excludes the provided `exclusion` from the provided `match`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
-	///  +  Version:
-	///     `0.2.0`.
-	public static var never: ExcludingExpression<Atom> {
-		ExcludingExpression(
-			🙈: .never
-		)
-	}
-
-	/// Returns whether the given `Sequence` matches the given `ExcludingExpression`.
+	///  +  Note:
+	///     The name `.offset` in `sequence`’s `Element` tuples is a misnomer; it is used to enable `EnumeratedSequence`s to be used directly as `Seq` values without mapping.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.2.0`.
+	///  +  Note:
+	///     The `don·tCheckPartialMatches` parameter is a simple optimization to prevent checking whether a match exists when that information is not needed.
 	///
 	///  +  Parameters:
-	///      +  l·h·s:
-	///         A `ExcludingExpression`.
-	///      +  r·h·s:
-	///         A `Sequence` whose `Element` type is `Atom.SourceElement`.
+	///      +  sequence:
+	///         A `Sequence` of tuples whose `.offset` is a `Comparable` value and whose `.element` is a `SourceElement` of this `ExcludingExpression`’s `Atom` type.
+	///      +  endIndex:
+	///         A `Comparable` value of the same type as `sequence`’s `Element`s’ `.offset`s.
+	///      +  don·tCheckPartialMatches:
+	///         `true` if this method should only return a non‐`nil` value if the entire `sequence` matches; `false` otherwise.
 	///
 	///  +  Returns:
-	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
-	public static func ~= <Seq> (
-		_ l·h·s: ExcludingExpression<Atom>,
-		_ r·h·s: Seq
-	) -> Bool
+	///     The `.offset` of the first `Element` in `sequence` following the last match, `endIndex` if the entirety of `sequence` formed a match, and `nil` if no match was possible.
+	///     if `don·tCheckPartialMatches` is `true`, only `endIndex` or `nil` will be returned.
+	private func nextIndexAfterMatchingPrefix🙈 <Seq, Index> (
+		in sequence: Seq,
+		endIndex: Index,
+		onlyCareAboutCompleteMatches don·tCheckPartialMatches: Bool = false
+	) -> Index?
 	where
+		Index: Comparable,
 		Seq : Sequence,
-		Seq.Element == Atom.SourceElement
+		Seq.Element == (
+			offset: Index,
+			element: Atom.SourceElement
+		)
 	{
-		let 🔙 = l·h·s.fragment🙈.start  //  keep to prevent early dealloc
+		let 🔙 = fragment🙈.start  //  keep to prevent early dealloc
 		defer {
 			//  Walk the `State🙊` graph and `.blast()` each.
 			//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
@@ -228,38 +226,148 @@ where Atom : Atomic {
 			}
 		}
 		var 〽️ = Array(Set(🔙.resolved))
-		if (
-			r·h·s.drop { 🆙 in
-				//  Drop matching elements from the sequence; a successful match will drop every element.
-				var 🆒 = [] as Set<State🙊>
-				〽️ = 〽️.reduce(
-					into: []
-				) { 🔜, 🈁 in
-					//  Attempt to consume the element which is currently `🆙` and collect the next states if this succeeds.
-					if
-						let 🔙 = 🈁 as? OpenState🙊<Atom>,
-						🔙.consumes(🆙)
-					{
-						for 🆕 in 🔙.next
-						where 🆒.insert(🆕).inserted
-						{ 🔜.append(🆕) }
-					}
+		var 🆗: Index?
+		for (ℹ️, 🆙) in sequence {
+			var 🆒 = [] as Set<State🙊>
+			if !don·tCheckPartialMatches && 〽️.contains(.match)
+			{ 🆗 = ℹ️ }
+			〽️ = 〽️.reduce(
+				into: []
+			) { 🔜, 🈁 in
+				//  Attempt to consume the element which is currently `🆙` and collect the next states if this succeeds.
+				if
+					let 🔙 = 🈁 as? OpenState🙊<Atom>,
+					🔙.consumes(🆙)
+				{
+					for 🆕 in 🔙.next
+					where 🆒.insert(🆕).inserted
+					{ 🔜.append(🆕) }
 				}
-				return 〽️.count > 0
-			}.first { _ in true }
-		) != nil
-		{ return false }
-		else
-		{ return 〽️.contains(.match) }
+			}
+			if 〽️.count <= 0
+			{ break }
+		}
+		return 〽️.contains(.match) ? endIndex : 🆗
 	}
 
-	/// Returns an `ExcludingExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
+	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `ExcludingExpression`.
+	///
+	///  +  Note:
+	///     It is generally recommended to use the `.prefix(matching:)` methods on `Collection`s instead of calling this method directly.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  collection:
+	///         A `Collection` whose `Element`s are `SourceElement`s of this `ExcludingExpression`’s `Atom` type.
+	///
+	///  +  Returns:
+	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `ExcludingExpression`.
+	public func longestMatchingPrefix <Col> (
+		in collection: Col
+	) -> Col.SubSequence?
+	where
+		Col : Collection,
+		Col.Element == Atom.SourceElement
+	{
+		if let ℹ️ = nextIndexAfterMatchingPrefix🙈(
+			in: collection.indices.lazy.map { 🈁 in
+				(
+					offset: 🈁,
+					element: collection[🈁]
+				)
+			},
+			endIndex: collection.endIndex
+		) { return collection[..<ℹ️] }
+		else
+		{ return nil }
+	}
+
+	/// An `ExcludingExpression` which never matches.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	public static var never: ExcludingExpression<Atom> {
+		ExcludingExpression(
+			🙈: .never
+		)
+	}
+
+	/// Returns whether the provided `Sequence` has a prefix which matches the provided `ExcludingExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `ExcludingExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is a `SourceElement` of `l·h·s`’s `Atom` type.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` has a prefix which is a match for `l·h·s`; `false` otherwise.
+	public static func ...~= <Seq> (
+		_ l·h·s: ExcludingExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{
+		return l·h·s.nextIndexAfterMatchingPrefix🙈(
+			in: r·h·s.enumerated(),
+			endIndex: Int.max
+		) != nil
+	}
+
+	/// Returns whether the provided `Sequence` matches the provided `ExcludingExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `ExcludingExpression`.
+	///      +  r·h·s:
+	///         A `Sequence` whose `Element` type is a `SourceElement` of `l·h·s`’s `Atom` type.
+	///
+	///  +  Returns:
+	///     `true` if `r·h·s` is a match for `l·h·s`; `false` otherwise.
+	public static func ~= <Seq> (
+		_ l·h·s: ExcludingExpression<Atom>,
+		_ r·h·s: Seq
+	) -> Bool
+	where
+		Seq : Sequence,
+		Seq.Element == Atom.SourceElement
+	{
+		return l·h·s.nextIndexAfterMatchingPrefix🙈(
+			in: r·h·s.enumerated(),
+			endIndex: Int.max,
+			onlyCareAboutCompleteMatches: true
+		) != nil
+	}
+
+	/// Returns an `ExcludingExpression` equivalent to the provided `ExcludingExpression` repeated some number of times indicated by the provided `PartialRangeFrom`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -270,7 +378,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     An `ExcludingExpression` equivalent to `r·h·s` repeated at least `l·h·s.lowerBound` times (inclusive).
-	public static func × (
+	public static func ✖️ (
 		_ l·h·s: PartialRangeFrom<Int>,
 		_ r·h·s: ExcludingExpression<Atom>
 	) -> ExcludingExpression<Atom> {
@@ -294,13 +402,13 @@ where Atom : Atomic {
 		}
 	}
 
-	/// Returns an `ExcludingExpression` equivalent to `r·h·s` repeated some number of times indicated by `l·h·s`.
+	/// Returns an `ExcludingExpression` equivalent to the provided `ExcludingExpression` repeated some number of times indicated by the provided `PartialRangeThrough`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.2.0`.
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -311,7 +419,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     An `ExcludingExpression` equivalent to `r·h·s` repeated up to `l·h·s.upperBound` times (inclusive).
-	public static func × (
+	public static func ✖️ (
 		_ l·h·s: PartialRangeThrough<Int>,
 		_ r·h·s: ExcludingExpression<Atom>
 	) -> ExcludingExpression<Atom> {
@@ -325,7 +433,7 @@ where Atom : Atomic {
 			return ExcludingExpression(
 				🙈: .zeroOrOne(
 					ExcludingExpression(
-						catenating: [r·h·s, ...(l·h·s.upperBound - 1) × r·h·s]
+						catenating: [r·h·s, ...(l·h·s.upperBound - 1) ✖️ r·h·s]
 					).fragment🙈
 				)
 			)
@@ -333,3 +441,19 @@ where Atom : Atomic {
 	}
 
 }
+
+/// Extends `ExcludingExpression` to conform to `Equatable` when its `Atom` type is `Equatable`.
+///
+///  +  Version:
+///     0·2.
+extension ExcludingExpression:
+	Equatable
+where Atom : Equatable {}
+
+/// Extends `ExcludingExpression` to conform to `Hashable` when its `Atom` type is `Hashable`.
+///
+///  +  Version:
+///     0·2.
+extension ExcludingExpression:
+	Hashable
+where Atom : Hashable {}

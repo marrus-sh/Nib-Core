@@ -1,4 +1,5 @@
-//  #  CoreTests :: TestRegularExpressions  #
+//  🖋🍎 Nib Core :: CoreTests :: TestRegularExpressions
+//  ====================================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -18,7 +19,7 @@ final class TestRegularEspressions: XCTestCase {
 	///
 	/// —: against a string of 69 "🆒"s
 	func testNiceBadRegex () {
-		let regex: RegularExpression<Character> = (69 × "🆒"^?) & (69 × "🆒"^!)
+		let regex: RegularExpression<Character> = (69 ✖️ "🆒"^?) & (69 ✖️ "🆒"^!)
 		XCTAssertFalse(
 			regex ~= repeatElement(
 				"🆒",
@@ -53,7 +54,7 @@ final class TestRegularEspressions: XCTestCase {
 	///
 	/// —: against a string of 100000 "🆗"s.
 	func testLongMatchWithRegex () {
-		let regex: RegularExpression<Character> = 0... × "🆗"^! & "🆖"^?
+		let regex: RegularExpression<Character> = 0... ✖️ "🆗"^! & "🆖"^?
 		XCTAssert(
 			regex ~= repeatElement(
 				"🆗",
@@ -73,7 +74,7 @@ final class TestRegularEspressions: XCTestCase {
 	///  +  Note:
 	///     Use a breakpoint to actually test memory usage here, or increase the numbers significantly and watch computer go zoom.
 	func testMemoryLeakPreventionRegex () {
-		let regex: RegularExpression<Character> = 69 × "🆒"^+
+		let regex: RegularExpression<Character> = 69 ✖️ "🆒"^+
 		for _ in 1...69 {
 			XCTAssert(
 				regex ~= repeatElement(

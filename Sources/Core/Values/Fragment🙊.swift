@@ -1,12 +1,12 @@
-//  #  Core :: Fragment🙊  #
+//  🖋🍎 Nib Core :: Core :: Fragment🙊
+//  ===================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// A fragment of an `ExcludingExpression`, representing a single operation.
-internal enum Fragment🙊 <Terminal>:
-	Hashable
+internal enum Fragment🙊 <Terminal>
 where Terminal : Atomic {
 
 	/// A tuple of a start `State🙊` and a `Set` of `States🙊` which have not yet had all their paths connected.
@@ -203,3 +203,13 @@ where Terminal : Atomic {
 	}
 
 }
+
+/// Extends `Fragment🙊` to conform to `Equatable` when its `Terminal` type is `Equatable`.
+extension Fragment🙊:
+	Equatable
+where Terminal : Equatable {}
+
+/// Extends `Fragment🙊` to conform to `Hashable` when its `Terminal` type is `Hashable`.
+extension Fragment🙊:
+	Hashable
+where Terminal : Hashable {}

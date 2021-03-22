@@ -1,4 +1,7 @@
 <!--
+🖋🍎 Nib Core :: Documentation :: 💬 Expressions
+================================================
+
 Copyright © 2021 kibigo!
 
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -21,8 +24,8 @@ In 🖋🍎 Nib Core, these properties make up the requirements of the aptly‐n
  +  `.init(catenating:...)`, to produce a new expression which represents its arguments in sequence.
     The infix operator `&` is defined for `ExpressionProtocol` values such that `A & B` is equivalent to `init(catenating: A, B)`.
 
- +  `range × expression`, to produce a new expression which represents `expression` repeated `range` times.
-    The postfix operators `^?`, `^+`, and `^*` are defined for `ExpressionProtocol` values to be equivalent to `0...1 × expression`, `1... × expression`, and `0... × expression`, respectively.
+ +  `range ✖️ expression`, to produce a new expression which represents `expression` repeated `range` times.
+    The postfix operators `^?`, `^+`, and `^*` are defined for `ExpressionProtocol` values to be equivalent to `0...1 ✖️ expression`, `1... ✖️ expression`, and `0... ✖️ expression`, respectively.
 
  +  For `ExclusionProtocol` types **only**, `.init(excluding:from:)`, to produce a new expression which excludes its first argument from its second.
     The infix operator `÷` is defined for `ExclusionProtocol` values such that `A ÷ B` is equivalent to `.init(excluding: B, from: A)`.
@@ -35,7 +38,7 @@ When combined, the above operators provide a powerful D·S·L for building `Expr
 For example:—
 
 ```swift
-2...5 × A & (B | C)^?
+2...5 ✖️ A & (B | C)^?
 ```
 
 —:means “the expression formed from repeating `A`, optionally followed by `B` or `C`, two to five times”.

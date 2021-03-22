@@ -1,4 +1,5 @@
-//  #  Core :: OpenState🙊  #
+//  🖋🍎 Nib Core :: Core :: OpenState🙊
+//  ====================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -41,6 +42,7 @@ where Atom : Atomic {
 	override func blast () {
 		forward = nil
 		next🙈 = []
+		super.blast()
 	}
 
 	/// Returns whether this `OpenState🙊` does consume the provided `element`.

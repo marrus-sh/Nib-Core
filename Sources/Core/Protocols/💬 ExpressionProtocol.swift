@@ -1,4 +1,5 @@
-//  #  Core :: ExpressionProtocol  #
+//  🖋🍎 Nib Core :: Core :: 💬 ExpressionProtocol
+//  ==============================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -9,12 +10,12 @@
 /// Conformance
 /// -----------
 ///
-/// To conform to the `ExpressionProtocol`, a type must implement the following required initializers:—
+/// To conform to the `ExpressionProtocol`, a type must implement the following initializers:—
 ///
 ///  +  `ExpressionProtocol.init(alternating:)`
 ///  +  `ExpressionProtocol.init(catenating:)`
 ///
-/// —:as well as the `×` operator with a lefthand‐side operand of both `PartialRangeFrom<Int>` and `PartialRangeThrough<Int>`.
+/// —:as well as the `✖️` infix operator with a lefthand‐side operand of both `PartialRangeFrom<Int>` and `PartialRangeThrough<Int>`.
 /// `ExpressionProtocol`s must declare an `Expression` type of themselves.
 ///
 ///  +  Version:
@@ -68,7 +69,7 @@ where Expression == Self {
 	///
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated from `l·h·s.lowerBound` up to `l·h·s.upperBound` times (inclusive).
-	static func × (
+	static func ✖️ (
 		_ l·h·s: ClosedRange<Int>,
 		_ r·h·s: Self
 	) -> Self
@@ -87,7 +88,7 @@ where Expression == Self {
 	///
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated at least `l·h·s.lowerBound` times (inclusive).
-	static func × (
+	static func ✖️ (
 		_ l·h·s: PartialRangeFrom<Int>,
 		_ r·h·s: Self
 	) -> Self
@@ -106,7 +107,7 @@ where Expression == Self {
 	///
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated up to `l·h·s.upperBound` times (inclusive).
-	static func × (
+	static func ✖️ (
 		_ l·h·s: PartialRangeThrough<Int>,
 		_ r·h·s: Self
 	) -> Self
@@ -115,7 +116,7 @@ where Expression == Self {
 
 public extension ExpressionProtocol {
 
-	/// Creates a new `ExpressionProtocol` value which represents the provided `expressible`.
+	/// Creates an `ExpressionProtocol` value which represents the provided `expressible`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -148,7 +149,7 @@ public extension ExpressionProtocol {
 		)
 	}
 
-	/// Returns a new `ExpressionProtocol` value which catenates the provided values.
+	/// Returns an `ExpressionProtocol` value which catenates the provided values.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -196,11 +197,11 @@ public extension ExpressionProtocol {
 		Expressing.Expression == Self
 	{
 		l·h·s = Self(
-			catenating: [l·h·s, Self(r·h·s)]
+			catenating: [l·h·s, r·h·s^!]
 		)
 	}
 
-	/// Returns a new `ExpressionProtocol` value which alternates the provided values.
+	/// Returns an `ExpressionProtocol` value which alternates the provided values.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -248,7 +249,7 @@ public extension ExpressionProtocol {
 		Expressing.Expression == Self
 	{
 		l·h·s = Self(
-			alternating: [l·h·s, Self(r·h·s)]
+			alternating: [l·h·s, r·h·s^!]
 		)
 	}
 
@@ -270,7 +271,7 @@ public extension ExpressionProtocol {
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated from `l·h·s.lowerBound` up to `l·h·s.upperBound` times (inclusive).
 	@inlinable
-	static func × (
+	static func ✖️ (
 		_ l·h·s: ClosedRange<Int>,
 		_ r·h·s: Self
 	) -> Self {
@@ -278,7 +279,7 @@ public extension ExpressionProtocol {
 			catenating: l·h·s.upperBound > l·h·s.lowerBound ? Array(
 				repeating: r·h·s,
 				count: l·h·s.lowerBound
-			) + CollectionOfOne(...(l·h·s.upperBound - l·h·s.lowerBound) × r·h·s) : Array(
+			) + CollectionOfOne(...(l·h·s.upperBound - l·h·s.lowerBound) ✖️ r·h·s) : Array(
 				repeating: r·h·s,
 				count: l·h·s.lowerBound
 			)
@@ -303,11 +304,11 @@ public extension ExpressionProtocol {
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated `l·h·s` times.
 	@inlinable
-	static func × (
+	static func ✖️ (
 		_ l·h·s: Int,
 		_ r·h·s: Self
 	) -> Self
-	{ l·h·s...l·h·s × r·h·s }
+	{ l·h·s...l·h·s ✖️ r·h·s }
 
 	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `Range`.
 	///
@@ -327,11 +328,11 @@ public extension ExpressionProtocol {
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated from `l·h·s.lowerBound` up to `l·h·s.upperBound` times (exclusive).
 	@inlinable
-	static func × (
+	static func ✖️ (
 		_ l·h·s: Range<Int>,
 		_ r·h·s: Self
 	) -> Self
-	{ l·h·s.lowerBound...(l·h·s.upperBound - 1) × r·h·s }
+	{ l·h·s.lowerBound...(l·h·s.upperBound - 1) ✖️ r·h·s }
 
 	/// Returns an `ExpressionProtocol` value equivalent to the provided `ExpressionProtocol` value repeated some number of times indicated by the provided `PartialRangeUpTo` value.
 	///
@@ -351,11 +352,11 @@ public extension ExpressionProtocol {
 	///  +  Returns:
 	///     An `ExpressionProtocol` value equivalent to `r·h·s` repeated up to `l·h·s.upperBound` times (exclusive).
 	@inlinable
-	static func × (
+	static func ✖️ (
 		_ l·h·s: PartialRangeUpTo<Int>,
 		_ r·h·s: Self
 	) -> Self
-	{ ...(l·h·s.upperBound - 1) × r·h·s }
+	{ ...(l·h·s.upperBound - 1) ✖️ r·h·s }
 
 	/// Returns the provided `ExpressionProtocol` value.
 	///

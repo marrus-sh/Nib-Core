@@ -1,4 +1,5 @@
-//  #  Core :: TypedSymbol🙊  #
+//  🖋🍎 Nib Core :: Core :: TypedSymbol🙊
+//  ======================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -14,13 +15,13 @@ where
 {
 
 	public override var description: String {
-		if let 💱 = symbol🙈.id as? CustomStringConvertible {
+		if let 💱 = symbol🙈 as? CustomStringConvertible {
 			return String(
 				describing: 💱
 			)
 		} else {
 			return String(
-				reflecting: symbol🙈.id
+				reflecting: symbol🙈
 			)
 		}
 	}
