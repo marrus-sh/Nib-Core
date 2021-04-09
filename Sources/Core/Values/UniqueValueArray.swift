@@ -1,4 +1,5 @@
-//  #  Core :: UniqueValueArray  #
+//  🖋🍎 Nib Core :: Core :: UniqueValueArray
+//  =========================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -16,14 +17,14 @@
 ///     `UniqueValueArray` provides efficient access to its elements at the cost of additional memory and fewer optimizations.
 ///     If you do not need to guarantee that the values are unique, use `Array` instead.
 ///     If you do not need to preserve the insertion order of the elements, use `Set`.
-///     If you do not need to access the index of elements in constant time, simply using an `Array` and `Set` side‐by‐side may be faster.
+///     If you do not need to access the index of elements in constant time, simply using an `Array` and `Set` side-by-side may be faster.
 ///     Use `UniqueValueArray` when you need the specific features that this struct provides, or when clarity is of greater benefit than a slight boost to performance
 ///
 ///  +  SeeAlso:
 ///     Swift TSC Basic’s `OrderedSet` ([seen here](https://github.com/apple/swift-tools-support-core/blob/main/Sources/TSCBasic/OrderedSet.swift)) is more minimal and has a slower `.firstIndex(of:)`, but may be faster overall.
 ///
 ///  +  Version:
-///     0.2.0
+///     0·2.
 public struct UniqueValueArray <Element>:
 	ExpressibleByArrayLiteral,
 	RandomAccessCollection
@@ -32,25 +33,25 @@ where Element : Hashable {
 	/// The type of `Element` for array literals which may initialize this `UniqueValueArray`.
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public typealias ArrayLiteralElement = Element
 
 	/// The type of `Index` used by this `UniqueValueArray`.
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public typealias Index = Array<Element>.Index
 
 	/// The type of `Indices` used by this `UniqueValueArray`.
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public typealias Indices = Array<Element>.Indices
 
 	/// The type of `Iterator` used by this `UniqueValueArray`.
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public typealias Iterator = Array<Element>.Iterator
 
 	/// The number of elements which this `UniqueValueArray` can hold without allocating new storage, assuming all new elements have unique `.hashValue`s.
@@ -61,7 +62,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public var capacity: Int
 	{ Swift.min(storage🐵.capacity, storage🐵.count + (hashMap🙈.capacity - hashMap🙈.count)) }
 
@@ -71,7 +72,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	@inlinable
 	public var endIndex: Index
 	{ storage🐵.endIndex }
@@ -85,7 +86,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	@inlinable
 	public var isEmpty: Bool
 	{ storage🐵.isEmpty }
@@ -96,7 +97,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	@inlinable
 	public var startIndex: Index
 	{ storage🐵.startIndex }
@@ -111,7 +112,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	public init ()
 	{ hashMap🙈 = [:] }
 
@@ -123,7 +124,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  elements:
@@ -145,7 +146,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  minimumCapacity:
@@ -167,7 +168,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  sequence:
@@ -194,11 +195,11 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  index:
-	///         An `Index` less‐than `.endIndex` and greater‐than‐or‐equal‐to `.startIndex`.
+	///         An `Index` less-than `.endIndex` and greater-than-or-equal-to `.startIndex`.
 	///
 	///  +  Returns:
 	///     An `Element`.
@@ -217,7 +218,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElement:
@@ -251,7 +252,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElements:
@@ -269,7 +270,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  element:
@@ -291,7 +292,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  predicate:
@@ -316,7 +317,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  element:
@@ -343,7 +344,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -368,7 +369,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -405,7 +406,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -423,7 +424,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  i:
@@ -446,7 +447,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  i:
@@ -469,7 +470,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElement:
@@ -510,7 +511,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElements:
@@ -528,7 +529,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -557,7 +558,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -584,7 +585,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -614,7 +615,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -644,7 +645,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -666,7 +667,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -697,7 +698,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  element:
@@ -720,7 +721,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Returns:
 	///     An `Iterator` over the `Element`s of this `UniqueValueArray`.
@@ -737,7 +738,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Returns:
 	///     The `Element` which was removed, or `nil` if this `UniqueValueArray` is empty.
@@ -754,7 +755,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  element:
@@ -784,7 +785,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  index:
@@ -821,7 +822,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  keepCapacity:
@@ -843,7 +844,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  shouldBeRemoved:
@@ -867,7 +868,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Returns:
 	///     The `Element` which was removed.
@@ -887,7 +888,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  k:
@@ -904,7 +905,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Returns:
 	///     The `Element` which was removed.
@@ -924,7 +925,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  k:
@@ -941,7 +942,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  bounds:
@@ -982,7 +983,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  minimumCapacity:
@@ -1000,7 +1001,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -1019,7 +1020,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -1045,7 +1046,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -1094,7 +1095,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  other:
@@ -1140,7 +1141,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElement:
@@ -1172,7 +1173,7 @@ where Element : Hashable {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  newElements:
@@ -1196,13 +1197,13 @@ extension UniqueValueArray:
 	Equatable
 {
 
-	/// Returns whether the provided arguments have the same `Element`s, in the same order.
+	/// Returns whether the provided `UniqueValueArray`s have the same `Element`s in the same order.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -1231,7 +1232,7 @@ extension UniqueValueArray:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     0.2.0
+	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  hasher:
