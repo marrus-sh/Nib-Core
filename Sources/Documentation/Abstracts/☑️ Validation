@@ -8,8 +8,8 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
 -->
 
 Many internet standards distinguish between “welformed” and “valid” content, and in addition may require processors to handle information even when it is not welformed.
-In order to accommodate these needs, 🖋🍎 Nib Core provides two protocols: `Well·formednessConstrainable` and `Validatable`.
-The postfix operator `❓` returns `nil` if a `Well·formednessConstrainable` value is not welformed, and the postfix operator `❗️` throws an error.
+In order to accommodate these needs, 🖋🍎 Nib Core provides two protocols: `WelformednessConstrainable` and `Validatable`.
+The postfix operator `❓` returns `nil` if a `WelformednessConstrainable` value is not welformed, and the postfix operator `❗️` throws an error.
 Likewise for postfix operators `⁉️` and `‼️` for `Validatable` values which are not valid.
 In all other cases (i.e. when a value *is* welformed or valid), these operators simply return the value they were appended to.
 

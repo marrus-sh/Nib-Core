@@ -52,7 +52,7 @@ public extension Validatable {
 	///         A `Validatable` value.
 	///
 	///  +  Returns:
-	///     `operand` if valid; `nil` otherwise.
+	///     `operand` if valid; otherwise, `nil`.
 	static postfix func ⁉️ (
 		_ operand: Self
 	) -> Self?

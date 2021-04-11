@@ -1,4 +1,4 @@
-//  🖋🍎 Nib Core :: Core :: ☑️ Well·formednessConstrainable
+//  🖋🍎 Nib Core :: Core :: ☑️ WelformednessConstrainable
 //  ========================================================
 //
 //  Copyright © 2021 kibigo!
@@ -7,31 +7,29 @@
 
 /// A value which can be welformed (or, more specifically, not).
 ///
-/// The name of this type is `Well·formednessConstrainable` because the X·M·L specification spells it ‹ well‐formed ›.
-///
 /// Conformance
 /// -----------
 ///
-/// To conform to the `Well·formednessConstrainable` protocol, a type must implement the `❗️` postfix operator.
+/// To conform to the `WelformednessConstrainable` protocol, a type must implement the `❗️` postfix operator.
 ///
 ///  +  Version:
 ///     0·1.
-public protocol Well·formednessConstrainable {
+public protocol WelformednessConstrainable {
 
-	/// Throws if the provided `Well·formednessConstrainable` value is not welformed; otherwise returns the same value.
+	/// Throws if the provided `WelformednessConstrainable` value is not welformed; otherwise returns the same value.
 	///
 	///  +  Version:
 	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         A `Well·formednessConstrainable` value.
+	///         A `WelformednessConstrainable` value.
 	///
 	///  +  Returns:
 	///     `operand`.
 	///
 	///  +  Throws:
-	///     An `Error`, if this `Well·formednessConstrainable` value is not welformed.
+	///     An `Error`, if this `WelformednessConstrainable` value is not welformed.
 	@discardableResult
 	static postfix func ❗️ (
 		_ operand: Self
@@ -39,9 +37,9 @@ public protocol Well·formednessConstrainable {
 
 }
 
-public extension Well·formednessConstrainable {
+public extension WelformednessConstrainable {
 
-	/// Returns `nil` if the provided `Well·formednessConstrainable` value is not welformed; otherwise returns the same value.
+	/// Returns `nil` if the provided `WelformednessConstrainable` value is not welformed; otherwise returns the same value.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -51,10 +49,10 @@ public extension Well·formednessConstrainable {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         A `Well·formednessConstrainable` value.
+	///         A `WelformednessConstrainable` value.
 	///
 	///  +  Returns:
-	///     `operand` if welformed; `nil` otherwise.
+	///     `operand` if welformed; otherwise, `nil`.
 	static postfix func ❓ (
 		_ operand: Self
 	) -> Self?
