@@ -15,7 +15,7 @@ A regular expression, as it is commonly conceived, has the following properties:
 
 —:all of which produce a new, meaningful regular expression.
 
-In 🖋🍎 Nib Core, these properties make up the requirements of the aptly‐named `ExpressionProtocol`.
+In 🖋🍎 Nib Core, these properties make up the requirements of the aptly-named `ExpressionProtocol`.
 `ExpressionProtocol` types must implement the following:—
 
  +  `.init(alternating:...)`, to produce a new expression which alternates its arguments.
@@ -46,5 +46,5 @@ For example:—
 The compactness of this D·S·L makes it very easy to write expressions which are more complex than Swift can typecheck in reasonable time.
 The `&=`, `|=`, and `÷=` operators are provided to make it easier to break up expressions over multiple lines.
 
-Nib makes *no* guarantees about the semantics or results of operations on types conforming to `ExpressionProtocol`; it is up to the type implementation to determine exactly what is meant by such things as “alternation”, “catenation”, “repetition”, or “exclusion” and what kinds of expressions result from these operations.
+🖋🍎 Nib Core makes *no* guarantees about the semantics or results of operations on types conforming to `ExpressionProtocol`; it is up to the type implementation to determine exactly what is meant by such things as “alternation”, “catenation”, “repetition”, or “exclusion” and what kinds of expressions result from these operations.
 Conforming to `ExpressionProtocol` simply indicates that values of a type may be constructed using the D·S·L as above.

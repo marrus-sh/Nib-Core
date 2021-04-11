@@ -15,7 +15,7 @@
 ///  +  `ExpressionProtocol.init(alternating:)`
 ///  +  `ExpressionProtocol.init(catenating:)`
 ///
-/// —:as well as the `✖️` infix operator with a lefthand‐side operand of both `PartialRangeFrom<Int>` and `PartialRangeThrough<Int>`.
+/// —:as well as the `✖️` infix operator with a lefthandside operand of both `PartialRangeFrom<Int>` and `PartialRangeThrough<Int>`.
 /// `ExpressionProtocol`s must declare an `Expression` type of themselves.
 ///
 ///  +  Version:
