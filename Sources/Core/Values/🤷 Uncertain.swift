@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: Uncertain
-//  ==================================
+//  🖋🍎 Nib Core :: Core :: 🤷 Uncertain
+//  =====================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -10,7 +10,7 @@
 /// `Uncertain` exists to distinguish between value *uncertainty* and known value *absence* (which should be represented with `Optional`).
 /// `Uncertain` may be used to wrap `Optional` when a value may be known to be absent (represented as `.known(nil)`).
 ///
-/// The `.known` property on `Uncertain` *values* may be used to convert the `Uncertain` into an `Optional`, e.g. to use with `Optional` chaining.
+/// The `.·knownValue·` property on `Uncertain` values may be used to convert the `Uncertain` into an `Optional`, e.g. to use with `Optional` chaining.
 ///
 /// Credit to [@hisekaldma on Swift Forums](https://forums.swift.org/t/three-way-optionals-distinguishing-unknown-and-absent-values/45423/13) for helping to solidify the ideas around this approach.
 ///
@@ -38,59 +38,13 @@ public enum Uncertain <Wrapped> {
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var known: Wrapped? {
-		if case .known (let 🆒) = self
+	public var ·knownValue·: Wrapped? {
+		if case .known (
+			let 🆒
+		) = self
 		{ return 🆒 }
 		else
 		{ return nil }
-	}
-
-	/// Returns `.unknown` if this `Uncertain` value is `.unknown`; otherwise, returns the result of evaluating the provided `transform` with the `Wrapped` value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     0·2.
-	///
-	///  +  Parameters:
-	///      +  transform:
-	///         A closure mapping a `Wrapped` value to a new `Uncertain` value.
-	///
-	///  +  Returns:
-	///     `.unknown` if this `Uncertain` value is `.unknown`; the result of evaluating the provided `transform` with the `Wrapped` value otherwise.
-	@inlinable
-	public func flatMap <U> (
-		_ transform: (Wrapped) throws -> Uncertain<U>
-	) rethrows -> Uncertain<U> {
-		if case .known (let 🆒) = self
-		{ return try transform(🆒) }
-		else
-		{ return .unknown }
-	}
-
-	/// Returns `.unknown` if this `Uncertain` value is `.unknown`; otherwise, returns a `.known` wrapping the result of evaluating the provided `transform` with the `Wrapped` value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     0·2.
-	///
-	///  +  Parameters:
-	///      +  transform:
-	///         A closure mapping a `Wrapped` value to a new `Wrapped` value.
-	///
-	///  +  Returns:
-	///     `.unknown` if this `Uncertain` value is `.unknown`; a `.known` value wrapping the result of evaluating the provided `transform` with the `Wrapped` value otherwise.
-	@inlinable
-	public func map <U> (
-		_ transform: (Wrapped) throws -> U
-	) rethrows -> Uncertain<U> {
-		if case .known (let 🆒) = self
-		{ return try .known(transform(🆒)) }
-		else
-		{ return .unknown }
 	}
 
 	/// Creates a `Wrapped` value wrapping an owned `Deed` which wraps the provided `value`.
@@ -109,7 +63,7 @@ public enum Uncertain <Wrapped> {
 	///     A `.known` value wrapping an owned `Deed` which wraps `value`.
 	public static func known <Object> (
 		_ value: Object
-	) -> Uncertain
+	) -> Uncertain<Wrapped>
 	where
 		Object : AnyObject,
 		Wrapped == Deed<Object>
@@ -131,7 +85,7 @@ public enum Uncertain <Wrapped> {
 	///     A `.known` value wrapping an unowned `Deed` which wraps `value`.
 	public static func known <Object> (
 		unowned value: Object
-	) -> Uncertain
+	) -> Uncertain<Wrapped>
 	where
 		Object : AnyObject,
 		Wrapped == Deed<Object>
@@ -141,6 +95,64 @@ public enum Uncertain <Wrapped> {
 				unowned: value
 			)
 		)
+	}
+
+	/// Returns `.unknown` if the provided `Uncertain` value is `.unknown`; otherwise, returns a `.known` wrapping the result of evaluating the provided closure with the `Wrapped` value.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `Uncertain` value.
+	///      +  r·h·s:
+	///         A closure mapping a `Wrapped` value of `l·h·s` to some new value.
+	///
+	///  +  Returns:
+	///     `.unknown` if `l·h·s` is `.unknown`; otherwise, a `.known` value wrapping the result of evaluating `r·h·s` with the `Wrapped` value.
+	@inlinable
+	public static func ?-> <Mapped> (
+		_ l·h·s: Uncertain<Wrapped>,
+		_ r·h·s: (Wrapped) throws -> Mapped
+	) rethrows -> Uncertain<Mapped> {
+		if case .known (
+			let 🆒
+		) = l·h·s
+		{ return try .known(r·h·s(🆒)) }
+		else
+		{ return .unknown }
+	}
+
+	/// Returns `.unknown` if the provided `Uncertain` value is `.unknown`; otherwise, returns the result of evaluating the provided closure with the `Wrapped` value.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `Uncertain` value.
+	///      +  r·h·s:
+	///         A closure mapping a `Wrapped` value of `l·h·s` to some new `Uncertain` value.
+	///
+	///  +  Returns:
+	///     `.unknown` if `l·h·s` is `.unknown`; otherwise, the result of evaluating the provided `r·h·s` with the `Wrapped` value.
+	@inlinable
+	public static func ?-> <Mapped> (
+		_ l·h·s: Uncertain<Wrapped>,
+		_ r·h·s: (Wrapped) throws -> Uncertain<Mapped>
+	) rethrows -> Uncertain<Mapped> {
+		if case .known (
+			let 🆒
+		) = l·h·s
+		{ return try r·h·s(🆒) }
+		else
+		{ return .unknown }
 	}
 
 	/// Returns the first provided `Uncertain` value if it is `.known`, or the second if it is not.
@@ -161,10 +173,12 @@ public enum Uncertain <Wrapped> {
 	///     `l·h·s` if it is `.known`; the result of evaluating `r·h·s` otherwise.
 	@inlinable
 	public static func ?? (
-		_ l·h·s: Uncertain,
-		_ r·h·s: @autoclosure () throws -> Uncertain
-	) rethrows -> Uncertain {
-		if case .known (let 🆒) = l·h·s
+		_ l·h·s: Uncertain<Wrapped>,
+		_ r·h·s: @autoclosure () throws -> Uncertain<Wrapped>
+	) rethrows -> Uncertain<Wrapped> {
+		if case .known (
+			let 🆒
+		) = l·h·s
 		{ return .known(🆒) }
 		else
 		{ return try r·h·s() }
@@ -188,10 +202,12 @@ public enum Uncertain <Wrapped> {
 	///     The `Wrapped` value wrapped by `l·h·s` if it is `.known`; the result of evaluating `r·h·s` otherwise.
 	@inlinable
 	public static func ?? (
-		_ l·h·s: Uncertain,
+		_ l·h·s: Uncertain<Wrapped>,
 		_ r·h·s: @autoclosure () throws -> Wrapped
 	) rethrows -> Wrapped {
-		if case .known (let 🆒) = l·h·s
+		if case .known (
+			let 🆒
+		) = l·h·s
 		{ return 🆒 }
 		else
 		{ return try r·h·s() }
@@ -215,12 +231,14 @@ public enum Uncertain <Wrapped> {
 	///     The `Inner` value wrapped by `l·h·s` if it is `.known` and not `nil`; the result of evaluating `r·h·s` otherwise.
 	@inlinable
 	public static func ?? <Inner> (
-		_ l·h·s: Uncertain,
+		_ l·h·s: Uncertain<Wrapped>,
 		_ r·h·s: @autoclosure () throws -> Inner
 	) rethrows -> Inner
 	where Wrapped == Optional<Inner> {
 		if
-			case .known (let 💱) = l·h·s,
+			case .known (
+				let 💱
+			) = l·h·s,
 			let 🆒 = 💱
 		{ return 🆒 }
 		else
@@ -517,7 +535,7 @@ extension Uncertain:
 	ExpressibleByUnicodeScalarLiteral
 where Wrapped : ExpressibleByUnicodeScalarLiteral {
 
-	/// The unicode scalar type used to initialize this `Uncertain` value.
+	/// The Unicode scalar type used to initialize this `Uncertain` value.
 	public typealias UnicodeScalarLiteralType = Wrapped.UnicodeScalarLiteralType
 
 	/// Creates an `Uncertain` value from the provided `value`.

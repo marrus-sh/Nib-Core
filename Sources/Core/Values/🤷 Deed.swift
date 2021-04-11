@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: Deed
-//  =============================
+//  🖋🍎 Nib Core :: Core :: 🤷 Deed
+//  ================================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -15,24 +15,24 @@
 public struct Deed <Object>
 where Object : AnyObject {
 
-	/// Whether this `Deed` references its `.value` via an owned reference.
+	/// Whether this `Deed` references its `.·value·` via an owned reference.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
 	///     0·2.
-	public var isOwned: Bool
-	{ ownedValue🙈 != nil }
+	public var ·isOwned·: Bool
+	{ ·ownedValue🙈· != nil }
 
 	/// An owned reference to a value.
-	private var ownedValue🙈: Object? = nil
+	private var ·ownedValue🙈·: Object? = nil
 
 	/// An unowned reference to a value.
 	///
 	///  +  Note:
-	///     It is a runtime error if both `ownedValue🙈` and `unownedValue🙈` are `nil`.
-	private unowned var unownedValue🙈: Object!
+	///     It is a runtime error if both `·ownedValue🙈·` and `·unownedValue🙈·` are `nil`.
+	private unowned var ·unownedValue🙈·: Object!
 
 	/// The `Object` referenced by this `Deed`.
 	///
@@ -41,8 +41,8 @@ where Object : AnyObject {
 	///
 	///  +  Version:
 	///     0·2.
-	public var value: Object
-	{ ownedValue🙈 ?? unownedValue🙈 }
+	public var ·value·: Object
+	{ ·ownedValue🙈· ?? ·unownedValue🙈· }
 
 	/// Creates a `Deed` with an owned reference to the provided `value`.
 	///
@@ -57,7 +57,7 @@ where Object : AnyObject {
 	///         An `Object`.
 	public init (
 		_ value: Object
-	) { self.ownedValue🙈 = value }
+	) { ·ownedValue🙈· = value }
 
 	/// Creates a `Deed` with an unowned reference to the provided `value`.
 	///
@@ -72,33 +72,33 @@ where Object : AnyObject {
 	///         An `Object`.
 	public init (
 		unowned value: Object
-	) { self.unownedValue🙈 = value }
+	) { ·unownedValue🙈· = value }
 
-	/// Releases the reference to this `Deed`’s `.value`, making it unowned.
+	/// Releases the reference to this `Deed`’s `.·value·`, making it unowned.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
 	///     0·2.
-	public mutating func release () {
-		if isOwned {
-			unownedValue🙈 = ownedValue🙈
-			ownedValue🙈 = nil
+	public mutating func ·release· () {
+		if ·isOwned· {
+			·unownedValue🙈· = ·ownedValue🙈·
+			·ownedValue🙈· = nil
 		}
 	}
 
-	/// Seizes the reference to this `Deed`’s `.value`, making it owned.
+	/// Seizes the reference to this `Deed`’s `.·value·`, making it owned.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
 	///     0·2.
-	public mutating func seize () {
-		if !isOwned {
-			ownedValue🙈 = unownedValue🙈
-			unownedValue🙈 = nil
+	public mutating func ·seize· () {
+		if !·isOwned· {
+			·ownedValue🙈· = ·unownedValue🙈·
+			·unownedValue🙈· = nil
 		}
 	}
 

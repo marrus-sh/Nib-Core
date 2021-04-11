@@ -11,6 +11,12 @@
 ///     0·2.
 infix operator ...~=: ComparisonPrecedence
 
+/// Optional·map.
+///
+///  +  Version:
+///     0·2.
+infix operator ?->: CastingPrecedence
+
 /// Exclusion.
 ///
 ///  +  Version:
