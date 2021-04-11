@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Extends `Substring` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `Substring.UnicodeScalarView`.
+/// Extends `Substring` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `SubstringLiteral`.
 ///
 ///  +  Version:
 ///     0·2.
@@ -17,7 +17,7 @@ extension Swift.Substring:
 	///
 	///  +  Version:
 	///     0·2.
-	public typealias Text = UnicodeScalarView
+	public typealias Text = SubstringLiteral
 
 	/// This `Substring`, as `Text`.
 	///
@@ -29,7 +29,7 @@ extension Swift.Substring:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var text: Text {
+	public var ·text·: Text {
 		get { unicodeScalars }
 		set { self = Substring(newValue) }
 	}

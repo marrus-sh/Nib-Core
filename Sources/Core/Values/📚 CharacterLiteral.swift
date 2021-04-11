@@ -1,31 +1,35 @@
-//  #  Core :: Swift.CollectionOfOne  #
+//  🖋🍎 Nib Core :: Core :: 📚 CharacterLiteral
+//  ============================================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Extends `CollectionOfOne` to conform to `TextProtocol` when its wrapped `Element` is a `Unicode.Scalar`.
+/// A `TextProtocol` value consisting of a single Unicode scalar value.
+public typealias CharacterLiteral = CollectionOfOne<U·C·S·Character>
+
+/// Extends `Code·pointLiteral` to conform to `TextProtocol`.
 ///
-/// `CollectionOfOne<Unicode.Scalar>`s can consequently be used as a singleton `TextProtocol` values, for example as the `Text`s of `Unicode.Scalar`s themselves.
+/// `CharacterLiteral`s can consequently be used as a singleton `TextProtocol` values, for example as the `Text`s of `U·C·S·Character`s themselves.
 ///
 ///  +  Version:
 ///     0·2.
-extension Swift.CollectionOfOne:
+extension CharacterLiteral:
 	CustomTextConvertible,
 	LosslessTextConvertible,
 	TextOutputStreamable,
 	TextProtocol
-where Element == Unicode.Scalar {
+{
 
-	/// The `TextProtocol` type associated with this `CollectionOfOne`.
+	/// The `TextProtocol` type associated with this `CharacterLiteral`.
 	///
-	/// This is simply the `CollectionOfOne` type itself.
+	/// This is simply the `CharacterLiteral` type itself.
 	///
 	///  +  Version:
 	///     0·2.
-	public typealias Text = CollectionOfOne<Unicode.Scalar>
+	public typealias Text = CharacterLiteral
 
-	/// Creates a new `CollectionOfOne` from the provided `text`, if possible.
+	/// Creates a new `CharacterLiteral` from the provided `text`, if possible.
 	///
 	/// This initializer will fail if `text` does not have a `.first` `Element`, or if `.isEmpty` is not `true` for `text.dropFirst()` (i.e., if `text` has a number `Element`s not equal to 1).
 	///
@@ -37,7 +41,7 @@ where Element == Unicode.Scalar {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `TextProtocol` value represeting the `CollectionOfOne` to create.
+	///         A `TextProtocol` value represeting the `CharacterLiteral` to create.
 	@inlinable
 	public init? <OtherText> (
 		_ text: OtherText

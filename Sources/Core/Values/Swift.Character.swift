@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Extends `Character` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `Character.UnicodeScalarView`.
+/// Extends `Character` to conform to `LosslessTextConvertible` with a `TextProtocol` type of `StringLiteral`.
 ///
 ///  +  Version:
 ///     0·2.
@@ -17,7 +17,7 @@ extension Swift.Character:
 	///
 	///  +  Version:
 	///     0·2.
-	public typealias Text = UnicodeScalarView
+	public typealias Text = StringLiteral
 
 	/// This `Character`, as `Text`.
 	///
@@ -29,7 +29,7 @@ extension Swift.Character:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var text: Text
+	public var ·text·: Text
 	{ unicodeScalars }
 
 	/// Creates a new `Character` from the provided `text`, if the provided `text` contains only a single `Character`.

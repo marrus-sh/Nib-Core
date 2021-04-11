@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A `Collection` of `Literal.Element`s which can be interpreted as [text](http://www.w3.org/TR/xml11#dt-text).
+/// A `Collection` of `Codepoint`s which can be interpreted as [text](http://www.w3.org/TR/xml11#dt-text).
 ///
 /// Conformance
 /// -----------
@@ -19,7 +19,7 @@ public protocol TextProtocol:
 	LosslessTextConvertible,
 	TextOutputStreamable
 where
-	Element == Literal.Element,
+	Element == U·C·S·Character,
 	Text == Self
 {
 
@@ -27,7 +27,7 @@ where
 	///
 	///  +  Version:
 	///     0·2.
-	var text: Text
+	var ·text·: Text
 	{ get set }
 
 	/// Attempts to create a new `TextProtocol` value from an existing `text`.
@@ -54,7 +54,7 @@ public extension TextProtocol {
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	var text: Text {
+	var ·text·: Text {
 		get
 		{ self }
 		set
@@ -92,7 +92,7 @@ public extension TextProtocol {
 	func write <Target> (
 		to target: inout Target
 	) where Target : TextOutputStream {
-		Substring(Literal.SubSequence(self)).write(
+		Substring(SubstringLiteral(self)).write(
 			to: &target
 		)
 	}

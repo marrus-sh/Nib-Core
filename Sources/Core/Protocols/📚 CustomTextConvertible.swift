@@ -5,19 +5,19 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be converted to a `Collection` of zero or more `Literal.Element`s, not necessarily losslessly.
+/// A type which can be converted to a `Collection` of zero or more `Codepoint`s, not necessarily losslessly.
 ///
 /// Conformance
 /// -----------
 ///
-/// To conform to the `CustomTextConvertible` protocol, a type must implement the `CustomTextConvertible.text` property, providing a value’s `TextProtocol` equivalent.
+/// To conform to the `CustomTextConvertible` protocol, a type must implement the `.·text·` property, providing a value’s `TextProtocol` equivalent.
 ///
 ///  +  Version:
 ///     0·2.
 public protocol CustomTextConvertible
 where Text : TextProtocol {
 
-	/// A `Collection` of zero or more `Unicode.Scalar`s which conforms to `TextProtocol`, which this `CustomTextConvertible` can be converted to.
+	/// A `Collection` of zero or more `Codepoint`s which conforms to `TextProtocol`, which this `CustomTextConvertible` can be converted to.
 	///
 	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-text>.
 	///
@@ -29,7 +29,7 @@ where Text : TextProtocol {
 	///
 	///  +  Version:
 	///     0·2.
-	var text: Text { get }
+	var ·text·: Text { get }
 
 }
 
@@ -45,6 +45,6 @@ where Self : CustomStringConvertible {
 	///     0·2.
 	@inlinable
 	var description: String
-	{ String(Literal(text)) }
+	{ String(StringLiteral(·text·)) }
 
 }
