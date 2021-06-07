@@ -30,8 +30,206 @@ where Atom : Atomic {
 	///     0·2.
 	public typealias Expression = ExcludingExpression<Atom>
 
-	/// The `Fragment🙊` which represents this value.
-	private let fragment🙈: Fragment🙊<Atom>
+	/// A fragment of an `ExcludingExpression`, representing a single operation.
+	fileprivate enum Fragment🙉 {
+
+		/// A tuple of a start `State🙊` and a `Set` of `States🙊` which have not yet had all their paths connected.
+		private typealias WorkingState🙈 = (
+			start: State🙊,
+			open: Set<State🙊>
+		)
+
+		/// A reference to a nonterminal value.
+		case nonterminal (
+			Symbol🙊<Atom>
+		)
+
+		/// A reference to a terminal value.
+		case terminal (
+			Atom
+		)
+
+		/// A fragment which never matches.
+		case never
+
+		/// A catenation of zero or more fragments.
+		indirect case catenation (
+			[Fragment🙉]
+		)
+
+		/// An alternation of zero or more fragments.
+		indirect case alternation (
+			[Fragment🙉]
+		)
+
+		/// An exclusion of a second fragment from a first.
+		indirect case exclusion (
+			Fragment🙉,
+			Fragment🙉
+		)
+
+		/// Zero or one of a fragment.
+		indirect case zeroOrOne (
+			Fragment🙉
+		)
+
+		/// Zero or more of a fragment.
+		indirect case zeroOrMore (
+			Fragment🙉
+		)
+
+		/// One or more of a fragment.
+		indirect case oneOrMore (
+			Fragment🙉
+		)
+
+		/// A `WorkingState🙊` which represents this `Fragment🙈`.
+		///
+		///  +  Note:
+		///     This creates a new `WorkingState🙊` every time.
+		private var open🙈: (
+			start: State🙊,
+			open: Set<State🙊>
+		) {
+			switch self {
+			case .terminal(
+				let 🔙
+			):
+				let 🆕 = AtomicState🙊(🔙)
+				return (
+					start: 🆕,
+					open: [🆕]
+				)
+			case .catenation (
+				let 🔙
+			):
+				guard let 🔝 = 🔙.first?.open🙈
+				else {
+					return (
+						start: .match,
+						open: []
+					)
+				}
+				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
+					//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
+					return Fragment🙉.patch🙈(
+						🔜,
+						forward: 🈁.open🙈
+					)
+				}
+			case .alternation (
+				let 🔙
+			):
+				guard let 🔝 = 🔙.first?.open🙈
+				else {
+					return (
+						start: .match,
+						open: []
+					)
+				}
+				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
+					//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
+					let 🆕 = OptionState🙊<Atom>()
+					let 🆙 = 🈁.open🙈
+					🆕.forward = 🔜.start
+					🆕.alternate = 🆙.start
+					return (
+						start: 🆕,
+						open: 🔜.open.union(🆙.open)
+					)
+				}
+			case .zeroOrOne (
+				let 🔙
+			):
+				let 🆕 = OptionState🙊<Atom>()
+				let 🆙 = 🔙.open🙈
+				🆕.forward = 🆙.start
+				return (
+					start: 🆕,
+					open: Set([🆕]).union(🆙.open)
+				)
+			case .zeroOrMore (
+				let 🔙
+			):
+				let 🆕 = OptionState🙊<Atom>()
+				let 🆙 = 🔙.open🙈
+				🆕.forward = Fragment🙉.patch🙈(
+					🆙,
+					forward: (
+						start: 🆕,
+						open: []
+					)
+				).start
+				return (
+					start: 🆕,
+					open: [🆕]
+				)
+			case .oneOrMore (
+				let 🔙
+			):
+				let 🆕 = OptionState🙊<Atom>()
+				let 🆙 = 🔙.open🙈
+				🆕.alternate = 🆙.start
+				return Fragment🙉.patch🙈(
+					🆙,
+					forward: (
+						start: 🆕,
+						open: [🆕]
+					)
+				)
+			default:
+				return (
+					start: .never,
+					open: []
+				)
+			}
+		}
+
+		/// The start `State🙊` from which to process this `Fragment🙉`.
+		///
+		///  +  Note:
+		///     This returns a new `State🙊` every time.
+		var start: State🙊
+		{ open🙈.start }
+
+		/// Patches `fragment` so that all of its `.open` `States🙈` point to the `.start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
+		///
+		///  +  Authors:
+		///     [kibigo!](https://go.KIBI.family/About/#me).
+		///
+		///  +  Parameters:
+		///      +  fragment:
+		///         A `WorkingState🙈`.
+		///      +  forward:
+		///         A `WorkingState🙈`.
+		///
+		///  +  Returns:
+		///     A `WorkingState🙈`.
+		private static func patch🙈 (
+			_ fragment: WorkingState🙈,
+			forward: WorkingState🙈
+		) -> WorkingState🙈 {
+			for 🈁 in fragment.open {
+				if let 🔙 = 🈁 as? OptionState🙊<Atom> {
+					if 🔙.forward == nil
+					{ 🔙.forward = forward.start }
+					if 🔙.alternate == nil
+					{ 🔙.alternate = forward.start }
+				} else if let 🔙 = 🈁 as? OpenState🙊<Atom> {
+					if 🔙.forward == nil
+					{ 🔙.forward = forward.start }
+				}
+			}
+			return (
+				start: fragment.start,
+				open: forward.open
+			)
+		}
+
+	}
+
+	/// The `Fragment🙉` which represents this value.
+	private let fragment🙈: Fragment🙉
 
 	/// Creates a new `ExcludingExpression` from the provided `atom`.
 	///
@@ -162,9 +360,9 @@ where Atom : Atomic {
 	///
 	///  +  Parameters:
 	///      +  fragment:
-	///         A `Fragment🙊` which has the same `Atom` type as this `ExcludingExpression` type.
-	internal init (
-		🙈 fragment: Fragment🙊<Atom>
+	///         A `Fragment🙉`.
+	private init (
+		🙈 fragment: Fragment🙉
 	) { fragment🙈 = fragment }
 
 	/// Creates a new `ExcludingExpression` value which excludes the provided `exclusion` from the provided `match`.
@@ -455,5 +653,21 @@ where Atom : Equatable {}
 ///  +  Version:
 ///     0·2.
 extension ExcludingExpression:
+	Hashable
+where Atom : Hashable {}
+
+/// Extends `ExcludingExpression.Fragment🙉` to conform to `Equatable` when its `Atom` type is `Equatable`.
+///
+///  +  Version:
+///     0·2.
+extension ExcludingExpression.Fragment🙉:
+	Equatable
+where Atom : Equatable {}
+
+/// Extends `ExcludingExpression.Fragment🙉` to conform to `Hashable` when its `Atom` type is `Hashable`.
+///
+///  +  Version:
+///     0·2.
+extension ExcludingExpression.Fragment🙉:
 	Hashable
 where Atom : Hashable {}
