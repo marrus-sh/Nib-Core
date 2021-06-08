@@ -64,8 +64,10 @@ where
 	}
 
 	mutating func ·consume· (
-		_ element: Atom.SourceElement,
-		at index: Index
+		_ indexedElement: (
+			offset: Index,
+			element: Atom.SourceElement
+		)
 	) {
 		(
 			next: ·next🙈·,
@@ -81,27 +83,34 @@ where
 				let 🆗: Bool
 				let 🔙: [PathComponent]?
 				if ·remembersPathComponents· {
-					var 〽️ = ·paths🙈·[
-						🈁,
-						default: []
-					] ?? []
+					var 〽️ = ·paths🙈·[🈁]!!
 					🆗 = 💱.·consumes·(
-						element,
+						indexedElement,
 						into: &〽️
 					)
 					🔙 = 〽️
 				} else {
-					🆗 = 💱.·consumes·(element)
+					🆗 = 💱.·consumes·(indexedElement.element)
 					🔙 = nil
 				}
 				if 🆗 {
 					for 🆕 in 💱.·next·
 					where 🔜.paths[🆕] == nil {
 						🔜.next.append(🆕)
-						🔜.paths.updateValue(
-							🔙,
-							forKey: 🆕
-						)
+						if
+							🆕 === State🙊.·match·,
+							let 🆒 = 🔙
+						{
+							🔜.paths.updateValue(
+								🆒 + CollectionOfOne(.·match·),
+								forKey: 🆕
+							)
+						} else {
+							🔜.paths.updateValue(
+								🔙,
+								forKey: 🆕
+							)
+						}
 					}
 				}
 			}

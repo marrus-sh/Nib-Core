@@ -66,7 +66,7 @@ where
 	) -> Bool
 	{ false }
 
-	/// Returns whether this `OpenState🙊` does consume the provided `element`.
+	/// Returns whether this `OpenState🙊` does consume the provided `element`, accumulating into the provided `result`.
 	///
 	/// This is a default implementation which always returns `false`.
 	///
@@ -75,20 +75,19 @@ where
 	///
 	///  +  Parameters:
 	///      +  element:
-	///         A `SourceElement` of this `OpenState🙊`’s `Atom` type.
+	///         A tuple whose `.offset` is an `Index` and whose `.element` is a `SourceElement` of this `OpenState🙊`’s `Atom` type.
 	///      +  result:
-	///         An `Array` of `Parser🙊.PathComponent`s into which the result should be collected, or `nil`.
+	///         An `Array` of `Parser🙊.PathComponent`s into which the result should be collected.
 	///
 	///  +  Returns:
 	///     `true` if this `OpenState🙊` does consume the provided `element`; `false` otherwise.
 	func ·consumes· (
-		_ element: Atom.SourceElement,
+		_ indexedElement: (
+			offset: Index,
+			element: Atom.SourceElement
+		),
 		into result: inout [Parser🙊<Atom, Index>.PathComponent]
-	) -> Bool {
-		if ·consumes·(element) {
-			return true
-		} else
-		{ return false }
-	}
+	) -> Bool
+	{ ·consumes·(indexedElement.element) }
 
 }

@@ -456,13 +456,10 @@ where Atom : Atomic {
 			expectingResult: false
 		)
 		var 🆗: Index?
-		for (ℹ️, 🆙) in sequence {
+		for 🆙 in sequence {
 			if !don·tCheckPartialMatches && 〽️.·matches·
-			{ 🆗 = ℹ️ }
-			〽️.·consume·(
-				🆙,
-				at: ℹ️
-			)
+			{ 🆗 = 🆙.offset }
+			〽️.·consume·(🆙)
 			if 〽️.·done·
 			{ break }
 		}
