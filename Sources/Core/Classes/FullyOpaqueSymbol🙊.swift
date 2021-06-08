@@ -9,7 +9,7 @@
 /// A wrapper for a `Symbolic` value with all type information erased.
 ///
 /// `FullyOpaqueSymbol🙊`s abstract away the typing information of `Symbol🙊`s to allow them to be collected together in a single cache.
-/// This is used to enable the `getSymbol(for:)` function to always return the same `Symbol🙊` instance for the same argument, preventing needless memory usage in expressions with large numbers of symbols.
+/// This is used to enable the `·getSymbol·(for:)` function to always return the same `Symbol🙊` instance for the same argument, preventing needless memory usage in expressions with large numbers of symbols.
 internal class FullyOpaqueSymbol🙊:
 	CustomStringConvertible,
 	Hashable
@@ -41,7 +41,7 @@ internal class FullyOpaqueSymbol🙊:
 	/// A set of already‐minted `FullyOpaqueSymbol🙊`s.
 	///
 	/// This will exist for the lifetime of the program, but this is acceptable considering that `Symbolic` types are typically finite in number, and used in finite contexts (expressions).
-	private static var cache🙈: Set<FullyOpaqueSymbol🙊> = []
+	private static var ·cache🙈·: Set<FullyOpaqueSymbol🙊> = []
 
 	/// Returns a `TypedSymbol🙊` which wraps the given `symbol`.
 	///
@@ -56,7 +56,7 @@ internal class FullyOpaqueSymbol🙊:
 	///
 	///  +  Returns:
 	///     A `TypedSymbol🙊` wrapping the given `symbol`.
-	static func getSymbol <Symbol> (
+	static func ·getSymbol· <Symbol> (
 		for symbol: Symbol
 	) -> TypedSymbol🙊<Symbol>
 	where
@@ -65,13 +65,13 @@ internal class FullyOpaqueSymbol🙊:
 		Symbol.Expression.Exclusion == ExcludingExpression<Symbol.Atom>
 	{
 		let 🆕 = TypedSymbol🙊<Symbol>(symbol)
-		let 🔙 = cache🙈.insert(🆕)
+		let 🔙 = ·cache🙈·.insert(🆕)
 		if 🔙.inserted
 		{ return 🆕 }
 		else if let 🔜 = 🔙.memberAfterInsert as? TypedSymbol🙊<Symbol>
 		{ return 🔜 }
 		else {
-			cache🙈.update(
+			·cache🙈·.update(
 				with: 🆕
 			)
 			return 🆕
@@ -117,7 +117,7 @@ internal class FullyOpaqueSymbol🙊:
 	///
 	///  +  Returns:
 	///     `true` if the arguments represent the same `Symbolic` value; `false` otherwise.
-	class func areEqual (
+	class func ·areEqual· (
 		_ l·h·s: FullyOpaqueSymbol🙊,
 		_ r·h·s: FullyOpaqueSymbol🙊
 	) -> Bool {
@@ -130,7 +130,7 @@ internal class FullyOpaqueSymbol🙊:
 
 	/// Returns whether the operands represent the same `Symbolic` value.
 	///
-	/// This function calls the `.areEqual(_:_:)` class method of the dynamic type of the lefthand operand.
+	/// This function calls the `.·areEqual·(_:_:)` class method of the dynamic type of the lefthand operand.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -149,7 +149,7 @@ internal class FullyOpaqueSymbol🙊:
 	) -> Bool {
 		type(
 			of: l·h·s
-		).areEqual(l·h·s, r·h·s)
+		).·areEqual·(l·h·s, r·h·s)
 	}
 
 }

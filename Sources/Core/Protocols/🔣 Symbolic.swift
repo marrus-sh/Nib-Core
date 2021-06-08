@@ -27,7 +27,7 @@ where Atom : Atomic {
 	///
 	///  +  Version:
 	///     0·2.
-	var expression: Expression
+	var ·expression·: Expression
 	{ get }
 
 }

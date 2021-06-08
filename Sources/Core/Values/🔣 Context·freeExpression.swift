@@ -27,7 +27,7 @@ where Atom : Atomic {
 	public typealias Expression = Context·freeExpression<Atom>
 
 	/// The `Exclusion` which represents this value.
-	private let excludableExpression🙈: Exclusion
+	private let ·excludableExpression🙈·: Exclusion
 
 	/// Creates a new `Context·freeExpression` from the provided `atom`.
 	///
@@ -42,7 +42,7 @@ where Atom : Atomic {
 	///         An `Atom`.
 	public init (
 		_ atom: Atom
-	) { excludableExpression🙈 = Exclusion(atom) }
+	) { ·excludableExpression🙈· = Exclusion(atom) }
 
 	/// Creates a new `Context·freeExpression` from the provided `regex`.
 	///
@@ -57,7 +57,7 @@ where Atom : Atomic {
 	///         An `RegularExpression` value which has the same `Atom` type as this `Context·freeExpression` type.
 	public init (
 		_ regex: RegularExpression<Atom>
-	) { excludableExpression🙈 = regex^! }
+	) { ·excludableExpression🙈· = regex^! }
 
 	/// Creates a new `Context·freeExpression` from the provided `symbol`.
 	///
@@ -76,7 +76,7 @@ where Atom : Atomic {
 		Symbol : Symbolic,
 		Symbol.Atom == Atom,
 		Symbol.Expression == Context·freeExpression<Atom>
-	{ excludableExpression🙈 = Exclusion(symbol) }
+	{ ·excludableExpression🙈· = Exclusion(symbol) }
 
 	/// Creates a new `Context·freeExpression` which alternates the provided `choices`.
 	///
@@ -92,8 +92,8 @@ where Atom : Atomic {
 	public init (
 		alternating choices: [Context·freeExpression<Atom>]
 	) {
-		excludableExpression🙈 = Exclusion(
-			alternating: choices.map(\.excludableExpression🙈)
+		·excludableExpression🙈· = Exclusion(
+			alternating: choices.map(\.·excludableExpression🙈·)
 		)
 	}
 
@@ -111,8 +111,8 @@ where Atom : Atomic {
 	public init (
 		catenating sequence: [Context·freeExpression<Atom>]
 	) {
-		excludableExpression🙈 = Exclusion(
-			catenating: sequence.map(\.excludableExpression🙈)
+		·excludableExpression🙈· = Exclusion(
+			catenating: sequence.map(\.·excludableExpression🙈·)
 		)
 	}
 
@@ -129,7 +129,7 @@ where Atom : Atomic {
 	///         An `Exclusion`.
 	private init (
 		🆘🙈 excludable: Exclusion
-	) { excludableExpression🙈 = excludable }
+	) { ·excludableExpression🙈· = excludable }
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `Context·freeExpression`.
 	///
@@ -148,14 +148,14 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `Context·freeExpression`.
-	public func longestMatchingPrefix <Col> (
+	public func ·longestMatchingPrefix· <Col> (
 		in collection: Col
 	) -> Col.SubSequence?
 	where
 		Col : Collection,
 		Col.Element == Atom.SourceElement
 	{
-		excludableExpression🙈.longestMatchingPrefix(
+		·excludableExpression🙈·.·longestMatchingPrefix·(
 			in: collection
 		)
 	}
@@ -167,9 +167,9 @@ where Atom : Atomic {
 	///
 	///  +  Version:
 	///     0·2.
-	public static var never: Context·freeExpression<Atom> {
+	public static var ·never·: Context·freeExpression<Atom> {
 		Context·freeExpression(
-			🆘🙈: .never
+			🆘🙈: .·never·
 		)
 	}
 
@@ -196,7 +196,7 @@ where Atom : Atomic {
 	where
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
-	{ l·h·s.excludableExpression🙈 ...~= r·h·s }
+	{ l·h·s.·excludableExpression🙈· ...~= r·h·s }
 
 	/// Returns whether the given `Sequence` matches the provided `Context·freeExpression`.
 	///
@@ -221,7 +221,7 @@ where Atom : Atomic {
 	where
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
-	{ l·h·s.excludableExpression🙈 ~= r·h·s }
+	{ l·h·s.·excludableExpression🙈· ~= r·h·s }
 
 	/// Returns a `Context·freeExpression` equivalent to the provided `Context·freeExpression` repeated some number of times indicated by the provided `PartialRangeFrom`.
 	///
@@ -245,7 +245,7 @@ where Atom : Atomic {
 		_ r·h·s: Context·freeExpression<Atom>
 	) -> Context·freeExpression<Atom> {
 		Context·freeExpression(
-			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.·excludableExpression🙈·
 		)
 	}
 
@@ -271,7 +271,7 @@ where Atom : Atomic {
 		_ r·h·s: Context·freeExpression<Atom>
 	) -> Context·freeExpression<Atom> {
 		Context·freeExpression(
-			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.·excludableExpression🙈·
 		)
 	}
 
@@ -289,7 +289,7 @@ where Atom : Atomic {
 	public static postfix func ^! (
 		_ operand: Context·freeExpression<Atom>
 	) -> Exclusion
-	{ operand.excludableExpression🙈 }
+	{ operand.·excludableExpression🙈· }
 
 }
 

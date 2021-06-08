@@ -30,7 +30,7 @@ public extension Swift.Collection {
 		Atoms.Element : Atomic,
 		Atoms.Element.SourceElement == Element
 	{
-		atoms.longestMatchingPrefix(
+		atoms.·longestMatchingPrefix·(
 			in: self
 		)
 	}
@@ -57,7 +57,7 @@ public extension Swift.Collection {
 		Expression : AtomicExpression,
 		Expression.Atom.SourceElement == Element
 	{
-		expression.longestMatchingPrefix(
+		expression.·longestMatchingPrefix·(
 			in: self
 		)
 	}
@@ -144,7 +144,7 @@ where Element : Atomic {
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches the `Element`s of this `Collection`.
 	@inlinable
-	func longestMatchingPrefix <Col> (
+	func ·longestMatchingPrefix· <Col> (
 		in collection: Col
 	) -> Col.SubSequence?
 	where

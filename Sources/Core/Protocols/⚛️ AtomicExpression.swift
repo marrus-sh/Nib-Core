@@ -10,7 +10,7 @@
 /// Conformance
 /// -----------
 ///
-/// To conform to the `AtomicExpression` protocol, a type must conform to the `ExpressionProtocol` and implement the `AtomicExpression.init(_:)` initializer, the `AtomicExpression.longestMatchingPrefix(in:)` method, and the `~=` and `...~=` infix operators.
+/// To conform to the `AtomicExpression` protocol, a type must conform to the `ExpressionProtocol` and implement the `AtomicExpression.init(_:)` initializer, the `AtomicExpression.·longestMatchingPrefix·(in:)` method, and the `~=` and `...~=` infix operators.
 ///
 ///  +  Version:
 ///     0·2.
@@ -39,7 +39,7 @@ where Atom : Atomic {
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `AtomicExpression`.
 	///
 	///  +  Note:
-	///     `.longestMatchingPrefix(in:)` is used internally by 🖋🍎 Nib Core to implement the `.prefix(matching:)` method on `Collection`s, which you should generally use instead.
+	///     `.·longestMatchingPrefix·(in:)` is used internally by 🖋🍎 Nib Core to implement the `.prefix(matching:)` method on `Collection`s, which you should generally use instead.
 	///
 	///  +  Version:
 	///     0·2.
@@ -50,7 +50,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `AtomicExpression`.
-	func longestMatchingPrefix <Col> (
+	func ·longestMatchingPrefix· <Col> (
 		in collection: Col
 	) -> Col.SubSequence?
 	where

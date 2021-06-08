@@ -27,7 +27,7 @@ where Atom : Atomic {
 	public typealias Expression = RegularExpression<Atom>
 
 	/// The `Exclusion` which represents this value.
-	private let excludableExpression🙈: Exclusion
+	private let ·excludableExpression🙈·: Exclusion
 
 	/// Creates a new `RegularExpression` from the provided `atom`.
 	///
@@ -42,7 +42,7 @@ where Atom : Atomic {
 	///         An `Atom`.
 	public init (
 		_ atom: Atom
-	) { excludableExpression🙈 = Exclusion(atom) }
+	) { ·excludableExpression🙈· = Exclusion(atom) }
 
 	/// Creates a new `RegularExpression` from the provided `regex`.
 	///
@@ -76,8 +76,8 @@ where Atom : Atomic {
 	public init (
 		alternating choices: [RegularExpression<Atom>]
 	) {
-		excludableExpression🙈 = Exclusion(
-			alternating: choices.map(\.excludableExpression🙈)
+		·excludableExpression🙈· = Exclusion(
+			alternating: choices.map(\.·excludableExpression🙈·)
 		)
 	}
 
@@ -95,8 +95,8 @@ where Atom : Atomic {
 	public init (
 		catenating sequence: [RegularExpression<Atom>]
 	) {
-		excludableExpression🙈 = Exclusion(
-			catenating: sequence.map(\.excludableExpression🙈)
+		·excludableExpression🙈· = Exclusion(
+			catenating: sequence.map(\.·excludableExpression🙈·)
 		)
 	}
 
@@ -113,7 +113,7 @@ where Atom : Atomic {
 	///         An `Exclusion`.
 	private init (
 		🆘🙈 excludable: Exclusion
-	) { excludableExpression🙈 = excludable }
+	) { ·excludableExpression🙈· = excludable }
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `RegularExpression`.
 	///
@@ -132,14 +132,14 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `RegularExpression`.
-	public func longestMatchingPrefix <Col> (
+	public func ·longestMatchingPrefix· <Col> (
 		in collection: Col
 	) -> Col.SubSequence?
 	where
 		Col : Collection,
 		Col.Element == Atom.SourceElement
 	{
-		excludableExpression🙈.longestMatchingPrefix(
+		·excludableExpression🙈·.·longestMatchingPrefix·(
 			in: collection
 		)
 	}
@@ -151,9 +151,9 @@ where Atom : Atomic {
 	///
 	///  +  Version:
 	///     0·2.
-	public static var never: RegularExpression<Atom> {
+	public static var ·never·: RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: .never
+			🆘🙈: .·never·
 		)
 	}
 
@@ -245,7 +245,7 @@ where Atom : Atomic {
 	where
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
-	{ l·h·s.excludableExpression🙈 ...~= r·h·s }
+	{ l·h·s.·excludableExpression🙈· ...~= r·h·s }
 
 	/// Returns a new `Context·freeExpression` which alternates the provided values.
 	///
@@ -335,7 +335,7 @@ where Atom : Atomic {
 	where
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
-	{ l·h·s.excludableExpression🙈 ~= r·h·s }
+	{ l·h·s.·excludableExpression🙈· ~= r·h·s }
 
 	/// Returns a `RegularExpression` equivalent to the provided `RegularExpression` repeated some number of times as indicated by the provided `PartialRangeFrom`.
 	///
@@ -359,7 +359,7 @@ where Atom : Atomic {
 		_ r·h·s: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.·excludableExpression🙈·
 		)
 	}
 
@@ -385,7 +385,7 @@ where Atom : Atomic {
 		_ r·h·s: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: l·h·s ✖️ r·h·s.excludableExpression🙈
+			🆘🙈: l·h·s ✖️ r·h·s.·excludableExpression🙈·
 		)
 	}
 
@@ -419,7 +419,7 @@ where Atom : Atomic {
 	public static postfix func ^! (
 		_ operand: RegularExpression<Atom>
 	) -> Exclusion
-	{ operand.excludableExpression🙈 }
+	{ operand.·excludableExpression🙈· }
 
 }
 

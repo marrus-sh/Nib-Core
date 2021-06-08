@@ -15,7 +15,7 @@ where Atom : Atomic {
 	///  +  Note:
 	///     This property introduces the potential for strong reference cycles.
 	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	var alternate: State🙊? = nil
+	var ·alternate·: State🙊? = nil
 
 	/// The `States🙊` which this `OptionState🙊` points to.
 	///
@@ -23,8 +23,8 @@ where Atom : Atomic {
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var next: [State🙊]
-	{ next🙈 }
+	override var ·next·: [State🙊]
+	{ ·next🙈· }
 
 	/// The `States🙊` which this `OptionState🙊` points to.
 	///
@@ -33,14 +33,14 @@ where Atom : Atomic {
 	///  +  Note:
 	///     The stored backing of this property introduces the potential for strong reference cycles.
 	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var next🙈: [State🙊] = primaryNext🙈 + (alternate.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom>)?.next ?? [$0] } ?? [.match])
+	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom>)?.·next· ?? [$0] } ?? [.·match·])
 
 	/// The primary (not alternate) `States🙊` which this `OptionState🙊` points to.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	private var primaryNext🙈: [State🙊]
-	{ super.next }
+	private var ·primaryNext🙈·: [State🙊]
+	{ super.·next· }
 
 	/// The `States🙊` which this `OptionState🙊` is equivalent to.
 	///
@@ -48,16 +48,16 @@ where Atom : Atomic {
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var resolved: [State🙊]
-	{ next🙈 }
+	override var ·resolved·: [State🙊]
+	{ ·next🙈· }
 
 	/// Wipes the internal memory of this `OptionState🙊` to prevent reference cycles / memory leakage.
 	///
-	/// After a `blast()`, this `OptionState🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// After a `·blast·()`, this `OptionState🙊` will have an empty `.next` and thus cannot ever lead to a match.
 	/// Only call this function when this `OptionState🙊` is guaranteed to never be used again.
-	override func blast () {
-		alternate = nil
-		next🙈 = []
+	override func ·blast· () {
+		·alternate· = nil
+		·next🙈· = []
 	}
 
 }

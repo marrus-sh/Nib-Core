@@ -21,8 +21,8 @@ where Atom : Atomic {
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var expression: Expression
-	{ .never }
+	var ·expression·: Expression
+	{ .·never· }
 
 	/// Returns a `Symbol🙊` which wraps the provided `symbol`.
 	///
@@ -46,7 +46,7 @@ where Atom : Atomic {
 		Symbol.Expression : Excludable,
 		Symbol.Expression.Exclusion == ExcludingExpression<Atom>
 	{
-		FullyOpaqueSymbol🙊.getSymbol(
+		FullyOpaqueSymbol🙊.·getSymbol·(
 			for: symbol
 		)
 	}
@@ -62,6 +62,6 @@ where Atom : Atomic {
 	public static postfix func ^! (
 		_ operand: Symbol🙊<Atom>
 	) -> Expression
-	{ operand.expression }
+	{ operand.·expression· }
 
 }

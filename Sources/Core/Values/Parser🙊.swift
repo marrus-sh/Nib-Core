@@ -42,9 +42,7 @@ where
 	{ ·next🙈·.isEmpty }
 
 	var ·matches·: Bool
-	{ ·paths🙈·[.match] != nil }
-
-	private let ·remembersPathComponents·: Bool
+	{ ·paths🙈·[.·match·] != nil }
 
 	/// The `State🙊`s wot will be evaluated on the next input.
 	private var ·next🙈·: [State🙊]
@@ -55,11 +53,13 @@ where
 	/// All other values indicate inprogress matches which may or may not be invalidated depending on later input.
 	private var ·paths🙈·: [State🙊:[PathComponent🙈]?] = [:]
 
+	private let ·remembersPathComponents·: Bool
+
 	init (
 		_ start: State🙊,
 		expectingResult rememberingPathComponents: Bool
 	) {
-		·next🙈· = start.resolved
+		·next🙈· = start.·resolved·
 		·remembersPathComponents· = rememberingPathComponents
 	}
 
@@ -79,9 +79,9 @@ where
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
 			if
 				let 🔙 = 🈁 as? OpenState🙊<Atom>,
-				🔙.consumes(element)
+				🔙.·consumes·(element)
 			{
-				for 🆕 in 🔙.next
+				for 🆕 in 🔙.·next·
 				where 🔜.paths[🆕] == nil {
 					🔜.next.append(🆕)
 					if ·remembersPathComponents·

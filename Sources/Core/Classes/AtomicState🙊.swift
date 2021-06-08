@@ -11,7 +11,7 @@ internal final class AtomicState🙊 <Atom>:
 where Atom : Atomic {
 
 	/// The `Atom` which this `AtomicState🙊` matches against when it `.consumes(_:)` a value.
-	var atom: Atom
+	var ·atom·: Atom
 
 	/// Creates a new `AtomicState🙊` from the provided `atom`.
 	///
@@ -24,7 +24,7 @@ where Atom : Atomic {
 	init (
 		_ atom: Atom
 	) {
-		self.atom = atom
+		self.·atom· = atom
 		super.init()
 	}
 
@@ -38,10 +38,10 @@ where Atom : Atomic {
 	///         A `SourceElement` of this `OpenState🙊`’s `Atom` type.
 	///
 	///  +  Returns:
-	///     `true` if the `.atom` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
-	override internal func consumes (
+	///     `true` if the `.·atom·` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
+	override internal func ·consumes· (
 		_ element: Atom.SourceElement
 	) -> Bool
-	{ atom ~= element }
+	{ ·atom· ~= element }
 
 }

@@ -40,46 +40,46 @@ where Atom : Atomic {
 		)
 
 		/// A reference to a nonterminal value.
-		case nonterminal (
+		case ·nonterminal· (
 			Symbol🙊<Atom>
 		)
 
 		/// A reference to a terminal value.
-		case terminal (
+		case ·terminal· (
 			Atom
 		)
 
 		/// A fragment which never matches.
-		case never
+		case ·never·
 
 		/// A catenation of zero or more fragments.
-		indirect case catenation (
+		indirect case ·catenation· (
 			[Fragment🙉]
 		)
 
 		/// An alternation of zero or more fragments.
-		indirect case alternation (
+		indirect case ·alternation· (
 			[Fragment🙉]
 		)
 
 		/// An exclusion of a second fragment from a first.
-		indirect case exclusion (
+		indirect case ·exclusion· (
 			Fragment🙉,
 			Fragment🙉
 		)
 
 		/// Zero or one of a fragment.
-		indirect case zeroOrOne (
+		indirect case ·zeroOrOne· (
 			Fragment🙉
 		)
 
 		/// Zero or more of a fragment.
-		indirect case zeroOrMore (
+		indirect case ·zeroOrMore· (
 			Fragment🙉
 		)
 
 		/// One or more of a fragment.
-		indirect case oneOrMore (
+		indirect case ·oneOrMore· (
 			Fragment🙉
 		)
 
@@ -87,12 +87,12 @@ where Atom : Atomic {
 		///
 		///  +  Note:
 		///     This creates a new `WorkingState🙊` every time.
-		private var open🙈: (
+		private var ·open🙈·: (
 			start: State🙊,
 			open: Set<State🙊>
 		) {
 			switch self {
-			case .terminal(
+			case .·terminal·(
 				let 🔙
 			):
 				let 🆕 = AtomicState🙊(🔙)
@@ -100,60 +100,60 @@ where Atom : Atomic {
 					start: 🆕,
 					open: [🆕]
 				)
-			case .catenation (
+			case .·catenation· (
 				let 🔙
 			):
-				guard let 🔝 = 🔙.first?.open🙈
+				guard let 🔝 = 🔙.first?.·open🙈·
 				else {
 					return (
-						start: .match,
+						start: .·match·,
 						open: []
 					)
 				}
 				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
 					//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
-					return Fragment🙉.patch🙈(
+					return Fragment🙉.·patch🙈·(
 						🔜,
-						forward: 🈁.open🙈
+						forward: 🈁.·open🙈·
 					)
 				}
-			case .alternation (
+			case .·alternation· (
 				let 🔙
 			):
-				guard let 🔝 = 🔙.first?.open🙈
+				guard let 🔝 = 🔙.first?.·open🙈·
 				else {
 					return (
-						start: .match,
+						start: .·match·,
 						open: []
 					)
 				}
 				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
 					//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
 					let 🆕 = OptionState🙊<Atom>()
-					let 🆙 = 🈁.open🙈
-					🆕.forward = 🔜.start
-					🆕.alternate = 🆙.start
+					let 🆙 = 🈁.·open🙈·
+					🆕.·forward· = 🔜.start
+					🆕.·alternate· = 🆙.start
 					return (
 						start: 🆕,
 						open: 🔜.open.union(🆙.open)
 					)
 				}
-			case .zeroOrOne (
+			case .·zeroOrOne· (
 				let 🔙
 			):
 				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.open🙈
-				🆕.forward = 🆙.start
+				let 🆙 = 🔙.·open🙈·
+				🆕.·forward· = 🆙.start
 				return (
 					start: 🆕,
 					open: Set([🆕]).union(🆙.open)
 				)
-			case .zeroOrMore (
+			case .·zeroOrMore· (
 				let 🔙
 			):
 				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.open🙈
-				🆕.forward = Fragment🙉.patch🙈(
+				let 🆙 = 🔙.·open🙈·
+				🆕.·forward· = Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
@@ -164,13 +164,13 @@ where Atom : Atomic {
 					start: 🆕,
 					open: [🆕]
 				)
-			case .oneOrMore (
+			case .·oneOrMore· (
 				let 🔙
 			):
 				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.open🙈
-				🆕.alternate = 🆙.start
-				return Fragment🙉.patch🙈(
+				let 🆙 = 🔙.·open🙈·
+				🆕.·alternate· = 🆙.start
+				return Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
@@ -179,7 +179,7 @@ where Atom : Atomic {
 				)
 			default:
 				return (
-					start: .never,
+					start: .·never·,
 					open: []
 				)
 			}
@@ -189,8 +189,8 @@ where Atom : Atomic {
 		///
 		///  +  Note:
 		///     This returns a new `State🙊` every time.
-		var start: State🙊
-		{ open🙈.start }
+		var ·start·: State🙊
+		{ ·open🙈·.start }
 
 		/// Patches `fragment` so that all of its `.open` `States🙈` point to the `.start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
 		///
@@ -205,19 +205,19 @@ where Atom : Atomic {
 		///
 		///  +  Returns:
 		///     A `WorkingState🙈`.
-		private static func patch🙈 (
+		private static func ·patch🙈· (
 			_ fragment: WorkingState🙈,
 			forward: WorkingState🙈
 		) -> WorkingState🙈 {
 			for 🈁 in fragment.open {
 				if let 🔙 = 🈁 as? OptionState🙊<Atom> {
-					if 🔙.forward == nil
-					{ 🔙.forward = forward.start }
-					if 🔙.alternate == nil
-					{ 🔙.alternate = forward.start }
+					if 🔙.·forward· == nil
+					{ 🔙.·forward· = forward.start }
+					if 🔙.·alternate· == nil
+					{ 🔙.·alternate· = forward.start }
 				} else if let 🔙 = 🈁 as? OpenState🙊<Atom> {
-					if 🔙.forward == nil
-					{ 🔙.forward = forward.start }
+					if 🔙.·forward· == nil
+					{ 🔙.·forward· = forward.start }
 				}
 			}
 			return (
@@ -229,7 +229,7 @@ where Atom : Atomic {
 	}
 
 	/// The `Fragment🙉` which represents this value.
-	private let fragment🙈: Fragment🙉
+	private let ·fragment🙈·: Fragment🙉
 
 	/// Creates a new `ExcludingExpression` from the provided `atom`.
 	///
@@ -244,7 +244,7 @@ where Atom : Atomic {
 	///         An `Atom`.
 	public init (
 		_ atom: Atom
-	) { fragment🙈 = .terminal(atom) }
+	) { ·fragment🙈· = .·terminal·(atom) }
 
 	/// Creates a new `ExcludingExpression` from the provided `regex`.
 	///
@@ -259,7 +259,7 @@ where Atom : Atomic {
 	///         An `RegularExpression` value which has the same `Atom` type as this `ExcludingExpression` type.
 	public init (
 		_ regex: RegularExpression<Atom>
-	) { fragment🙈 = regex^!.fragment🙈 }
+	) { ·fragment🙈· = regex^!.·fragment🙈· }
 
 	/// Creates a new `ExcludingExpression` from the provided `symbol`.
 	///
@@ -281,7 +281,7 @@ where Atom : Atomic {
 		Symbol.Expression.Exclusion == ExcludingExpression<Atom>
 	{
 		self.init(
-			🙈: .nonterminal(Symbol🙊[symbol])
+			🙈: .·nonterminal·(Symbol🙊[symbol])
 		)
 	}
 
@@ -303,7 +303,7 @@ where Atom : Atomic {
 		{ self = choices[0] }
 		else {
 			self.init(
-				🙈: .alternation(choices.map(\.fragment🙈))
+				🙈: .·alternation·(choices.map(\.·fragment🙈·))
 			)
 		}
 	}
@@ -326,7 +326,7 @@ where Atom : Atomic {
 		{ self = sequence[0] }
 		else {
 			self.init(
-				🙈: .catenation(sequence.map(\.fragment🙈))
+				🙈: .·catenation·(sequence.map(\.·fragment🙈·))
 			)
 		}
 	}
@@ -349,7 +349,7 @@ where Atom : Atomic {
 		from match: ExcludingExpression<Atom>
 	) {
 		self.init(
-			🙈: .exclusion(match.fragment🙈, exclusion.fragment🙈)
+			🙈: .·exclusion·(match.·fragment🙈·, exclusion.·fragment🙈·)
 		)
 	}
 
@@ -363,7 +363,7 @@ where Atom : Atomic {
 	///         A `Fragment🙉`.
 	private init (
 		🙈 fragment: Fragment🙉
-	) { fragment🙈 = fragment }
+	) { ·fragment🙈· = fragment }
 
 	/// Creates a new `ExcludingExpression` value which excludes the provided `exclusion` from the provided `match`.
 	///
@@ -387,7 +387,7 @@ where Atom : Atomic {
 	///  +  Returns:
 	///     The `.offset` of the first `Element` in `sequence` following the last match, `endIndex` if the entirety of `sequence` formed a match, and `nil` if no match was possible.
 	///     if `don·tCheckPartialMatches` is `true`, only `endIndex` or `nil` will be returned.
-	private func nextIndexAfterMatchingPrefix🙈 <Seq, Index> (
+	private func ·nextIndexAfterMatchingPrefix🙈· <Seq, Index> (
 		in sequence: Seq,
 		endIndex: Index,
 		onlyCareAboutCompleteMatches don·tCheckPartialMatches: Bool = false
@@ -400,25 +400,25 @@ where Atom : Atomic {
 			element: Atom.SourceElement
 		)
 	{
-		let 🔙 = fragment🙈.start  //  keep to prevent early dealloc
+		let 🔙 = ·fragment🙈·.·start·  //  keep to prevent early dealloc
 		defer {
-			//  Walk the `State🙊` graph and `.blast()` each.
+			//  Walk the `State🙊` graph and `.·blast·()` each.
 			//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
 			var 〽️ = [🔙] as Set<State🙊>
 			while 〽️.count > 0 {
 				var 🔜 = [] as Set<State🙊>
 				for 🈁 in 〽️
-				where !🈁.next.isEmpty {
+				where !🈁.·next·.isEmpty {
 					if let 💱 = 🈁 as? OptionState🙊<Atom> {
-						if let 🆙 = 💱.forward
+						if let 🆙 = 💱.·forward·
 						{ 🔜.insert(🆙) }
-						if let 🆙 = 💱.alternate
+						if let 🆙 = 💱.·alternate·
 						{ 🔜.insert(🆙) }
 					} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
-						if let 🆙 = 💱.forward
+						if let 🆙 = 💱.·forward·
 						{ 🔜.insert(🆙) }
 					}
-					🈁.blast()
+					🈁.·blast·()
 				}
 				〽️ = 🔜
 			}
@@ -458,14 +458,14 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this `ExcludingExpression`.
-	public func longestMatchingPrefix <Col> (
+	public func ·longestMatchingPrefix· <Col> (
 		in collection: Col
 	) -> Col.SubSequence?
 	where
 		Col : Collection,
 		Col.Element == Atom.SourceElement
 	{
-		if let ℹ️ = nextIndexAfterMatchingPrefix🙈(
+		if let ℹ️ = ·nextIndexAfterMatchingPrefix🙈·(
 			in: collection.indices.lazy.map { 🈁 in
 				(
 					offset: 🈁,
@@ -485,9 +485,9 @@ where Atom : Atomic {
 	///
 	///  +  Version:
 	///     0·2.
-	public static var never: ExcludingExpression<Atom> {
+	public static var ·never·: ExcludingExpression<Atom> {
 		ExcludingExpression(
-			🙈: .never
+			🙈: .·never·
 		)
 	}
 
@@ -515,7 +515,7 @@ where Atom : Atomic {
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
 	{
-		return l·h·s.nextIndexAfterMatchingPrefix🙈(
+		return l·h·s.·nextIndexAfterMatchingPrefix🙈·(
 			in: r·h·s.enumerated(),
 			endIndex: Int.max
 		) != nil
@@ -545,7 +545,7 @@ where Atom : Atomic {
 		Seq : Sequence,
 		Seq.Element == Atom.SourceElement
 	{
-		return l·h·s.nextIndexAfterMatchingPrefix🙈(
+		return l·h·s.·nextIndexAfterMatchingPrefix🙈·(
 			in: r·h·s.enumerated(),
 			endIndex: Int.max,
 			onlyCareAboutCompleteMatches: true
@@ -575,19 +575,19 @@ where Atom : Atomic {
 	) -> ExcludingExpression<Atom> {
 		if l·h·s.lowerBound < 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrMore(r·h·s.fragment🙈)
+				🙈: .·zeroOrMore·(r·h·s.·fragment🙈·)
 			)
 		} else if l·h·s.lowerBound == 1 {
 			return ExcludingExpression(
-				🙈: .oneOrMore(r·h·s.fragment🙈)
+				🙈: .·oneOrMore·(r·h·s.·fragment🙈·)
 			)
 		} else {
 			return ExcludingExpression(
-				🙈: .catenation(
+				🙈: .·catenation·(
 					Array(
-						repeating: r·h·s.fragment🙈,
+						repeating: r·h·s.·fragment🙈·,
 						count: l·h·s.lowerBound - 1
-					) + CollectionOfOne(.oneOrMore(r·h·s.fragment🙈))
+					) + CollectionOfOne(.·oneOrMore·(r·h·s.·fragment🙈·))
 				)
 			)
 		}
@@ -618,14 +618,14 @@ where Atom : Atomic {
 		{ return null }
 		else if l·h·s.upperBound == 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrOne(r·h·s.fragment🙈)
+				🙈: .·zeroOrOne·(r·h·s.·fragment🙈·)
 			)
 		} else {
 			return ExcludingExpression(
-				🙈: .zeroOrOne(
+				🙈: .·zeroOrOne·(
 					ExcludingExpression(
 						catenating: [r·h·s, ...(l·h·s.upperBound - 1) ✖️ r·h·s]
-					).fragment🙈
+					).·fragment🙈·
 				)
 			)
 		}

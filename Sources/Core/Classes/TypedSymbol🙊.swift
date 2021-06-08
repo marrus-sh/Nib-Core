@@ -15,36 +15,36 @@ where
 {
 
 	public override var description: String {
-		if let 💱 = symbol🙈 as? CustomStringConvertible {
+		if let 💱 = ·symbol🙈· as? CustomStringConvertible {
 			return String(
 				describing: 💱
 			)
 		} else {
 			return String(
-				reflecting: symbol🙈
+				reflecting: ·symbol🙈·
 			)
 		}
 	}
 
-	/// The `expression` of the wrapped `Symbol`.
+	/// The `·expression·` of the wrapped `Symbol`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var expression: ExcludingExpression<Symbol.Atom>
-	{ symbol🙈.expression^! }
+	override var ·expression·: ExcludingExpression<Symbol.Atom>
+	{ ·symbol🙈·.·expression·^! }
 
 	/// The `hashValue` of the wrapped `Symbol`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var hash: Int
-	{ symbol🙈.hashValue }
+	{ ·symbol🙈·.hashValue }
 
 	/// The wrapped `Symbol`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	private let symbol🙈: Symbol
+	private let ·symbol🙈·: Symbol
 
 	/// Creates a new `TypedSymbol🙊` which wraps the given `symbol`.
 	///
@@ -57,7 +57,7 @@ where
 	init (
 		_ symbol: Symbol
 	) {
-		symbol🙈 = symbol
+		·symbol🙈· = symbol
 		super.init()
 	}
 
@@ -74,7 +74,7 @@ where
 	///
 	///  +  Returns:
 	///     `true` if the arguments are `TypedSymbol🙊`s with this `Symbol` type and represent the same `Symbolic` value; `false` otherwise.
-	override class func areEqual (
+	override class func ·areEqual· (
 		_ l·h·s: FullyOpaqueSymbol🙊,
 		_ r·h·s: FullyOpaqueSymbol🙊
 	) -> Bool {
@@ -83,7 +83,7 @@ where
 			let 🤛 = r·h·s as? TypedSymbol🙊<Symbol>
 		else
 		{ return false }
-		return 🤜.symbol🙈 == 🤛.symbol🙈
+		return 🤜.·symbol🙈· == 🤛.·symbol🙈·
 	}
 
 }

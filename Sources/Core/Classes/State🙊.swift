@@ -17,14 +17,14 @@ internal class State🙊:
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var base: State🙊?
+	var ·base·: State🙊?
 	{ self }
 
 	/// The `States🙊` which this `State🙊` will result in after a correct match.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var next: [State🙊]
+	var ·next·: [State🙊]
 	{ [] }
 
 	/// The `States🙊` which this `State🙊` is equivalent to.
@@ -39,8 +39,8 @@ internal class State🙊:
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var resolved: [State🙊]
-	{ self === State🙊.never ? [] : [self] }
+	var ·resolved·: [State🙊]
+	{ self === State🙊.·never· ? [] : [self] }
 
 	/// Creates a new `State🙊`.
 	///
@@ -51,9 +51,9 @@ internal class State🙊:
 	
 	/// Wipes the internal memory of this `State🙊` to prevent reference cycles / memory leakage.
 	///
-	/// After a `blast()`, this `State🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// After a `·blast·()`, this `State🙊` will have an empty `.next` and thus cannot ever lead to a match.
 	/// Only call this function when this `State🙊` is guaranteed to never be used again.
-	func blast ()
+	func ·blast· ()
 	{}
 
 	/// Hashes this `State🙊` into the provided `hasher`.
@@ -71,10 +71,10 @@ internal class State🙊:
 	) { hasher.combine(ObjectIdentifier(self)) }
 
 	/// The match `State🙊`.
-	static let match = State🙊()
+	static let ·match· = State🙊()
 
 	/// A `State🙊` which never matches.
-	static let never = State🙊()
+	static let ·never· = State🙊()
 
 	/// Returns whether the`State🙊` arguments are equal.
 	///
