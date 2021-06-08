@@ -29,7 +29,7 @@ extension Swift.Substring:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var ·text·: Text {
+	public var text: Text {
 		get { unicodeScalars }
 		set { self = Substring(newValue) }
 	}

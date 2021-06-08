@@ -33,7 +33,7 @@ extension U·C·S·Character:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var ·text·: Text {
+	public var text: Text {
 		get { Text(self) }
 		set { self = newValue[0] }
 	}

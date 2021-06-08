@@ -29,7 +29,7 @@ extension Swift.String:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var ·text·: Text {
+	public var text: Text {
 		get { unicodeScalars }
 		set { self = String(newValue) }
 	}

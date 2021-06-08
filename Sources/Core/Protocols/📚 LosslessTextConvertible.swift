@@ -35,7 +35,7 @@ public protocol LosslessTextConvertible:
 public extension LosslessTextConvertible
 where Self : LosslessStringConvertible {
 
-	/// Creates a new `LosslessTextConvertible` value from the `.·text·` of the provided `description`, if possible.
+	/// Creates a new `LosslessTextConvertible` value from the `.text` of the provided `description`, if possible.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -50,7 +50,7 @@ where Self : LosslessStringConvertible {
 	init? (
 		_ description: String
 	) {
-		if let 💱 = Text(description.·text·)
+		if let 💱 = Text(description.text)
 		{ self.init(💱) }
 		else
 		{ return nil }
@@ -73,8 +73,8 @@ where
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	var ·text·: Text
-	{ rawValue.·text· }
+	var text: Text
+	{ rawValue.text }
 
 	/// Creates a new `LosslessTextConvertible` from the `RawValue` corresponding to the provided `text`.
 	///

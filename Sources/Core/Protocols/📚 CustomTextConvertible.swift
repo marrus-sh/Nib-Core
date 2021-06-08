@@ -10,7 +10,7 @@
 /// Conformance
 /// -----------
 ///
-/// To conform to the `CustomTextConvertible` protocol, a type must implement the `.·text·` property, providing a value’s `TextProtocol` equivalent.
+/// To conform to the `CustomTextConvertible` protocol, a type must implement the `.text` property, providing a value’s `TextProtocol` equivalent.
 ///
 ///  +  Version:
 ///     0·2.
@@ -29,7 +29,7 @@ where Text : TextProtocol {
 	///
 	///  +  Version:
 	///     0·2.
-	var ·text·: Text { get }
+	var text: Text { get }
 
 }
 
@@ -45,6 +45,6 @@ where Self : CustomStringConvertible {
 	///     0·2.
 	@inlinable
 	var description: String
-	{ String(StringLiteral(·text·)) }
+	{ String(StringLiteral(text)) }
 
 }

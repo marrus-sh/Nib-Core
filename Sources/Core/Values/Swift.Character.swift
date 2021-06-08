@@ -29,7 +29,7 @@ extension Swift.Character:
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	public var ·text·: Text
+	public var text: Text
 	{ unicodeScalars }
 
 	/// Creates a new `Character` from the provided `text`, if the provided `text` contains only a single `Character`.

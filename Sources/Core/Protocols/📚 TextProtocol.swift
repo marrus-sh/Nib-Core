@@ -27,7 +27,7 @@ where
 	///
 	///  +  Version:
 	///     0·2.
-	var ·text·: Text
+	var text: Text
 	{ get set }
 
 	/// Attempts to create a new `TextProtocol` value from an existing `text`.
@@ -54,7 +54,7 @@ public extension TextProtocol {
 	///  +  Version:
 	///     0·2.
 	@inlinable
-	var ·text·: Text {
+	var text: Text {
 		get
 		{ self }
 		set
