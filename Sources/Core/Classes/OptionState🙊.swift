@@ -6,9 +6,12 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// An `OpenState🙊` which points to two `State🙊`s unconditionally.
-internal final class OptionState🙊 <Atom>:
-	OpenState🙊<Atom>
-where Atom : Atomic {
+internal final class OptionState🙊 <Atom, Index>:
+	OpenState🙊<Atom, Index>
+where
+	Atom : Atomic,
+	Index: Comparable
+{
 
 	/// An alternative later `State🙊` pointed to by this `OpenState🙊`.
 	///
@@ -33,7 +36,7 @@ where Atom : Atomic {
 	///  +  Note:
 	///     The stored backing of this property introduces the potential for strong reference cycles.
 	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom>)?.·next· ?? [$0] } ?? [.·match·])
+	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.·match·])
 
 	/// The primary (not alternate) `States🙊` which this `OptionState🙊` points to.
 	///

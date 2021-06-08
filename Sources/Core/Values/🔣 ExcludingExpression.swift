@@ -87,15 +87,17 @@ where Atom : Atomic {
 		///
 		///  +  Note:
 		///     This creates a new `WorkingState🙊` every time.
-		private var ·open🙈·: (
+		private func ·open🙈· <Index> (
+			using IndexType: Index.Type
+		) -> (
 			start: State🙊,
 			open: Set<State🙊>
-		) {
+		) where Index : Comparable {
 			switch self {
 			case .·terminal·(
 				let 🔙
 			):
-				let 🆕 = AtomicState🙊(🔙)
+				let 🆕 = AtomicState🙊(🔙) as AtomicState🙊<Atom, Index>
 				return (
 					start: 🆕,
 					open: [🆕]
@@ -103,8 +105,9 @@ where Atom : Atomic {
 			case .·catenation· (
 				let 🔙
 			):
-				guard let 🔝 = 🔙.first?.·open🙈·
-				else {
+				guard let 🔝 = 🔙.first?.·open🙈·(
+					using: IndexType
+				) else {
 					return (
 						start: .·match·,
 						open: []
@@ -114,13 +117,18 @@ where Atom : Atomic {
 					//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
 					return Fragment🙉.·patch🙈·(
 						🔜,
-						forward: 🈁.·open🙈·
+						forward: 🈁.·open🙈·(
+							using: IndexType
+						),
+						using: IndexType
 					)
 				}
 			case .·alternation· (
 				let 🔙
 			):
-				guard let 🔝 = 🔙.first?.·open🙈·
+				guard let 🔝 = 🔙.first?.·open🙈·(
+					using: IndexType
+				)
 				else {
 					return (
 						start: .·match·,
@@ -129,8 +137,10 @@ where Atom : Atomic {
 				}
 				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
 					//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
-					let 🆕 = OptionState🙊<Atom>()
-					let 🆙 = 🈁.·open🙈·
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆙 = 🈁.·open🙈·(
+						using: IndexType
+					)
 					🆕.·forward· = 🔜.start
 					🆕.·alternate· = 🆙.start
 					return (
@@ -141,8 +151,10 @@ where Atom : Atomic {
 			case .·zeroOrOne· (
 				let 🔙
 			):
-				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.·open🙈·
+				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+				let 🆙 = 🔙.·open🙈·(
+					using: IndexType
+				)
 				🆕.·forward· = 🆙.start
 				return (
 					start: 🆕,
@@ -151,14 +163,17 @@ where Atom : Atomic {
 			case .·zeroOrMore· (
 				let 🔙
 			):
-				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.·open🙈·
+				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+				let 🆙 = 🔙.·open🙈·(
+					using: IndexType
+				)
 				🆕.·forward· = Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
 						open: []
-					)
+					),
+					using: IndexType
 				).start
 				return (
 					start: 🆕,
@@ -167,15 +182,18 @@ where Atom : Atomic {
 			case .·oneOrMore· (
 				let 🔙
 			):
-				let 🆕 = OptionState🙊<Atom>()
-				let 🆙 = 🔙.·open🙈·
+				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+				let 🆙 = 🔙.·open🙈·(
+					using: IndexType
+				)
 				🆕.·alternate· = 🆙.start
 				return Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
 						open: [🆕]
-					)
+					),
+					using: IndexType
 				)
 			default:
 				return (
@@ -189,8 +207,14 @@ where Atom : Atomic {
 		///
 		///  +  Note:
 		///     This returns a new `State🙊` every time.
-		var ·start·: State🙊
-		{ ·open🙈·.start }
+		func ·start· <Index> (
+			using IndexType: Index.Type
+		) -> State🙊
+		where Index: Comparable {
+			·open🙈·(
+				using: IndexType
+			).start
+		}
 
 		/// Patches `fragment` so that all of its `.open` `States🙈` point to the `.start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
 		///
@@ -205,17 +229,19 @@ where Atom : Atomic {
 		///
 		///  +  Returns:
 		///     A `WorkingState🙈`.
-		private static func ·patch🙈· (
+		private static func ·patch🙈· <Index> (
 			_ fragment: WorkingState🙈,
-			forward: WorkingState🙈
-		) -> WorkingState🙈 {
+			forward: WorkingState🙈,
+			using IndexType: Index.Type
+		) -> WorkingState🙈
+		where Index : Comparable {
 			for 🈁 in fragment.open {
-				if let 🔙 = 🈁 as? OptionState🙊<Atom> {
+				if let 🔙 = 🈁 as? OptionState🙊<Atom, Index> {
 					if 🔙.·forward· == nil
 					{ 🔙.·forward· = forward.start }
 					if 🔙.·alternate· == nil
 					{ 🔙.·alternate· = forward.start }
-				} else if let 🔙 = 🈁 as? OpenState🙊<Atom> {
+				} else if let 🔙 = 🈁 as? OpenState🙊<Atom, Index> {
 					if 🔙.·forward· == nil
 					{ 🔙.·forward· = forward.start }
 				}
@@ -400,7 +426,9 @@ where Atom : Atomic {
 			element: Atom.SourceElement
 		)
 	{
-		let 🔙 = ·fragment🙈·.·start·  //  keep to prevent early dealloc
+		let 🔙 = ·fragment🙈·.·start·(  //  keep to prevent early dealloc
+			using: Index.self
+		)
 		defer {
 			//  Walk the `State🙊` graph and `.·blast·()` each.
 			//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
@@ -409,12 +437,12 @@ where Atom : Atomic {
 				var 🔜 = [] as Set<State🙊>
 				for 🈁 in 〽️
 				where !🈁.·next·.isEmpty {
-					if let 💱 = 🈁 as? OptionState🙊<Atom> {
+					if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
 						if let 🆙 = 💱.·forward·
 						{ 🔜.insert(🆙) }
 						if let 🆙 = 💱.·alternate·
 						{ 🔜.insert(🆙) }
-					} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
+					} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
 						if let 🆙 = 💱.·forward·
 						{ 🔜.insert(🆙) }
 					}

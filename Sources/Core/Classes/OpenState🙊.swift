@@ -6,9 +6,12 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// A `State🙊` which points to another `State🙊`; a `State🙊` other than `.·match·` or `.·never·`.
-internal class OpenState🙊 <Atom>:
+internal class OpenState🙊 <Atom, Index>:
 	State🙊
-where Atom : Atomic {
+where
+	Atom : Atomic,
+	Index: Comparable
+{
 
 	/// A later `State🙊` pointed to by this `OpenState🙊`.
 	///
@@ -33,7 +36,7 @@ where Atom : Atomic {
 	///  +  Note:
 	///     The stored backing of this property introduces the potential for strong reference cycles.
 	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·forward·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom>)?.·next· ?? [$0] } ?? [.·match·]
+	private lazy var ·next🙈·: [State🙊] = ·forward·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.·match·]
 
 	/// Wipes the internal memory of this `OpenState🙊` to prevent reference cycles / memory leakage.
 	///
@@ -62,5 +65,30 @@ where Atom : Atomic {
 		_ element: Atom.SourceElement
 	) -> Bool
 	{ false }
+
+	/// Returns whether this `OpenState🙊` does consume the provided `element`.
+	///
+	/// This is a default implementation which always returns `false`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  element:
+	///         A `SourceElement` of this `OpenState🙊`’s `Atom` type.
+	///      +  result:
+	///         An `Array` of `Parser🙊.PathComponent`s into which the result should be collected, or `nil`.
+	///
+	///  +  Returns:
+	///     `true` if this `OpenState🙊` does consume the provided `element`; `false` otherwise.
+	func ·consumes· (
+		_ element: Atom.SourceElement,
+		into result: inout [Parser🙊<Atom, Index>.PathComponent]
+	) -> Bool {
+		if ·consumes·(element) {
+			return true
+		} else
+		{ return false }
+	}
 
 }
