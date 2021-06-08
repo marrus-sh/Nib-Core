@@ -423,29 +423,22 @@ where Atom : Atomic {
 				〽️ = 🔜
 			}
 		}
-		var 〽️ = Array(Set(🔙.resolved))
+		var 〽️ = Parser🙊<Atom, Index>(
+			🔙,
+			expectingResult: false
+		)
 		var 🆗: Index?
 		for (ℹ️, 🆙) in sequence {
-			var 🆒 = [] as Set<State🙊>
-			if !don·tCheckPartialMatches && 〽️.contains(.match)
+			if !don·tCheckPartialMatches && 〽️.·matches·
 			{ 🆗 = ℹ️ }
-			〽️ = 〽️.reduce(
-				into: []
-			) { 🔜, 🈁 in
-				//  Attempt to consume the element which is currently `🆙` and collect the next states if this succeeds.
-				if
-					let 🔙 = 🈁 as? OpenState🙊<Atom>,
-					🔙.consumes(🆙)
-				{
-					for 🆕 in 🔙.next
-					where 🆒.insert(🆕).inserted
-					{ 🔜.append(🆕) }
-				}
-			}
-			if 〽️.count <= 0
+			〽️.·consume·(
+				🆙,
+				at: ℹ️
+			)
+			if 〽️.·done·
 			{ break }
 		}
-		return 〽️.contains(.match) ? endIndex : 🆗
+		return 〽️.·matches· ? endIndex : 🆗
 	}
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this `ExcludingExpression`.
