@@ -42,6 +42,24 @@ where
 		_ text: OtherText
 	) where OtherText : TextProtocol
 
+	/// Creates a new `TextProtocol` value from the provided `CustomTextConvertible` `value`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  value:
+	///         A `CustomTextConvertible` value.
+	@inlinable
+	init <Texting> (
+		of value: Texting
+	) where
+		Texting : CustomTextConvertible,
+		Texting.Text == Self
+
 }
 
 public extension TextProtocol {
@@ -76,6 +94,25 @@ public extension TextProtocol {
 	init (
 		_ text: Text
 	) { self = text }
+
+	/// Creates a new `TextProtocol` value from the provided `CustomTextConvertible` `value`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     0·2.
+	///
+	///  +  Parameters:
+	///      +  value:
+	///         A `CustomTextConvertible` value.
+	@inlinable
+	init <Texting> (
+		of value: Texting
+	) where
+		Texting : CustomTextConvertible,
+		Texting.Text == Self
+	{ self = value.text }
 
 	/// Writes a textual representation of this `TextProtocol` value to the given `target`.
 	///
