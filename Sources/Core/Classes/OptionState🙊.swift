@@ -36,7 +36,7 @@ where
 	///  +  Note:
 	///     The stored backing of this property introduces the potential for strong reference cycles.
 	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .·never· ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.·match·])
+	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match])
 
 	/// The primary (not alternate) `States🙊` which this `OptionState🙊` points to.
 	///

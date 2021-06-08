@@ -14,24 +14,24 @@ where
 
 	/// A component of a “path” through a known input according to a known regular expression.
 	///
-	/// Path components can be either `.·string·`s (ranges of matching indices) or `.·symbol·`s (which themselves have a `subpath` of strings and/or symbols).
-	/// `.·symbol·`s may represent an inprogress match; a `.·symbol·` only represents a proper match when its `subpath` ends in a `.·match·`.
-	/// The special `.·match·` component indicates that the entire preceding path successfully matches, and should only ever appear at the end.
+	/// Path components can be either `.string`s (ranges of matching indices) or `.symbol`s (which themselves have a `subpath` of strings and/or symbols).
+	/// `.symbol`s may represent an inprogress match; a `.symbol` only represents a proper match when its `subpath` ends in a `.match`.
+	/// The special `.match` component indicates that the entire preceding path successfully matches, and should only ever appear at the end.
 	enum PathComponent {
 
 		/// Indicates that a path results in a successful match.
-		case ·match·
+		case match
 
 		/// A range of indices which match.
-		case ·string· (
+		case string (
 			ClosedRange<Index>
 		)
 
 		/// A symbol which matches (so far).
 		///
-		/// If `subpath` ends in `.·match·`, the symbol matches.
+		/// If `subpath` ends in `.match`, the symbol matches.
 		/// Otherwise, the symbol may or may not match, depending on later input.
-		indirect case ·symbol· (
+		indirect case symbol (
 			Symbol🙊<Atom>,
 			subpath: [PathComponent]
 		)
@@ -42,7 +42,7 @@ where
 	{ ·next🙈·.isEmpty }
 
 	var ·matches·: Bool
-	{ ·paths🙈·[.·match·] != nil }
+	{ ·paths🙈·[.match] != nil }
 
 	/// The `State🙊`s wot will be evaluated on the next input.
 	private var ·next🙈·: [State🙊]
@@ -98,11 +98,11 @@ where
 					where 🔜.paths[🆕] == nil {
 						🔜.next.append(🆕)
 						if
-							🆕 === State🙊.·match·,
+							🆕 === State🙊.match,
 							let 🆒 = 🔙
 						{
 							🔜.paths.updateValue(
-								🆒 + CollectionOfOne(.·match·),
+								🆒 + CollectionOfOne(.match),
 								forKey: 🆕
 							)
 						} else {

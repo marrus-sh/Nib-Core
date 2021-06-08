@@ -109,7 +109,7 @@ where Atom : Atomic {
 					using: IndexType
 				) else {
 					return (
-						start: .·match·,
+						start: .match,
 						open: []
 					)
 				}
@@ -131,7 +131,7 @@ where Atom : Atomic {
 				)
 				else {
 					return (
-						start: .·match·,
+						start: .match,
 						open: []
 					)
 				}
@@ -197,7 +197,7 @@ where Atom : Atomic {
 				)
 			default:
 				return (
-					start: .·never·,
+					start: .never,
 					open: []
 				)
 			}

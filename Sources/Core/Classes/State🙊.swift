@@ -40,7 +40,7 @@ internal class State🙊:
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·resolved·: [State🙊]
-	{ self === State🙊.·never· ? [] : [self] }
+	{ self === State🙊.never ? [] : [self] }
 
 	/// Creates a new `State🙊`.
 	///
@@ -71,10 +71,10 @@ internal class State🙊:
 	) { hasher.combine(ObjectIdentifier(self)) }
 
 	/// The match `State🙊`.
-	static let ·match· = State🙊()
+	static let match = State🙊()
 
 	/// A `State🙊` which never matches.
-	static let ·never· = State🙊()
+	static let never = State🙊()
 
 	/// Returns whether the`State🙊` arguments are equal.
 	///

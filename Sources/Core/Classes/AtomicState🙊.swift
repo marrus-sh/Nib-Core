@@ -70,7 +70,7 @@ where
 		if ·atom· ~= indexedElement.element {
 			if
 				let 🔚 = result.last,
-				case .·string· (
+				case .string (
 					let 🔙
 				) = 🔚
 			{
@@ -78,9 +78,9 @@ where
 					result.index(
 						before: result.endIndex
 					)
-				] = .·string·(🔙.lowerBound...indexedElement.offset)
+				] = .string(🔙.lowerBound...indexedElement.offset)
 			} else
-			{ result.append(.·string·(indexedElement.offset...indexedElement.offset)) }
+			{ result.append(.string(indexedElement.offset...indexedElement.offset)) }
 			return true
 		} else
 		{ return false }
