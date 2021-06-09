@@ -13,34 +13,19 @@ internal class State🙊:
 	Identifiable
 {
 
-	/// The `State🙊` which this `State🙊` was originally derived from, or `nil` if it was not derived from an existing `State🙊`.
+	/// The `State🙊` which this `State🙊` was originally derived from, or `self` if it was not derived from an existing `State🙊`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var ·base·: State🙊?
+	var ·base·: State🙊
 	{ self }
 
-	/// The `States🙊` which this `State🙊` will result in after a correct match.
+	/// The `State🙊`s which this `State🙊` will result in after a correct match.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·next·: [State🙊]
 	{ [] }
-
-	/// The `States🙊` which this `State🙊` is equivalent to.
-	///
-	/// This is just a `Set` of this value, except in the following cases:
-	///
-	///  +  An `OptionState🙊`, which returns its `.next` property.
-	///
-	///  +  A `SymbolicState🙊`, which returns a `Set` containing an *equivalent* (but not equal) `State🙊`.
-	///
-	///  +  `.never`, which returns an empty `Set`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var ·resolved·: [State🙊]
-	{ self === State🙊.never ? [] : [self] }
 
 	/// Creates a new `State🙊`.
 	///
@@ -55,6 +40,24 @@ internal class State🙊:
 	/// Only call this function when this `State🙊` is guaranteed to never be used again.
 	func ·blast· ()
 	{}
+
+	/// Returns a `State🙊`s which this `State🙊` is equivalent to, which should be used for parsing.
+	///
+	/// This will be the same `State🙊`, except for `ParsingState🙊`s whose `·base·` is their `self`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  rememberingPathComponents:
+	///         Whether to remember path components when consuming with this `State🙊`.
+	///
+	///  +  Returns:
+	///     An `Array` of `State🙊`s.
+	func ·resolved· (
+		expectingResult rememberingPathComponents: Bool
+	) -> State🙊
+	{ self }
 
 	/// Hashes this `State🙊` into the provided `hasher`.
 	///

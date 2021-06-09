@@ -45,15 +45,6 @@ where
 	private var ·primaryNext🙈·: [State🙊]
 	{ super.·next· }
 
-	/// The `States🙊` which this `OptionState🙊` is equivalent to.
-	///
-	/// For `OptionState🙊`s, this is equivalent to `next`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var ·resolved·: [State🙊]
-	{ ·next🙈· }
-
 	/// Wipes the internal memory of this `OptionState🙊` to prevent reference cycles / memory leakage.
 	///
 	/// After a `·blast·()`, this `OptionState🙊` will have an empty `.next` and thus cannot ever lead to a match.

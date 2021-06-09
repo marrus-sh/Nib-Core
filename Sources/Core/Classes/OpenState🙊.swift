@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A `State🙊` which points to another `State🙊`; a `State🙊` other than `.·match·` or `.·never·`.
+/// A `State🙊` which points to another `State🙊`; a `State🙊` other than `.match` or `.never`.
 internal class OpenState🙊 <Atom, Index>:
 	State🙊
 where
@@ -68,8 +68,6 @@ where
 
 	/// Returns whether this `OpenState🙊` does consume the provided `element`, accumulating into the provided `result`.
 	///
-	/// This is a default implementation which always returns `false`.
-	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -87,7 +85,24 @@ where
 			element: Atom.SourceElement
 		),
 		into result: inout [Parser🙊<Atom, Index>.PathComponent]
-	) -> Bool
-	{ ·consumes·(indexedElement.element) }
+	) -> Bool {
+		if ·consumes·(indexedElement.element) {
+			if
+				let 🔚 = result.last,
+				case .string (
+					let 🔙
+				) = 🔚
+			{
+				result[
+					result.index(
+						before: result.endIndex
+					)
+				] = .string(🔙.lowerBound...indexedElement.offset)
+			} else
+			{ result.append(.string(indexedElement.offset...indexedElement.offset)) }
+			return true
+		} else
+		{ return false }
+	}
 
 }

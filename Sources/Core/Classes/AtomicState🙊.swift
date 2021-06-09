@@ -47,43 +47,4 @@ where
 	) -> Bool
 	{ ·atom· ~= element }
 
-	/// Returns whether this `AtomicState🙊` does consume the provided `element`, accumulating into the provided `result`.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  element:
-	///         A tuple whose `.offset` is an `Index` and whose `.element` is a `SourceElement` of this `OpenState🙊`’s `Atom` type.
-	///      +  result:
-	///         An `Array` of `Parser🙊.PathComponent`s into which the result should be collected.
-	///
-	///  +  Returns:
-	///     `true` if this `OpenState🙊` does consume the provided `element`; `false` otherwise.
-	override func ·consumes· (
-		_ indexedElement: (
-			offset: Index,
-			element: Atom.SourceElement
-		),
-		into result: inout [Parser🙊<Atom, Index>.PathComponent]
-	) -> Bool {
-		if ·atom· ~= indexedElement.element {
-			if
-				let 🔚 = result.last,
-				case .string (
-					let 🔙
-				) = 🔚
-			{
-				result[
-					result.index(
-						before: result.endIndex
-					)
-				] = .string(🔙.lowerBound...indexedElement.offset)
-			} else
-			{ result.append(.string(indexedElement.offset...indexedElement.offset)) }
-			return true
-		} else
-		{ return false }
-	}
-
 }

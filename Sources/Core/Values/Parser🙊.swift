@@ -59,7 +59,11 @@ where
 		_ start: State🙊,
 		expectingResult rememberingPathComponents: Bool
 	) {
-		·next🙈· = start.·resolved·
+		·next🙈· = (start is OptionState🙊<Atom, Index> ? start.·next· : [start]).map { 🈁 in
+			🈁.·resolved·(
+				expectingResult: rememberingPathComponents
+			)
+		}
 		·paths🙈· = ·next🙈·.reduce(
 			into: [:]
 		) { 🔜, 🈁 in
@@ -102,8 +106,13 @@ where
 					🔙 = nil
 				}
 				if 🆗 {
-					for 🆕 in 💱.·next·
-					where 🔜.paths[🆕] == nil {
+					for 🆕 in (
+						💱.·next·.map { 🈁 in
+							🈁.·resolved·(
+								expectingResult: ·remembersPathComponents·
+							)
+						}
+					) where 🔜.paths[🆕] == nil {
 						🔜.next.append(🆕)
 						if
 							🆕 === State🙊.match,
