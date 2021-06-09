@@ -85,4 +85,11 @@ final class TestRegularEspressions: XCTestCase {
 		}
 	}
 
+	/// Tests to make sure that weird regular expressions don’t create infinite loops when resolving choices.
+	func testPotentialRegexEndlessLoops () {
+		XCTAssert((("🆒"^? as RegularExpression<Character>)^?)^+ ~= "")
+		XCTAssert((("🆒"^? as RegularExpression<Character>)^?)^* ~= "")
+		XCTAssert((("🆒"^? as RegularExpression<Character>)^*)^+ ~= "")
+	}
+
 }

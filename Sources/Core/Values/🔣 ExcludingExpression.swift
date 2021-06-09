@@ -36,7 +36,8 @@ where Atom : Atomic {
 		/// A tuple of a start `State🙊` and a `Set` of `States🙊` which have not yet had all their paths connected.
 		private typealias WorkingState🙈 = (
 			start: State🙊,
-			open: Set<State🙊>
+			open: Set<State🙊>,
+			reachableFromStart: Set<State🙊>
 		)
 
 		/// A reference to a nonterminal value.
@@ -89,10 +90,8 @@ where Atom : Atomic {
 		///     This creates a new `WorkingState🙊` every time.
 		private func ·open🙈· <Index> (
 			using IndexType: Index.Type
-		) -> (
-			start: State🙊,
-			open: Set<State🙊>
-		) where Index : Comparable {
+		) -> WorkingState🙈
+		where Index : Comparable {
 			switch self {
 			case .·terminal·(
 				let 🔙
@@ -100,7 +99,8 @@ where Atom : Atomic {
 				let 🆕 = AtomicState🙊(🔙) as AtomicState🙊<Atom, Index>
 				return (
 					start: 🆕,
-					open: [🆕]
+					open: [🆕],
+					reachableFromStart: []
 				)
 			case .·catenation· (
 				let 🔙
@@ -110,7 +110,8 @@ where Atom : Atomic {
 				) else {
 					return (
 						start: .match,
-						open: []
+						open: [],
+						reachableFromStart: []
 					)
 				}
 				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
@@ -132,7 +133,8 @@ where Atom : Atomic {
 				else {
 					return (
 						start: .match,
-						open: []
+						open: [],
+						reachableFromStart: []
 					)
 				}
 				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
@@ -145,7 +147,8 @@ where Atom : Atomic {
 					🆕.·alternate· = 🆙.start
 					return (
 						start: 🆕,
-						open: 🔜.open.union(🆙.open)
+						open: 🔜.open.union(🆙.open),
+						reachableFromStart: 🔜.reachableFromStart.union(🆙.reachableFromStart)
 					)
 				}
 			case .·zeroOrOne· (
@@ -158,7 +161,8 @@ where Atom : Atomic {
 				🆕.·forward· = 🆙.start
 				return (
 					start: 🆕,
-					open: Set([🆕]).union(🆙.open)
+					open: 🆙.open.union([🆕]),
+					reachableFromStart: 🆙.reachableFromStart.union([🆕])
 				)
 			case .·zeroOrMore· (
 				let 🔙
@@ -167,17 +171,21 @@ where Atom : Atomic {
 				let 🆙 = 🔙.·open🙈·(
 					using: IndexType
 				)
-				🆕.·forward· = Fragment🙉.·patch🙈·(
+				let 🔜 = Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
-						open: []
+						open: [🆕],
+						reachableFromStart: []
 					),
+					ignoreReachable: true,
 					using: IndexType
-				).start
+				)
+				🆕.·forward· = 🔜.start
 				return (
 					start: 🆕,
-					open: [🆕]
+					open: 🔜.open,
+					reachableFromStart: 🆙.reachableFromStart.union([🆕])
 				)
 			case .·oneOrMore· (
 				let 🔙
@@ -186,19 +194,22 @@ where Atom : Atomic {
 				let 🆙 = 🔙.·open🙈·(
 					using: IndexType
 				)
-				🆕.·alternate· = 🆙.start
+				🆕.·forward· = 🆙.start
 				return Fragment🙉.·patch🙈·(
 					🆙,
 					forward: (
 						start: 🆕,
-						open: [🆕]
+						open: [🆕],
+						reachableFromStart: []
 					),
+					ignoreReachable: true,
 					using: IndexType
 				)
 			default:
 				return (
 					start: .never,
-					open: []
+					open: [],
+					reachableFromStart: []
 				)
 			}
 		}
@@ -216,7 +227,7 @@ where Atom : Atomic {
 			).start
 		}
 
-		/// Patches `fragment` so that all of its `.open` `States🙈` point to the `.start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
+		/// Patches `fragment` so that all of its `.open` `State🙈`s point to the `.start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
 		///
 		///  +  Authors:
 		///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -232,23 +243,28 @@ where Atom : Atomic {
 		private static func ·patch🙈· <Index> (
 			_ fragment: WorkingState🙈,
 			forward: WorkingState🙈,
+			ignoreReachable: Bool = false,
 			using IndexType: Index.Type
 		) -> WorkingState🙈
 		where Index : Comparable {
+			var 🔜 = forward.open
 			for 🈁 in fragment.open {
-				if let 🔙 = 🈁 as? OptionState🙊<Atom, Index> {
-					if 🔙.·forward· == nil
-					{ 🔙.·forward· = forward.start }
-					if 🔙.·alternate· == nil
-					{ 🔙.·alternate· = forward.start }
-				} else if let 🔙 = 🈁 as? OpenState🙊<Atom, Index> {
-					if 🔙.·forward· == nil
-					{ 🔙.·forward· = forward.start }
+				if ignoreReachable && fragment.reachableFromStart.contains(🈁)
+				{ 🔜.insert(🈁) }  //  leave things `reachableFromStart` open instead of patching to prevent endless loops
+				else if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
+					if 💱.·forward· == nil
+					{ 💱.·forward· = forward.start }
+					if 💱.·alternate· == nil
+					{ 💱.·alternate· = forward.start }
+				} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
+					if 💱.·forward· == nil
+					{ 💱.·forward· = forward.start }
 				}
 			}
 			return (
 				start: fragment.start,
-				open: forward.open
+				open: 🔜,
+				reachableFromStart: ignoreReachable ? fragment.reachableFromStart : fragment.reachableFromStart.isEmpty ? [] : forward.reachableFromStart
 			)
 		}
 

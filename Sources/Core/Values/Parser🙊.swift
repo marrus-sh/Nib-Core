@@ -60,6 +60,14 @@ where
 		expectingResult rememberingPathComponents: Bool
 	) {
 		·next🙈· = start.·resolved·
+		·paths🙈· = ·next🙈·.reduce(
+			into: [:]
+		) { 🔜, 🈁 in
+			🔜.updateValue(
+				rememberingPathComponents ? [] : nil,
+				forKey: 🈁
+			)
+		}
 		·remembersPathComponents· = rememberingPathComponents
 	}
 
