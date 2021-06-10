@@ -1,25 +1,22 @@
-#  Nib Core  #
+#  🖋🥑 Nib Core  #
 
-Core types and behaviours for the Nib 🖋 family of packages.
+Core types and behaviours for the 🖋 Nib family of packages.
 
 ___
 
 
 ##  What is this?  ##
 
-[**_Nib_**](https://github.com/marrus-sh/Nib) is a suite of Swift packages serving as a reference implementation for XML and related technologies.
+[**_🖋 Nib_**](https://github.com/marrus-sh/Nib) is a suite of Swift packages serving as a reference implementation for X·M·L and related technologies.
 
 You won’t find that here, though.
-**_Nib Core_** provides all the fundamental protocols, types, and behaviours that the Nib modules depend upon, including things such as :—
-
- +  Protocols for interacting with sequences of Unicode scalar values
- +  Protocols for establishing wellformedness and validity
- +  Mechanisms for parsing data from a contextfree grammar (and then some!)
+**_🖋🥑 Nib Core_** provides all the fundamental protocols, types, and behaviours that the 🖋 Nib modules depend upon.
+For more information, see the documentation.
 
 
 ##  Usage  ##
 
-Use [SwiftPM](https://swift.org/package-manager/) to add Nib Core as a dependency :—
+Use [SwiftPM](https://swift.org/package-manager/) to add 🖋🥑 Nib Core as a dependency :—
 
 ```swift
 //  Add this to the `dependencies` for your project.
@@ -30,15 +27,14 @@ Use [SwiftPM](https://swift.org/package-manager/) to add Nib Core as a dependenc
 ```
 
 —: and then import it as necessary.
-All Nib modules begin with the emoji sigil `U+1F58B 🖋 LOWER LEFT FOUNTAIN PEN` followed by the module name, so for Nib Core that’s :—
 
 ```swift
-import 🖋Core
+import Nib·Core
 ```
 
 ##  Participation  ##
 
-Please see [the main Nib repository](https://github.com/marrus-sh/Nib) for further information on how to use, contribute to, or discuss Nib.
+Please see [the main 🖋 Nib repository](https://github.com/marrus-sh/Nib) for further information on how to use, contribute to, or discuss 🖋 Nib.
 
 ##  License  ##
 

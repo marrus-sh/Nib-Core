@@ -65,6 +65,8 @@ postfix operator ^+
 ///     0·2.
 postfix operator ^*
 
+postfix operator ~!
+
 /// Welformed·or·nil.
 ///
 ///  +  Version:

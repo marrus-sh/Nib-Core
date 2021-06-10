@@ -1,7 +1,7 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.3
 import PackageDescription
 
-/// __Nib Core:__ Core types and behaviours for the Nib 🖋 family of packages.
+/// __🖋🥑 Nib Core:__ Core types and behaviours for the 🖋 Nib family of packages.
 let package = Package(
 	name: "Nib-Core",
 	platforms: [
@@ -12,18 +12,41 @@ let package = Package(
 	],
 	products: [
 		.library(
-			name: "🖋Core",
-			targets: ["Core"]
+			name: "Nib·Core",
+			targets: ["Nib·Core"]
+		)
+	],
+	dependencies: [
+//		.package(
+//			url: "https://github.com/apple/swift-algorithms",
+//			.upToNextMinor(
+//				from: Version(0, 2, 1)
+//			)
+//		),
+		.package(
+			url: "https://github.com/apple/swift-collections",
+			.upToNextMinor(
+				from: Version(0, 0, 3)
+			)
 		)
 	],
 	targets: [
 		.target(
-			name: "Core",
-			dependencies: []
-		),
-		.testTarget(
-			name: "CoreTests",
-			dependencies: ["Core"]
+			name: "Nib·Core",
+			dependencies: [
+//				.product(
+//					name: "Algorithms",
+//					package: "swift-algorithms"
+//				),
+				.product(
+					name: "OrderedCollections",
+					package: "swift-collections"
+				)
+			]
+//		),
+//		.testTarget(
+//			name: "CoreTests",
+//			dependencies: ["Nib·Core"]
 		)
 	],
 	swiftLanguageVersions: [.v5]

@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: 🤷 Deed
-//  ================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Deed
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -7,15 +7,15 @@
 
 /// A struct wrapper for a reference to an object.
 ///
-/// `Deed`s may be owned or unowned.
-/// This allows for the use of unowned stored references with various wrapper types such as `Uncertain`, which ordinarily require owned references.
+/// ``Deed``s may be owned or unowned.
+/// This allows for the use of unowned stored references with various wrapper types such as ``Uncertain``, which ordinarily require owned references.
 ///
 ///  +  Version:
 ///     0·2.
 public struct Deed <Object>
 where Object : AnyObject {
 
-	/// Whether this `Deed` references its `.·value·` via an owned reference.
+	/// Whether this ``Deed`` references its ``·object·`` via an owned reference.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -25,24 +25,24 @@ where Object : AnyObject {
 	public var ·isOwned·: Bool
 	{ ·ownedValue🙈· != nil }
 
-	/// An owned reference to a value.
-	private var ·ownedValue🙈·: Object? = nil
+	/// An owned reference to an object.
+	private var ·ownedReference🙈·: Object? = nil
 
-	/// An unowned reference to a value.
+	/// An unowned reference to an object.
 	///
-	///  +  Note:
-	///     It is a runtime error if both `·ownedValue🙈·` and `·unownedValue🙈·` are `nil`.
-	private unowned var ·unownedValue🙈·: Object!
+	///  >  Note:
+	///  >  It is a runtime error if both ``·ownedReference🙈·`` and ``·unownedReference🙈·`` are `nil`.
+	private unowned var ·unownedReference🙈·: Object!
 
-	/// The `Object` referenced by this `Deed`.
+	/// The ``Object`` referenced by this ``Deed``.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
 	///     0·2.
-	public var ·value·: Object
-	{ ·ownedValue🙈· ?? ·unownedValue🙈· }
+	public var ·object·: Object
+	{ ·ownedReference🙈· ?? ·unownedReference🙈· }
 
 	/// Creates a `Deed` with an owned reference to the provided `value`.
 	///
