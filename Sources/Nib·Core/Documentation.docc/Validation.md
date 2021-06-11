@@ -1,6 +1,6 @@
 #  Validation in 🖋🥑 Nib Core  #
 
-About welformedness and validation checking.
+On welformedness and validation checking.
 
 @Comment {
 	Copyright © 2021 kibigo!

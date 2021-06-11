@@ -10,10 +10,10 @@
 /// Many internet specifications distinguish between *knowability* (whether a value is **_known_** or **_unknown_**) and *presence* (whether a value is **_present_** or **_absent_**).
 /// For example, the X·M·L Infoset specification [has this to say](http://www.w3.org/TR/xml-infoset/#intro.null):—
 ///
-/// « Some properties may sometimes have the value **_unknown_** or **_no value_**, and it is said that a property value is unknown or that a property has no value respectively.
+/// _Some properties may sometimes have the value **_unknown_** or **_no value_**, and it is said that a property value is unknown or that a property has no value respectively.
 /// These values are distinct from each other and from all other values.
 /// In particular they are distinct from the empty string, the empty set, and the empty list, each of which simply has no members.
-/// This specification does not use the term **_null_** since in some communities it has particular connotations which may not match those intended here. »
+/// This specification does not use the term **_null_** since in some communities it has particular connotations which may not match those intended here._
 ///
 /// Values of optional presence are easily represented in Swift using the `Optional` type.
 /// For values of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.

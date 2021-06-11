@@ -7,18 +7,18 @@
 
 /// A thing which can be validated.
 ///
+///  +  term Available since:
+///     0·1.
+///
 ///
 /// ###  Conformance  ###
 ///
 /// To conform to the ``Validatable`` protocol, a type must implement the ``__(_:)-5phyj`` postfix operator.
-///
-///  +  Version:
-///     0·1.
 public protocol Validatable {
 
 	/// Throws if the provided ``Validatable`` thing is not valid; otherwise returns the same value.
 	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
 	///
 	///  +  Parameters:
@@ -41,11 +41,10 @@ public extension Validatable {
 
 	/// Returns `nil` if the provided ``Validatable`` thing is not valid; otherwise returns the same thing.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  operand:

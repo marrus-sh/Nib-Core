@@ -7,13 +7,13 @@
 
 /// A thing which can be welformed (or, more specifically, not).
 ///
+///  +  term Available since:
+///     0·2.
+///
 ///
 /// ###  Conformance  ###
 ///
 /// To conform to the ``WelformednessConstrainable`` protocol, a type must implement the ``__(_:)`` postfix operator.
-///
-///  +  term Available since:
-///     0·2.
 public protocol WelformednessConstrainable {
 
 	/// Throws if the provided ``WelformednessConstrainable`` thing is not welformed; otherwise returns the same value.

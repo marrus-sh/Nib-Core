@@ -27,15 +27,13 @@ For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:P
 
 ##  Topics  ##
 
+
 ###  📚 Text  ###
 
- +  ``U_C_S_Character``
+ +  <doc:Text>
  +  ``TextProtocol``
  +  ``CustomTextConvertible``
  +  ``LosslessTextConvertible``
- +  ``CharacterLiteral``
- +  ``StringLiteral``
- +  ``SubstringLiteral``
 
 
 ###  💬 Expressions  ###
