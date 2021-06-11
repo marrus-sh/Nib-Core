@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Swift.Optional
+//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Swift.Optional
 //  ========================
 //
 //  Copyright © 2021 kibigo!

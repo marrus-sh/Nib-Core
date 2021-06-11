@@ -1,7 +1,7 @@
 // swift-tools-version:5.5
 import PackageDescription
 
-/// __🖋🥑 Nib Core:__ Core types and behaviours for the 🖋 Nib family of packages.
+/// __🖋🥑 Nib Core:__ Core types and behaviours for the 🖋 Nib family of packages.
 let package = Package(
 	name: "Nib-Core",
 	platforms: [

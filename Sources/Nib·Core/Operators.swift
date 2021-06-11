@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: Operators
+//  🖋🥑 Nib Core :: Nib·Core :: Operators
 //  ========================
 //
 //  Copyright © 2021 kibigo!

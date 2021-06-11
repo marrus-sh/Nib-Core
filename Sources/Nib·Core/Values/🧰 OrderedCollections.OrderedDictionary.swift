@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🧰 OrderedCollections.OrderedDictionary
+//  🖋🥑 Nib Core :: Nib·Core :: 🧰 OrderedCollections.OrderedDictionary
 //  ========================
 //
 //  Copyright © 2021 kibigo!

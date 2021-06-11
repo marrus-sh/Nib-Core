@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Defaultable
+//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Defaultable
 //  ========================
 //
 //  Copyright © 2021 kibigo!

@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Lookup
+//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Lookup
 //  ========================
 //
 //  Copyright © 2021 kibigo!

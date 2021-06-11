@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Uncertain
+//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Uncertain
 //  ========================
 //
 //  Copyright © 2021 kibigo!
@@ -16,11 +16,11 @@
 /// This specification does not use the term **_null_** since in some communities it has particular connotations which may not match those intended here. »
 ///
 /// Values of optional presence are easily represented in Swift using the `Optional` type.
-/// For values of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.
+/// For values of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.
 ///
 ///  >  Tip:
 ///  >  It is not possible to create an unowned ``Uncertain`` value.
-///  >  To get around this, 🖋🥑 Nib Core provides the ``Deed`` type.
+///  >  To get around this, 🖋🥑 Nib Core provides the ``Deed`` type.
 ///  >  `Deed`s are simple wrappers for object references, which may be either owned or unowned.
 ///
 ///  >  Note:

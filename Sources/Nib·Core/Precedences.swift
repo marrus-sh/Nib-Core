@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: Precedences
+//  🖋🥑 Nib Core :: Nib·Core :: Precedences
 //  ========================
 //
 //  Copyright © 2021 kibigo!

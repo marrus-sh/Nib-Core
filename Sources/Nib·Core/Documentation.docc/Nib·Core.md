@@ -1,6 +1,6 @@
 #  ``Nib%C2%B7Core``  #
 
-Core types and behaviours for the 🖋 Nib family of packages.
+Core types and behaviours for the 🖋 Nib family of packages.
 
 @Comment {
 	Copyright © 2021 kibigo!
@@ -11,10 +11,10 @@ Core types and behaviours for the 🖋 Nib family of packages.
 
 ##  Overview  ##
 
-[**_🖋 Nib_**](https://github.com/marrus-sh/Nib) is a suite of Swift packages serving as a reference implementation for X·M·L and related technologies.
+[**_🖋 Nib_**](https://github.com/marrus-sh/Nib) is a suite of Swift packages serving as a reference implementation for X·M·L and related technologies.
 
 You won’t find that here, though.
-**_🖋🥑 Nib Core_** provides all the fundamental protocols, types, and behaviours that the 🖋 Nib modules depend upon, including things such as :—
+**_🖋🥑 Nib Core_** provides all the fundamental protocols, types, and behaviours that the 🖋 Nib modules depend upon, including things such as:—
 
  +  Value types for representing uncertainty
  +  Protocols for interacting with sequences of Unicode scalar values
@@ -22,14 +22,14 @@ You won’t find that here, though.
  +  Protocols for defining expressions which can be composed from other expressions
  +  Generic regular expression matching
 
-For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Parsing>.
+For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Parsing>.
 
 
 ##  Topics  ##
 
 ###  📚 Text  ###
 
- +  ``U%C2%B7C%C2%B7S%C2%B7Character``
+ +  ``U_C_S_Character``
  +  ``TextProtocol``
  +  ``CustomTextConvertible``
  +  ``LosslessTextConvertible``
@@ -51,10 +51,11 @@ For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Par
  +  ``Atomic``
  +  ``AtomicExpression``
  +  ``RegularExpression``
- 
- 
+
+
 ###  ☑️ Validation  ###
- 
+
+ +  <doc:Validation>
  +  ``WelformednessConstrainable``
  +  ``Validatable``
 

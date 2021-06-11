@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Deed
+//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Deed
 //  ========================
 //
 //  Copyright © 2021 kibigo!
