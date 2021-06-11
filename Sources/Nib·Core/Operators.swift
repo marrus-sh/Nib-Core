@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: Operators
-//  ==================================
+//  🖋🥑 Nib Core :: Nib·Core :: Operators
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -7,86 +7,90 @@
 
 /// Prefix·match.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator ...~=: ComparisonPrecedence
 
 /// Optional·map.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator ?->: CastingPrecedence
 
 /// Exclusion.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator ÷: ExclusionPrecedence
 
 /// Excluding·assignment.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator ÷=: AssignmentPrecedence
 
 /// Codepoint·equal.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator •=•: ComparisonPrecedence
 
 /// Of.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 infix operator ✖️: TimesPrecedence
 
 /// Zero·or·one·of.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ^?
 
 /// One·of.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ^!
 
 /// One·or·more·of.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ^+
 
 /// Zero·or·more·of.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ^*
 
+/// Wrapped·or·default.
+///
+///  +  term Available since:
+///     0·2.
 postfix operator ~!
 
 /// Welformed·or·nil.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ❓
 
 /// Welformed·or·throw.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ❗️
 
 /// Valid·or·nil.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ⁉️
 
 /// Valid·or·throw.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 postfix operator ‼️

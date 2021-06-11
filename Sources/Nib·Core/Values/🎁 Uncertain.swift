@@ -15,13 +15,13 @@
 /// In particular they are distinct from the empty string, the empty set, and the empty list, each of which simply has no members.
 /// This specification does not use the term **_null_** since in some communities it has particular connotations which may not match those intended here. »
 ///
-/// Values of optional presence are easily represented in Swift using the ``Optional`` type.
+/// Values of optional presence are easily represented in Swift using the `Optional` type.
 /// For values of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.
 ///
 ///  >  Tip:
 ///  >  It is not possible to create an unowned ``Uncertain`` value.
 ///  >  To get around this, 🖋🥑 Nib Core provides the ``Deed`` type.
-///  >  ``Deed``s are simple wrappers for object references, which may be either owned or unowned.
+///  >  `Deed`s are simple wrappers for object references, which may be either owned or unowned.
 ///
 ///  >  Note:
 ///  >  Credit to [@hisekaldma on Swift Forums](https://forums.swift.org/t/three-way-optionals-distinguishing-unknown-and-absent-values/45423/13) for helping to solidify the ideas around this approach.
@@ -41,13 +41,12 @@ public enum Uncertain <Wrapped> {
 	///     0·2.
 	case unknown
 
-	/// The ``Wrapped`` thing of this ``Uncertain`` value, if it is ``known``; `nil` otherwise.
+	/// The `Wrapped` thing of this ``Uncertain`` value, if it is ``known(_:)-swift.enum.case``; `nil` otherwise.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable
 	public var optional: Wrapped? {
 		if case .known (
@@ -58,20 +57,19 @@ public enum Uncertain <Wrapped> {
 		{ return nil }
 	}
 
-	/// Creates an ``Unknown`` value wrapping an owned ``Deed`` which wraps the provided `object`.
+	/// Creates an ``Uncertain`` value wrapping an owned ``Deed`` which wraps the provided `object`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  object:
 	///         An object.
 	///
 	///  +  Returns:
-	///     A ``known`` value wrapping an owned ``Deed`` which wraps `object`.
+	///     A ``known(_:)-swift.enum.case`` value wrapping an owned ``Deed`` which wraps `object`.
 	public static func known <Object> (
 		_ object: Object
 	) -> Uncertain<Wrapped>
@@ -80,20 +78,19 @@ public enum Uncertain <Wrapped> {
 		Wrapped == Deed<Object>
 	{ .known(Deed(object)) }
 
-	/// Creates a ``Unknown`` value wrapping an unowned ``Deed`` which wraps the provided `object`.
+	/// Creates a ``Uncertain`` value wrapping an unowned ``Deed`` which wraps the provided `object`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  object:
 	///         An object.
 	///
 	///  +  Returns:
-	///     A ``known`` value wrapping an unowned ``Deed`` which wraps `object`.
+	///     A ``known(_:)-swift.enum.case`` value wrapping an unowned ``Deed`` which wraps `object`.
 	public static func known <Object> (
 		unowned object: Object
 	) -> Uncertain<Wrapped>
@@ -108,25 +105,24 @@ public enum Uncertain <Wrapped> {
 		)
 	}
 
-	/// Returns ``unknown`` if the provided `lefthandOperand` is ``unknown``; otherwise, returns a ``known`` value wrapping the result of evaluating the provided `righthandOperand` with the ``Wrapped`` thing of the provided `lefthandOperand`.
+	/// Returns ``unknown`` if the provided `lefthandOperand` is ``unknown``; otherwise, returns a ``known(_:)-swift.enum.case`` value wrapping the result of evaluating the provided `righthandOperand` with the `Wrapped` thing of the provided `lefthandOperand`.
 	///
 	///  >  Note:
 	///  >  This operator behaves similarly to `Optional/map(_:)`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  lefthandOperand:
 	///         An ``Uncertain`` value.
 	///      +  righthandOperand:
-	///         A closure mapping a ``Wrapped`` thing to some thing.
+	///         A closure mapping a `Wrapped` thing to some thing.
 	///
 	///  +  Returns:
-	///     ``unknown`` if `lefthandOperand` is ``unknown``; otherwise, a ``known`` value wrapping the result of evaluating `righthandOperand` with the ``Wrapped`` thing of `lefthandOperand`.
+	///     ``unknown`` if `lefthandOperand` is ``unknown``; otherwise, a ``known(_:)-swift.enum.case`` value wrapping the result of evaluating `righthandOperand` with the `Wrapped` thing of `lefthandOperand`.
 	@inlinable
 	public static func ?-> <Mapped> (
 		_ lefthandOperand: Uncertain<Wrapped>,
@@ -140,7 +136,7 @@ public enum Uncertain <Wrapped> {
 		{ return .unknown }
 	}
 
-	/// Returns ``unknown`` if the provided `lefthandOperand` is ``unknown``; otherwise, returns the result of evaluating the provided `righthandOperand` with the ``Wrapped`` thing of the provided `lefthandOperand`.
+	/// Returns ``unknown`` if the provided `lefthandOperand` is ``unknown``; otherwise, returns the result of evaluating the provided `righthandOperand` with the `Wrapped` thing of the provided `lefthandOperand`.
 	///
 	///  +  term  Author(s): [kibigo!](https://go.KIBI.family/About/#me).
 	///  +  term  Available since: 0·2.
@@ -149,10 +145,10 @@ public enum Uncertain <Wrapped> {
 	///      +  lefthandOperand:
 	///         An ``Uncertain`` value.
 	///      +  righthandOperand:
-	///         A closure mapping a ``Wrapped`` thing to an ``Uncertain`` value, not necessarily of the same type as `lefthandOperand`.
+	///         A closure mapping a `Wrapped` thing to an ``Uncertain`` value, not necessarily of the same type as `lefthandOperand`.
 	///
 	///  +  Returns:
-	///     ``unknown`` if `l·h·s` is ``unknown``; otherwise, the result of evaluating `righthandOperand` with the ``Wrapped`` thing of `lefthandOperand`.
+	///     ``unknown`` if `l·h·s` is ``unknown``; otherwise, the result of evaluating `righthandOperand` with the `Wrapped` thing of `lefthandOperand`.
 	@inlinable
 	public static func ?-> <Mapped> (
 		_ lefthandOperand: Uncertain<Wrapped>,
@@ -166,22 +162,21 @@ public enum Uncertain <Wrapped> {
 		{ return .unknown }
 	}
 
-	/// Returns the ``Wrapped`` thing of the provided `lefthandOperand` if it is ``known``, or the provided `righthandOperand` if it is not.
+	/// Returns the `Wrapped` thing of the provided `lefthandOperand` if it is ``known(_:)-swift.enum.case``, or the provided `righthandOperand` if it is not.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  lefthandOperand:
 	///         An `Uncertain` value.
 	///      +  righthandOperand:
-	///         An autoclosure producing a ``Wrapped`` thing.
+	///         An autoclosure producing a `Wrapped` thing.
 	///
 	///  +  Returns:
-	///     The ``Wrapped`` thing of `lefthandOperand` if it is ``known``; otherwise, the result of evaluating `righthandOperand`.
+	///     The `Wrapped` thing of `lefthandOperand` if it is ``known(_:)-swift.enum.case``; otherwise, the result of evaluating `righthandOperand`.
 	@inlinable
 	public static func ?? (
 		_ lefthandOperand: Uncertain<Wrapped>,
@@ -195,13 +190,12 @@ public enum Uncertain <Wrapped> {
 		{ return try righthandOperand() }
 	}
 
-	/// Returns the provided `lefthandOperand` if it is ``known``, or the provided `righthandOperand` if it is not.
+	/// Returns the provided `lefthandOperand` if it is ``known(_:)-swift.enum.case``, or the provided `righthandOperand` if it is not.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  lefthandOperand:
@@ -210,7 +204,7 @@ public enum Uncertain <Wrapped> {
 	///         An autoclosure producing an ``Uncertain`` value.
 	///
 	///  +  Returns:
-	///     `lefthandOperand` if it is ``known``; otherwise, the result of evaluating `righthandOperand`.
+	///     `lefthandOperand` if it is ``known(_:)-swift.enum.case``; otherwise, the result of evaluating `righthandOperand`.
 	@inlinable
 	public static func ?? (
 		_ lefthandOperand: Uncertain<Wrapped>,
@@ -224,22 +218,21 @@ public enum Uncertain <Wrapped> {
 		{ return try righthandOperand() }
 	}
 
-	/// Returns the `Inner` (``Optional/Wrapped``) thing of the ``Optional`` value wrapped by the provided `lefthandOperand` if it is ``known`` and not `nil`, or the provided `righthandOperand` if it is not.
+	/// Returns the `Inner` (`Wrapped`) thing of the `Optional` value wrapped by the provided `lefthandOperand` if it is ``known(_:)-swift.enum.case`` and not `nil`, or the provided `righthandOperand` if it is not.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  lefthandOperand:
-	///         An ``Uncertain`` value which wraps an ``Optional`` of `Inner`.
+	///         An ``Uncertain`` value which wraps an `Optional` of `Inner`.
 	///      +  righthandOperand:
 	///         An autoclosure producing an `Inner` thing.
 	///
 	///  +  Returns:
-	///     The `Inner` thing of the ``Optional`` value wrapped by `lefthandOperand` if it is ``known`` and not `nil`; otherwise, the result of evaluating `righthandOperand`.
+	///     The `Inner` thing of the `Optional` value wrapped by `lefthandOperand` if it is ``known(_:)-swift.enum.case`` and not `nil`; otherwise, the result of evaluating `righthandOperand`.
 	@inlinable
 	public static func ?? <Inner> (
 		_ lefthandOperand: Uncertain<Wrapped>,
@@ -261,13 +254,12 @@ public enum Uncertain <Wrapped> {
 extension Uncertain
 where Wrapped : Defaultable {
 
-	/// Returns the ``Wrapped`` thing of the provided `operand`, or the ``Defaultable/default`` if the provided `operand` is ``unknown``.
+	/// Returns the `Wrapped` thing of the provided `operand`, or the ``Defaultable/default`` if the provided `operand` is ``unknown``.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable
 	public static postfix func ~! (
 		_ operand: Uncertain<Wrapped>
@@ -282,11 +274,10 @@ extension Uncertain:
 
 	/// The default ``Uncertain`` thing (``unknown``).
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable
 	public static var `default`: Uncertain<Wrapped>
 	{ .unknown }
@@ -306,15 +297,14 @@ where
 
 	/// Creates an ``Uncertain`` value from the provided `elements`.
 	///
-	///  +  Note:
-	///     Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByArrayLiteral`` when ``Wrapped`` is a ``RangeReplaceableCollection``.
-	///     This is true for ``Array``s, but not for ``Set``.
+	///  >  Note:
+	///  >  Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByArrayLiteral`` when `Wrapped` is a ``RangeReplaceableCollection``.
+	///  >  This is true for `Array`s, but not for `Set`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  elements:
@@ -335,11 +325,10 @@ where Wrapped : ExpressibleByBooleanLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -374,15 +363,14 @@ where
 
 	/// Creates an ``Uncertain`` value from the provided `elements`.
 	///
-	///  +  Note:
-	///     Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByDictionaryLiteral`` when ``Wrapped`` is a ``Lookup``.
-	///     Conformance to the ``Lookup`` protocol is declared for ``Dictionary`` and ``OrderedDictionary`` values.
+	///  >  Note:
+	///  >  Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByDictionaryLiteral`` when `Wrapped` is a ``Lookup``.
+	///  >  Conformance to the ``Lookup`` protocol is declared for `Dictionary` and `OrderedDictionary`` values.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  elements:
@@ -403,11 +391,10 @@ where Wrapped : ExpressibleByExtendedGraphemeClusterLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -434,11 +421,10 @@ where Wrapped : ExpressibleByFloatLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -465,11 +451,10 @@ where Wrapped : ExpressibleByIntegerLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -493,11 +478,10 @@ where Wrapped : ExpressibleByNilLiteral {
 
 	/// Creates an ``Uncertain`` value (of `.known(nil)`) from the provided (`Void`) `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -524,11 +508,10 @@ where Wrapped : ExpressibleByStringLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -555,11 +538,10 @@ where Wrapped : ExpressibleByStringInterpolation {
 
 	/// Creates an ``Uncertain`` value from the provided `stringInterpolation`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  stringInterpolation:
@@ -586,11 +568,10 @@ where Wrapped : ExpressibleByUnicodeScalarLiteral {
 
 	/// Creates an ``Uncertain`` value from the provided `value`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:

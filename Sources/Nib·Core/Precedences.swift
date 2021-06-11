@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: Precedences
-//  ====================================
+//  🖋🥑 Nib Core :: Nib·Core :: Precedences
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -7,7 +7,7 @@
 
 /// Exclusion precedence.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 precedencegroup ExclusionPrecedence {
 	higherThan: MultiplicationPrecedence
@@ -17,7 +17,7 @@ precedencegroup ExclusionPrecedence {
 
 /// Times precedence.
 ///
-///  +  Version:
+///  +  term Available since:
 ///     0·2.
 precedencegroup TimesPrecedence {
 	higherThan: CastingPrecedence

@@ -1,4 +1,4 @@
-#  ``Nib·Core``  #
+#  ``Nib%C2%B7Core``  #
 
 Core types and behaviours for the 🖋 Nib family of packages.
 
@@ -21,14 +21,15 @@ You won’t find that here, though.
  +  Protocols for establishing wellformedness and validity
  +  Protocols for defining expressions which can be composed from other expressions
  +  Generic regular expression matching
- 
- 
+
+For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Parsing>.
+
+
 ##  Topics  ##
- 
- 
+
 ###  📚 Text  ###
 
- +  ``U·C·S·Character``
+ +  ``U%C2%B7C%C2%B7S%C2%B7Character``
  +  ``TextProtocol``
  +  ``CustomTextConvertible``
  +  ``LosslessTextConvertible``

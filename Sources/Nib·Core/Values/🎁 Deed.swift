@@ -10,20 +10,19 @@
 /// ``Deed``s may be owned or unowned.
 /// This allows for the use of unowned stored references with various wrapper types such as ``Uncertain``, which ordinarily require owned references.
 ///
-///  +  Version:
+///  +  term Available since version:
 ///     0·2.
 public struct Deed <Object>
 where Object : AnyObject {
 
-	/// Whether this ``Deed`` references its ``·object·`` via an owned reference.
+	/// Whether this ``Deed`` references its ``_object_`` via an owned reference.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public var ·isOwned·: Bool
-	{ ·ownedValue🙈· != nil }
+	{ ·ownedReference🙈· != nil }
 
 	/// An owned reference to an object.
 	private var ·ownedReference🙈·: Object? = nil
@@ -31,74 +30,69 @@ where Object : AnyObject {
 	/// An unowned reference to an object.
 	///
 	///  >  Note:
-	///  >  It is a runtime error if both ``·ownedReference🙈·`` and ``·unownedReference🙈·`` are `nil`.
+	///  >  It is a runtime error if both `·ownedReference🙈·` and `·unownedReference🙈·` are `nil`.
 	private unowned var ·unownedReference🙈·: Object!
 
-	/// The ``Object`` referenced by this ``Deed``.
+	/// The `Object` referenced by this ``Deed``.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public var ·object·: Object
 	{ ·ownedReference🙈· ?? ·unownedReference🙈· }
 
-	/// Creates a `Deed` with an owned reference to the provided `value`.
+	/// Creates a ``Deed`` with an owned reference to the provided `object`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
 	///         An `Object`.
 	public init (
-		_ value: Object
-	) { ·ownedValue🙈· = value }
+		_ object: Object
+	) { ·ownedReference🙈· = object }
 
-	/// Creates a `Deed` with an unowned reference to the provided `value`.
+	/// Creates a ``Deed`` with an unowned reference to the provided `object`.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  value:
 	///         An `Object`.
 	public init (
-		unowned value: Object
-	) { ·unownedValue🙈· = value }
+		unowned object: Object
+	) { ·unownedReference🙈· = object }
 
-	/// Releases the reference to this `Deed`’s `.·value·`, making it unowned.
+	/// Releases the reference to this ``Deed``’s ``_object_``, making it unowned.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public mutating func ·release· () {
 		if ·isOwned· {
-			·unownedValue🙈· = ·ownedValue🙈·
-			·ownedValue🙈· = nil
+			·unownedReference🙈· = ·ownedReference🙈·
+			·ownedReference🙈· = nil
 		}
 	}
 
-	/// Seizes the reference to this `Deed`’s `.·value·`, making it owned.
+	/// Seizes the reference to this ``Deed``’s ``_object_``, making it owned.
 	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public mutating func ·seize· () {
 		if !·isOwned· {
-			·ownedValue🙈· = ·unownedValue🙈·
-			·unownedValue🙈· = nil
+			·ownedReference🙈· = ·unownedReference🙈·
+			·unownedReference🙈· = nil
 		}
 	}
 

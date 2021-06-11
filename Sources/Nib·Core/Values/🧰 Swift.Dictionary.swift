@@ -9,13 +9,13 @@ extension Swift.Dictionary:
 	Lookup
 {
 
-	/// A thing which can be used to look up ``ValueFromLookup``s in this ``Dictionary``.
+	/// A thing which can be used to look up ``ValueFromLookup``s in this `Dictionary`.
 	///
 	///  +  Version:
 	///     0·2.
 	public typealias KeyForLookup = Key
 
-	/// A thing which is the result of looking up a ``KeyForLookup`` in this ``Dictionary``.
+	/// A thing which is the result of looking up a ``KeyForLookup`` in this `Dictionary`.
 	///
 	///  +  Version:
 	///     0·2.
