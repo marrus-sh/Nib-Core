@@ -1,6 +1,6 @@
-#  Validation in 🖋🥑 Nib Core  #
+#  🕵️ Validation  #
 
-On welformedness and validation checking.
+Welformedness and validation checking in 🖋🥑 Nib Core.
 
 @Comment {
 	Copyright © 2021 kibigo!
@@ -18,3 +18,16 @@ Likewise for postfix operators ``Validatable/__(_:)-72hav`` and ``Validatable/__
 In all other cases (i.e. when a value *is* welformed or valid), these operators simply return the value they were appended to.
 
 You can think of these operators as similar to the Swift `?` and `!` operators for `Optional`s (although their behaviour is slightly different).
+
+
+##  Topics  ##
+
+
+###  Welformedness  ###
+
+ +  ``WelformednessConstrainable``
+
+
+###  Validity  ###
+
+ +  ``Validatable``

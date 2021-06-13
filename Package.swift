@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
 	name: "Nib-Core",
 	platforms: [
-		.iOS(.v13),
-		.macOS(.v10_15),
-		.tvOS(.v13),
-		.watchOS(.v6)
+        .macOS(.v11),
+        .iOS(.v14),
+        .watchOS(.v7),
+        .tvOS(.v13)
 	],
 	products: [
 		.library(
@@ -17,12 +17,12 @@ let package = Package(
 		)
 	],
 	dependencies: [
-//		.package(
-//			url: "https://github.com/apple/swift-algorithms",
-//			.upToNextMinor(
-//				from: Version(0, 2, 1)
-//			)
-//		),
+		.package(
+			url: "https://github.com/apple/swift-algorithms",
+			.upToNextMinor(
+				from: Version(0, 2, 1)
+			)
+		),
 		.package(
 			url: "https://github.com/apple/swift-collections",
 			.upToNextMinor(
@@ -34,10 +34,10 @@ let package = Package(
 		.target(
 			name: "Nib·Core",
 			dependencies: [
-//				.product(
-//					name: "Algorithms",
-//					package: "swift-algorithms"
-//				),
+				.product(
+					name: "Algorithms",
+					package: "swift-algorithms"
+				),
 				.product(
 					name: "OrderedCollections",
 					package: "swift-collections"

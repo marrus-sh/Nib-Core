@@ -7,7 +7,7 @@
 
 /// A ``TextProtocol`` value consisting of a single Unicode scalar value.
 ///
-/// ``CharacterLiteral``s conform to ``TextProtocol``, and can consequently be used as a singleton `TextProtocol` values, for example as the ``CustomTextConvertible/Text-swift.associatedtype``s of ``U_C_S_Character``s themselves.
+/// ``CharacterLiteral``s conform to ``TextProtocol``, and can consequently be used as a singleton `TextProtocol` values, for example as the ``CustomTextConvertible/Text-swift.associatedtype``s of [`U·C·S·Character`](doc:U_C_S_Character)s themselves.
 ///
 ///  +  term Available since:
 ///     0·2.

@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: ☑️ Validatable
+//  🖋🥑 Nib Core :: Nib·Core :: 🕵️ Validatable
 //  ========================
 //
 //  Copyright © 2021 kibigo!
@@ -13,7 +13,7 @@
 ///
 /// ###  Conformance  ###
 ///
-/// To conform to the ``Validatable`` protocol, a type must implement the ``__(_:)-5phyj`` postfix operator.
+/// To conform to the ``Validatable`` protocol, a type must implement the [`‼️(_:)`](doc:__(_:)-5phyj) postfix operator.
 public protocol Validatable {
 
 	/// Throws if the provided ``Validatable`` thing is not valid; otherwise returns the same value.
@@ -43,6 +43,7 @@ public extension Validatable {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///

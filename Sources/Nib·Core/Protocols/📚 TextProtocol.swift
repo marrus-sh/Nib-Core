@@ -5,27 +5,23 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A `Collection` of ``U_C_S_Character``s which can be interpreted as text.
+/// A `Collection` of [`U·C·S·Character`](doc:U_C_S_Character)s which can be interpreted as text.
 ///
-/// See <doc:Text> for more on the exact meaning of this protocol.
+/// See <doc:--Text> for more on the precise meaning of this protocol.
 ///
-///  +  term Specification:
+///  +  term Specification(s):
 ///     <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-text>.
+///
 ///  +  term Available since:
 ///     0·2.
 ///
 ///
 /// ###  Conformance  ###
 ///
-/// To conform to the ``TextProtocol``, a type must implement the ``init(_:)-9b27s`` initializer, enabling conversion to that type from other `TextProtocol` things.
+/// To conform to the ``TextProtocol``, a type must implement the [`init(_:)`](doc:init(_:)-9b27s) initializer, enabling conversion to that type from other `TextProtocol` things.
 ///
 ///
 /// ##  Topics  ##
-///
-///
-/// ###  Text Characters  ###
-///
-///  +  ``U_C_S_Character``
 ///
 ///
 /// ###  Conforming Types  ###

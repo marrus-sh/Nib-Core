@@ -24,47 +24,28 @@ You won’t find that here, though.
 
 For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Parsing>.
 
+ +  term Framework version:
+    0·_2pre.
+
+ +  term Maintainer(s):
+    [kibigo!](https://go.KIBI.family/About/#me).
+
+ +  Source repository:
+    [github:marrus-sh/Nib-Core](https://github.com/marrus-sh/Nib-Core).
 
 ##  Topics  ##
 
 
-###  📚 Text  ###
+###  Tutorials  ###
 
- +  <doc:Text>
- +  ``TextProtocol``
- +  ``CustomTextConvertible``
- +  ``LosslessTextConvertible``
+ +  <doc:Parsing>
 
 
-###  💬 Expressions  ###
+###  Features  ###
 
- +  ``ExpressionProtocol``
- +  ``Expressible``
- +  ``ExclusionProtocol``
- +  ``Excludable``
+ +  <doc:--Text>
+ +  <doc:---Validation>
+ +  <doc:--Expressions>
+ +  <doc:--Atomics>
+ +  <doc:--Miscellany>
 
-
-###  ⚛️ Atomics  ###
-
- +  ``Atomic``
- +  ``AtomicExpression``
- +  ``RegularExpression``
-
-
-###  ☑️ Validation  ###
-
- +  <doc:Validation>
- +  ``WelformednessConstrainable``
- +  ``Validatable``
-
-
-### 🎁 Wrappers  ###
-
- +  ``Uncertain``
- +  ``Deed``
-
-
-###  🧰 Miscellany  ###
-
- +  ``Defaultable``
- +  ``Lookup``

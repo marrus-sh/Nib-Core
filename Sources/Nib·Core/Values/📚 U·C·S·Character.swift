@@ -8,7 +8,7 @@
 /// A single Unicode scalar value.
 ///
 ///  >  Note:
-///  >  The name of this type is ``U_C_S_Character`` to clearly differentiate it from Swift’s builtin `Character` type.
+///  >  The name of this type is `U·C·S·Character` to clearly differentiate it from Swift’s builtin `Character` type.
 ///
 ///  +  term Available since:
 ///     0·2.
@@ -24,10 +24,11 @@ extension U·C·S·Character:
 	///     0·2.
 	public typealias Text = CharacterLiteral
 
-	/// This ``U_C_S_Character``, as ``CustomTextConvertible/Text-swift.associatedtype``.
+	/// This [`U·C·S·Character`](doc:U_C_S_Character), as [`Text`](doc:CustomTextConvertible/Text-swift.associatedtype).
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable
@@ -36,16 +37,17 @@ extension U·C·S·Character:
 		set { self = newValue[0] }
 	}
 
-	/// Creates a new ``U_C_S_Character`` from the provided `text`, if possible.
+	/// Creates a new [`U·C·S·Character`](doc:U_C_S_Character) from the provided `text`, if possible.
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A ``CustomTextConvertible/Text-swift.associatedtype`` (i.e., ``CharacterLiteral``) represeting the new ``U_C_S_Character``.
+	///         A [`Text`](doc:Text-swift.associatedtype) (i.e., ``CharacterLiteral``) represeting the new [`U·C·S·Character`](doc:U_C_S_Character).
 	@inlinable
 	public init? (
 		_ text: Text

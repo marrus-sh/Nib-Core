@@ -1,6 +1,6 @@
-#  Text in 🖋🥑 Nib Core  #
+#  📚 Text  #
 
-On text and characters.
+Text and characters in 🖋🥑 Nib Core.
 
 @Comment {
 	Copyright © 2021 kibigo!
@@ -32,3 +32,16 @@ Not all `Collection`s of `U·C·S·Character`s necessarily conform to `TextProto
 Akin to `CustomStringConvertible` and `LosslessStringConvertible`, 🖋🥑 Nib Core provides a ``CustomTextConvertible`` and ``LosslessTextConvertible``.
 Types which conform to one of these protocols must be convertible to a ``TextProtocol`` thing via the ``CustomTextConvertible/text-swift.property`` property.
 `LosslessTextConvertible` conformance is provided for `String`, `Substring`, and ``U_C_S_Character``, and required for `TextProtocol` types (they must be convertible to themselves).
+
+##  Topics  ##
+
+###  Representing text  ###
+
+ +  ``U_C_S_Character``
+ +  ``TextProtocol``
+
+
+###  Text conversions  ###
+
+ +  ``CustomTextConvertible``
+ +  ``LosslessTextConvertible``

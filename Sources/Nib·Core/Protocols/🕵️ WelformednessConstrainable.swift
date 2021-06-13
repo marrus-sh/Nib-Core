@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: ☑️ WelformednessConstrainable
+//  🖋🥑 Nib Core :: Nib·Core :: 🕵️ WelformednessConstrainable
 //  ========================
 //
 //  Copyright © 2021 kibigo!
@@ -13,7 +13,7 @@
 ///
 /// ###  Conformance  ###
 ///
-/// To conform to the ``WelformednessConstrainable`` protocol, a type must implement the ``__(_:)`` postfix operator.
+/// To conform to the ``WelformednessConstrainable`` protocol, a type must implement the [`❗️(_:)`](doc:__(_:)) postfix operator.
 public protocol WelformednessConstrainable {
 
 	/// Throws if the provided ``WelformednessConstrainable`` thing is not welformed; otherwise returns the same value.
@@ -43,6 +43,7 @@ public extension WelformednessConstrainable {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///

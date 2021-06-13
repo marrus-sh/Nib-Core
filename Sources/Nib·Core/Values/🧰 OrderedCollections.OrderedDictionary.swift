@@ -11,16 +11,16 @@ extension OrderedCollections.OrderedDictionary:
 	Lookup
 {
 
-	/// A thing which can be used to look up ``ValueFromLookup``s in this `OrderedDictionary`.
+	/// A thing which can be used to look up ``ThingFromLookup``s in this `OrderedDictionary`.
 	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
 	public typealias KeyForLookup = Key
 
 	/// A thing which is the result of looking up a ``KeyForLookup`` in this `OrderedDictionary`.
 	///
-	///  +  Version:
+	///  +  term Available since:
 	///     0·2.
-	public typealias ValueFromLookup = Value
+	public typealias ThingFromLookup = Value
 
 }

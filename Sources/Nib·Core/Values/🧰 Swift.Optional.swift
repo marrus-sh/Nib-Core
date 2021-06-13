@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Swift.Optional
+//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Swift.Optional
 //  ========================
 //
 //  Copyright © 2021 kibigo!
@@ -14,6 +14,7 @@ extension Swift.Optional {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -39,6 +40,7 @@ extension Swift.Optional {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -66,6 +68,7 @@ where Wrapped : Defaultable {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable
@@ -84,6 +87,7 @@ extension Swift.Optional:
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable

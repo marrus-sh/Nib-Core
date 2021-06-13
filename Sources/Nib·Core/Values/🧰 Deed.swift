@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🎁 Deed
+//  🖋🥑 Nib Core :: Nib·Core :: 🧰 Deed
 //  ========================
 //
 //  Copyright © 2021 kibigo!
@@ -10,15 +10,16 @@
 /// ``Deed``s may be owned or unowned.
 /// This allows for the use of unowned stored references with various wrapper types such as ``Uncertain``, which ordinarily require owned references.
 ///
-///  +  term Available since version:
+///  +  term Available since:
 ///     0·2.
 public struct Deed <Object>
 where Object : AnyObject {
 
-	/// Whether this ``Deed`` references its ``_object_`` via an owned reference.
+	/// Whether this ``Deed`` references its [`·object·`](doc:_object_) via an owned reference.
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public var ·isOwned·: Bool
@@ -37,6 +38,7 @@ where Object : AnyObject {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public var ·object·: Object
@@ -46,6 +48,7 @@ where Object : AnyObject {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -60,6 +63,7 @@ where Object : AnyObject {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -70,10 +74,11 @@ where Object : AnyObject {
 		unowned object: Object
 	) { ·unownedReference🙈· = object }
 
-	/// Releases the reference to this ``Deed``’s ``_object_``, making it unowned.
+	/// Releases the reference to this ``Deed``’s [`·object·`](doc:_object_), making it unowned.
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public mutating func ·release· () {
@@ -83,10 +88,11 @@ where Object : AnyObject {
 		}
 	}
 
-	/// Seizes the reference to this ``Deed``’s ``_object_``, making it owned.
+	/// Seizes the reference to this ``Deed``’s [`·object·`](doc:_object_), making it owned.
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public mutating func ·seize· () {
