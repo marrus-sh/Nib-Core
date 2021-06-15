@@ -38,6 +38,7 @@ where Self : CustomStringConvertible {
 	///
 	///  +  term Available since:
 	///     0·2.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	@inlinable

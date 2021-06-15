@@ -16,7 +16,7 @@
 /// To conform to the ``Validatable`` protocol, a type must implement the [`‼️(_:)`](doc:__(_:)-5phyj) postfix operator.
 public protocol Validatable {
 
-	/// Throws if the provided ``Validatable`` thing is not valid; otherwise returns the same value.
+	/// Throws if the provided ``Validatable`` thing is not valid; otherwise returns the same thing.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -49,7 +49,7 @@ public extension Validatable {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         A ``Validatable`` value.
+	///         A ``Validatable`` thing.
 	///
 	///  +  Returns:
 	///     `operand` if valid; otherwise, `nil`.

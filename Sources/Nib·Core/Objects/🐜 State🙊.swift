@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: State🙊
-//  ================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🐜 State🙊
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -7,7 +7,7 @@
 
 /// A parse state.
 ///
-/// Parse states are `Hashable` by identity—two states are equal (and hash to the same value) iff they are `===`.
+/// Parse states are `Hashable` by identity—two states are equal (and hash to the same thing) iff they are `===`.
 internal class State🙊:
 	Hashable,
 	Identifiable
@@ -15,29 +15,32 @@ internal class State🙊:
 
 	/// The `State🙊` which this `State🙊` was originally derived from, or `self` if it was not derived from an existing `State🙊`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·base·: State🙊
 	{ self }
 
 	/// The `State🙊`s which this `State🙊` will result in after a correct match.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·next·: [State🙊]
 	{ [] }
 
 	/// Creates a new `State🙊`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	init ()
 	{}
 	
 	/// Wipes the internal memory of this `State🙊` to prevent reference cycles / memory leakage.
 	///
-	/// After a `·blast·()`, this `State🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// After a `·blast·()`, this `State🙊` will have an empty `·next·` and thus cannot ever lead to a match.
 	/// Only call this function when this `State🙊` is guaranteed to never be used again.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	func ·blast· ()
 	{}
 
@@ -45,7 +48,7 @@ internal class State🙊:
 	///
 	/// This will be the same `State🙊`, except for `ParsingState🙊`s whose `·base·` is their `self`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
@@ -63,7 +66,7 @@ internal class State🙊:
 	///
 	/// `State🙊`s are hashed by their `ObjectIdentifier`s.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
@@ -83,18 +86,18 @@ internal class State🙊:
 	///
 	/// `State🙊` equality is determined by their `ObjectIdentifier`s.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
-	///      +  l·h·s:
+	///      +  lefthandOperand:
 	///         A `State🙊`.
-	///      +  r·h·s:
+	///      +  righthandOperand:
 	///         A `State🙊`.
 	static func == (
-		_ l·h·s: State🙊,
-		_ r·h·s: State🙊
+		_ lefthandOperand: State🙊,
+		_ righthandOperand: State🙊
 	) -> Bool
-	{ ObjectIdentifier(l·h·s) == ObjectIdentifier(r·h·s) }
+	{ ObjectIdentifier(lefthandOperand) == ObjectIdentifier(righthandOperand) }
 
 }

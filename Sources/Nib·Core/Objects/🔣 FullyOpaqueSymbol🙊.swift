@@ -1,42 +1,31 @@
-//  🖋🍎 Nib Core :: Core :: FullyOpaqueSymbol🙊
-//  ============================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🔣 FullyOpaqueSymbol🙊
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-/// A wrapper for a `Symbolic` value with all type information erased.
+/// A wrapper for a `Symbolic` thing with all type information erased.
 ///
 /// `FullyOpaqueSymbol🙊`s abstract away the typing information of `Symbol🙊`s to allow them to be collected together in a single cache.
 /// This is used to enable the `·getSymbol·(for:)` function to always return the same `Symbol🙊` instance for the same argument, preventing needless memory usage in expressions with large numbers of symbols.
 internal class FullyOpaqueSymbol🙊:
-	CustomStringConvertible,
 	Hashable
 {
 
-	public var description: String {
-		"""
-			Symbol@\(
-				String(
-					reflecting: ObjectIdentifier(self)
-				)
-			)
-			""" }
-
-	/// The hash value of this `FullyOpaqueSymbol🙊`’s underlying `Symbolic` value, or `0` if this is not a `TypedSymbol🙊`.
+	/// The hash value of this `FullyOpaqueSymbol🙊`’s underlying `Symbolic` thing, or `-1` if this is not a `TypedSymbol🙊`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var hash: Int
-	{ 0 }
+	{ -1 }
 
 	/// Creates a new `FullyOpaqueSymbol🙊`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	init ()
-	{}
+	init () {}
 
 	/// A set of already‐minted `FullyOpaqueSymbol🙊`s.
 	///
@@ -47,29 +36,29 @@ internal class FullyOpaqueSymbol🙊:
 	///
 	/// When called multiple times with the same `symbol`, this will always return the same `TypedSymbol🙊` instance.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  symbol:
-	///         A `Symbolic` value which has an `Expression` which is `Excludable` as an `ExcludingExpression`.
+	///         A `Symbolic` thing which has an `Expression` which is `Excludable` as an `ExcludingExpression`.
 	///
 	///  +  Returns:
 	///     A `TypedSymbol🙊` wrapping the given `symbol`.
-	static func ·getSymbol· <Symbol> (
+	static func ·getSymbol· <Atom, Symbol> (
 		for symbol: Symbol
-	) -> TypedSymbol🙊<Symbol>
+	) -> TypedSymbol🙊<Atom, Symbol>
 	where
 		Symbol : Symbolic,
-		Symbol.Expression : Excludable,
-		Symbol.Expression.Exclusion == ExcludingExpression<Symbol.Atom>
+		Symbol.Expressed : Excludable,
+		Symbol.Expressed.Exclusion == ExcludingExpression<Atom>
 	{
-		let 🆕 = TypedSymbol🙊<Symbol>(symbol)
+		let 🆕 = TypedSymbol🙊(symbol)
 		let 🔙 = ·cache🙈·.insert(🆕)
 		if 🔙.inserted
 		{ return 🆕 }
-		else if let 🔜 = 🔙.memberAfterInsert as? TypedSymbol🙊<Symbol>
-		{ return 🔜 }
+		else if let 💱 = 🔙.memberAfterInsert as? TypedSymbol🙊<Atom, Symbol>
+		{ return 💱 }
 		else {
 			·cache🙈·.update(
 				with: 🆕
@@ -81,9 +70,9 @@ internal class FullyOpaqueSymbol🙊:
 	/// Hashes this `FullyOpaqueSymbol🙊` into the provided `hasher`.
 	///
 	/// `FullyOpaqueSymbol🙊`s are hashed by the `ObjectIdentifier` of their dynamic (runtime) type and the value of their `hash` property.
-	/// This means that two `TypedSymbol🙊`s will only be hashed in the same way if they both wrap values in the same `Symbolic` type and with the same `hashValue`.
+	/// This means that two `TypedSymbol🙊`s will only be hashed in the same way if they both wrap things in the same `Symbolic` type and with the same `hashValue`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
@@ -102,54 +91,54 @@ internal class FullyOpaqueSymbol🙊:
 		hasher.combine(hash)
 	}
 
-	/// Returns whether the arguments represent the same `Symbolic` value.
+	/// Returns whether the arguments represent the same `Symbolic` thing.
 	///
 	/// This function is overridden by `TypedSymbol🙊` to provide a more accurate result; the `FullyOpaqueSymbol🙊` implementation simply compares dynamic types and hashes.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
-	///      +  l·h·s:
+	///      +  lefthandOperand:
 	///         A `FullyOpaqueSymbol🙊`.
-	///      +  r·h·s:
+	///      +  righthandOperand:
 	///         A `FullyOpaqueSymbol🙊`.
 	///
 	///  +  Returns:
-	///     `true` if the arguments represent the same `Symbolic` value; `false` otherwise.
+	///     `true` if the arguments represent the same `Symbolic` thing; otherwise, `false`.
 	class func ·areEqual· (
-		_ l·h·s: FullyOpaqueSymbol🙊,
-		_ r·h·s: FullyOpaqueSymbol🙊
+		_ lefthandOperand: FullyOpaqueSymbol🙊,
+		_ righthandOperand: FullyOpaqueSymbol🙊
 	) -> Bool {
 		type(
-			of: l·h·s
+			of: lefthandOperand
 		) == type (
-			of: r·h·s
-		) && l·h·s.hash == r·h·s.hash
+			of: righthandOperand
+		) && lefthandOperand.hash == righthandOperand.hash
 	}
 
-	/// Returns whether the operands represent the same `Symbolic` value.
+	/// Returns whether the operands represent the same `Symbolic` thing.
 	///
-	/// This function calls the `.·areEqual·(_:_:)` class method of the dynamic type of the lefthand operand.
+	/// This function calls the `·areEqual·(_:_:)` class method of the dynamic type of the `lefthandOperand`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
-	///      +  l·h·s:
+	///      +  lefthandOperand:
 	///         A `FullyOpaqueSymbol🙊`.
-	///      +  r·h·s:
+	///      +  righthandOperand:
 	///         A `FullyOpaqueSymbol🙊`.
 	///
 	///  +  Returns:
-	///     `true` if the arguments represent the same `Symbolic` value; `false` otherwise.
+	///     `true` if the arguments represent the same `Symbolic` thing; otherwise, `false`.
 	public static func == (
-		_ l·h·s: FullyOpaqueSymbol🙊,
-		_ r·h·s: FullyOpaqueSymbol🙊
+		_ lefthandOperand: FullyOpaqueSymbol🙊,
+		_ righthandOperand: FullyOpaqueSymbol🙊
 	) -> Bool {
 		type(
-			of: l·h·s
-		).·areEqual·(l·h·s, r·h·s)
+			of: lefthandOperand
+		).·areEqual·(lefthandOperand, righthandOperand)
 	}
 
 }

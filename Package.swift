@@ -3,7 +3,7 @@ import PackageDescription
 
 /// __🖋🥑 Nib Core:__ Core types and behaviours for the 🖋 Nib family of packages.
 let package = Package(
-	name: "Nib-Core",
+	name: "Nib·Core",
 	platforms: [
         .macOS(.v11),
         .iOS(.v14),
@@ -43,10 +43,10 @@ let package = Package(
 					package: "swift-collections"
 				)
 			]
-//		),
-//		.testTarget(
-//			name: "CoreTests",
-//			dependencies: ["Nib·Core"]
+		),
+		.testTarget(
+			name: "CoreTests",
+			dependencies: ["Nib·Core"]
 		)
 	],
 	swiftLanguageVersions: [.v5]

@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A value which is convertible to an ``ExpressionProtocol`` value via the [`^!(_:)`](doc:_!(_:)) postfix operator.
+/// A thing which is convertible to an ``ExpressionProtocol`` thing via the [`^!(_:)`](doc:_!(_:)) postfix operator.
 ///
 ///  +  term Available since:
 ///     0·2.
@@ -14,11 +14,11 @@
 /// ###  Conformance  ###
 ///
 /// You need only implement the [`^!(_:)`](doc:_!(_:)) operator to conform to the `Expressible` protocol.
-/// The [`^?(_:)`](doc:__(_:)-7vqvq), [`^+(_:)`](doc:_+(_:)-85ze7), and [`^*(_:)`](doc:_*(_:)-3qahs) operators are based upon this definition, and indicate the resuting ``ExpressionProtocol`` value repeated zero or one, one or more, or zero or more times.
+/// The [`^?(_:)`](doc:__(_:)-7vqvq), [`^+(_:)`](doc:_+(_:)-85ze7), and [`^*(_:)`](doc:_*(_:)-3qahs) operators are based upon this definition, and indicate the resuting ``ExpressionProtocol`` thing repeated zero or one, one or more, or zero or more times.
 public protocol Expressible
 where Expression : ExpressionProtocol {
 
-	/// The ``ExpressionProtocol`` type which this value is convertible to.
+	/// The ``ExpressionProtocol`` type which this thing is convertible to.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -98,7 +98,7 @@ public extension Expressible {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         The `Expressible` value.
+	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
 	///     An ``Expression`` representing the provided `operand` repeated zero or one times.
@@ -118,7 +118,7 @@ public extension Expressible {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         The `Expressible` value.
+	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
 	///     An ``Expression`` representing the provided `operand` repeated one or more times.
@@ -138,7 +138,7 @@ public extension Expressible {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         The `Expressible` value.
+	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
 	///     An ``Expression`` representing the provided `operand` repeated zero or more times.

@@ -27,7 +27,7 @@ This concept of “character” is represented in Swift using the type `Unicode.
 
 🖋🥑 Nib Core provides a number of protocols for dealing with sequences of X·M·L characters, represented as `Collection`s of ``U_C_S_Character``s, as above.
 The first of these is ``TextProtocol``, which can be conformed to by such a `Collection`—the ``TextProtocol/_=_(_:_:)`` operator allows for quick codepoint comparison of two `TextProtocol` instances.
-Not all `Collection`s of `U·C·S·Character`s necessarily conform to `TextProtocol`—for example, a `Set` of `U·C·S·Character`s most definitely should *not*—but both `String.UnicodeScalarView` (aliased as ``StringLiteral``) and `Substring.UnicodeScalarView` (aliased as ``SubstringLiteral``) do, so you can use them as `TextProtocol` values without any further configuration.
+Not all `Collection`s of `U·C·S·Character`s necessarily conform to `TextProtocol`—for example, a `Set` of `U·C·S·Character`s most definitely should *not*—but both `String.UnicodeScalarView` (aliased as ``StringLiteral``) and `Substring.UnicodeScalarView` (aliased as ``SubstringLiteral``) do, so you can use them as `TextProtocol` things without any further configuration.
 
 Akin to `CustomStringConvertible` and `LosslessStringConvertible`, 🖋🥑 Nib Core provides a ``CustomTextConvertible`` and ``LosslessTextConvertible``.
 Types which conform to one of these protocols must be convertible to a ``TextProtocol`` thing via the ``CustomTextConvertible/text-swift.property`` property.

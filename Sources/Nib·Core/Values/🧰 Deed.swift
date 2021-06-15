@@ -25,10 +25,10 @@ where Object : AnyObject {
 	public var ·isOwned·: Bool
 	{ ·ownedReference🙈· != nil }
 
-	/// An owned reference to an object.
+	/// An owned reference to an `Object`.
 	private var ·ownedReference🙈·: Object? = nil
 
-	/// An unowned reference to an object.
+	/// An unowned reference to an `Object`.
 	///
 	///  >  Note:
 	///  >  It is a runtime error if both `·ownedReference🙈·` and `·unownedReference🙈·` are `nil`.

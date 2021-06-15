@@ -1,22 +1,22 @@
-//  🖋🍎 Nib Core :: CoreTests :: TestCoreDocumentation
-//  ===================================================
+//  🖋🥑 Nib Core :: CoreTests :: TestCoreDocumentation
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
+import Nib·Core
 import XCTest
 
 /// Tests of code used in the documentation.
 final class TestCoreDocumentation: XCTestCase {
 
 	func testAtomicCoolGoodTrue () {
-		XCTAssert([.cool, .letter, .letter, .letter, .letter] as [Matcher] ~= "🆒good")
+		XCTAssert([.🆒, .🔤, .🔤, .🔤, .🔤] as [Matcher] ~= "🆒good")
 	}
 
 	func testAtomicCoolExpressions () {
-		let expr = .cool^! & .letter^+ as RegularExpression<Matcher>
+		let expr = .🆒^! & .🔤^+ as RegularExpression<Matcher>
 		XCTAssert(expr ~= "🆒good")
 		XCTAssert(expr ~= "🆒great")
 		XCTAssertFalse(expr ~= "🆒s0")

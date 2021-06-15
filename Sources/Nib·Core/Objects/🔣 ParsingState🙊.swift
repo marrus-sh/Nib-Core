@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: ParsingState🙊
-//  =======================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🔣 ParsingState🙊
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -13,15 +13,30 @@ where
 	Index: Comparable
 {
 
+	/// The `State🙊` which this `ParsingState🙊` was originally derived from, or `self` if it was not derived from an existing `State🙊`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var ·base·: State🙊
 	{ ·base🙈· ?? self }
 
+	/// The `ParsingState🙊` which this `ParsingState🙊` was originally derived from, if one exists.
 	private let ·base🙈·: ParsingState🙊<Atom, Index>?
 
+	/// The internal `Parser🙊` of this `ParsingState🙊`.
 	private var ·parser🙈·: Parser🙊<Atom, Index>? = nil
 
+	/// The start `State🙊` of this `ParsingState🙊`.
 	let ·start·: State🙊
 
+	/// Creates a new `ParsingState🙊` whose `·parser🙈·` starts from the provided `start`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  start:
+	///         A `State🙊`.
 	init (
 		_ start: State🙊
 	) {
@@ -29,6 +44,16 @@ where
 		·start· = start
 	}
 
+	/// Creates a new `ParsingState🙊` derived from the provided `base` and optionally `rememberingPathComponents`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  base:
+	///         A `ParsingState🙊`.
+	///      +  rememberingPathComponents:
+	///         Whether to remember path components when consuming with this `ParsingState🙊`.
 	private init (
 		from base: ParsingState🙊<Atom, Index>,
 		expectingResult rememberingPathComponents: Bool
@@ -43,12 +68,12 @@ where
 
 	/// Returns either this `ParsingState🙊` (if it is already a derivative), or a new `ParsingState🙊`s based off of this one.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  rememberingPathComponents:
-	///         Whether to remember path components when consuming with this `State🙊`.
+	///         Whether to remember path components when consuming with this `ParsingState🙊`.
 	///
 	///  +  Returns:
 	///     A `State🙊`.

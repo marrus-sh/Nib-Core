@@ -18,20 +18,15 @@ import func Algorithms.chain
 /// ###  Conformance  ###
 ///
 /// To conform to the `Excludable` protocol, a type must implement the [`^!(_:)`](doc:_!(_:)) postfix operator to produce an ``Exclusion``.
-public protocol Excludable:
+@usableFromInline
+/*public*/ protocol Excludable:
 	ExpressionProtocol
 where Exclusion : ExclusionProtocol {
 
-	/// The ``ExclusionProtocol`` type which this value is convertible to.
-	///
-	///  +  term Available since:
-	///     0·2.
+	/// The ``ExclusionProtocol`` type which this thing is convertible to.
 	associatedtype Exclusion
 
 	/// Returns an ``Exclusion`` representing the provided `operand`.
-	///
-	///  +  term Available since:
-	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -45,12 +40,9 @@ where Exclusion : ExclusionProtocol {
 
 }
 
-public extension Excludable {
+/*public*/ extension Excludable {
 
 	/// Returns an ``Exclusion`` which catenates the provided `righthandOperand` to the end of the provided `lefthandOperand`.
-	///
-	///  +  term Available since:
-	///     0·2.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -79,9 +71,6 @@ public extension Excludable {
 
 	/// Catenates the provided `lefthandOperand` with the ``Exclusion`` of the provided `righthandOperand`.
 	///
-	///  +  term Available since:
-	///     0·2.
-	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -101,9 +90,6 @@ public extension Excludable {
 	}
 
 	/// Returns an ``Exclusion`` which alternates the provided `lefthandOperand` with the provided `righthandOperand`.
-	///
-	///  +  term Available since:
-	///     0·2.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -132,9 +118,6 @@ public extension Excludable {
 
 	/// Alternates the provided `lefthandOperand` with the ``Exclusion`` of the provided `righthandOperand`.
 	///
-	///  +  term Available since:
-	///     0·2.
-	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -154,9 +137,6 @@ public extension Excludable {
 	}
 
 	/// Returns an ``Exclusion`` which excludes the provided `righthandOperand` from the provided `lefthandOperand`.
-	///
-	///  +  term Available since:
-	///     0·2.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -185,9 +165,6 @@ public extension Excludable {
 	}
 
 	/// Excludes the provided `righthandOperand` with the ``Exclusion`` of the provided `lefthandOperand`.
-	///
-	///  +  term Available since:
-	///     0·2.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).

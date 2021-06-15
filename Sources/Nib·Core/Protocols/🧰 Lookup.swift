@@ -7,7 +7,7 @@
 
 import struct OrderedCollections.OrderedDictionary
 
-/// A value which can be subscripted by a ``KeyForLookup`` to get a ``ThingFromLookup``, if one exists.
+/// A thing which can be subscripted by a ``KeyForLookup`` to get a ``ThingFromLookup``, if one exists.
 ///
 /// ``Lookup``s provide `Dictionary`‐like behaviour for both initialization (via ``init(_:uniquingKeysWith:)``) and subscript access (via ``subscript(_:)``).
 /// Both Swift’s `Dictionary` type and Swift Collections’s `OrderedDictionary` type conform to the `Lookup` protocol, so you can use it to handle both in a generic manner.
@@ -91,7 +91,7 @@ public extension Lookup {
 	///  +  Parameters:
 	///      +  key:
 	///         A ``KeyForLookup`` to look up.
-	///      +  defaultValue:
+	///      +  default:
 	///         An autoclosure producing a default ``ThingFromLookup``.
 	///
 	///  +  Returns:
@@ -99,16 +99,16 @@ public extension Lookup {
 	@inlinable
 	subscript (
 		key: KeyForLookup,
-		default defaultValue: @autoclosure () -> ThingFromLookup
+		default: @autoclosure () -> ThingFromLookup
 	) -> ThingFromLookup
-	{ self[key] ?? defaultValue() }
+	{ self[key] ?? `default`() }
 
 }
 
 public extension Lookup
 where KeyForLookup : Hashable {
 
-	/// Creates a ``Lookup`` with keys and values taken from the provided `dictionary`.
+	/// Creates a ``Lookup`` with keys and corresponding things taken from the provided `dictionary`.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -123,7 +123,7 @@ where KeyForLookup : Hashable {
 		_ dictionary: Dictionary<KeyForLookup, ThingFromLookup>
 	) { self.init(dictionary.map { ($0.key, $0.value) }) { _, _ in fatalError() } }
 
-	/// Creates a ``Lookup`` with keys and values taken from the provided `dictionary`.
+	/// Creates a ``Lookup`` with keys and corresponding things taken from the provided `dictionary`.
 	///
 	///  +  term Available since:
 	///     0·2.

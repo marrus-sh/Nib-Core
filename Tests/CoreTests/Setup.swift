@@ -1,11 +1,11 @@
-//  🖋🍎 Nib Core :: CoreTests :: Setup
-//  ===================================
+//  🖋🥑 Nib Core :: CoreTests :: Setup
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
+import Nib·Core
 
 extension Character:
 	Atomic
@@ -20,17 +20,23 @@ enum Matcher:
 	typealias SourceElement = Character
 
 	/// Matches `"🆒"`.
-	case cool
+	case 🆒
 
 	/// Matches any A·S·C·I·I letter.
-	case letter
+	case 🔤
 
 	/// Performs a match.
 	static func ~= (
-		_ l·h·s: Matcher,
-		_ r·h·s: SourceElement
-	) -> Bool
-	{ l·h·s == .cool ? r·h·s == "🆒" : r·h·s.unicodeScalars.count == 1 && "A"..."Z" ~= r·h·s || "a"..."z" ~= r·h·s }
+		_ lefthandOperand: Matcher,
+		_ righthandOperand: SourceElement
+	) -> Bool {
+		switch lefthandOperand {
+			case .🆒:
+				return righthandOperand == "🆒"
+			case .🔤:
+				return "A"..."Z" ~= righthandOperand || "a"..."z" ~= righthandOperand
+		}
+	}
 
 }
 

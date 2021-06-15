@@ -7,7 +7,7 @@
 
 import func Algorithms.chain
 
-/// A value which can be alternated, catenated, and repeated an indefinite number of times, producing a new value of the same type.
+/// A thing which can be alternated, catenated, and repeated an indefinite number of times, producing a new thing of the same type.
 ///
 /// A regular expression, as it is commonly conceived, has the following properties:—
 ///
@@ -21,15 +21,15 @@ import func Algorithms.chain
 /// `ExpressionProtocol` types must implement the following:—
 ///
 ///  +  ``init(alternating:)``, to produce a new expression which alternates its arguments.
-///     The infix operator [`|(_:_:)`](doc:_(_:_:)) is defined for `ExpressionProtocol` values such that `A | B` is equivalent to `.init(alternating: [A, B])`.
+///     The infix operator [`|(_:_:)`](doc:_(_:_:)) is defined for `ExpressionProtocol` things such that `A | B` is equivalent to `.init(alternating: [A, B])`.
 ///
 ///  +  ``init(catenating:)``, to produce a new expression which represents its arguments in sequence.
-///     The infix operator ``&(_:_:)`` is defined for `ExpressionProtocol` values such that `A & B` is equivalent to `.init(catenating: [A, B])`.
+///     The infix operator ``&(_:_:)`` is defined for `ExpressionProtocol` things such that `A & B` is equivalent to `.init(catenating: [A, B])`.
 ///
 ///  +  `range ✖️ expression`, to produce a new expression which represents `expression` repeated `range` times.
-///     The postfix operators [`^?(_:)`](doc:Expressible/__(_:)-7vqvq), [`^+(_:)`](doc:Expressible/_+(_:)-85ze7), and [`^*(_:)`](doc:Expressible/_*(_:)-3qahs) are defined for `ExpressionProtocol` values to be equivalent to `0...1 ✖️ expression`, `1... ✖️ expression`, and `0... ✖️ expression`, respectively.
+///     The postfix operators [`^?(_:)`](doc:Expressible/__(_:)-7vqvq), [`^+(_:)`](doc:Expressible/_+(_:)-85ze7), and [`^*(_:)`](doc:Expressible/_*(_:)-3qahs) are defined for `ExpressionProtocol` things to be equivalent to `0...1 ✖️ expression`, `1... ✖️ expression`, and `0... ✖️ expression`, respectively.
 ///
-/// When combined, the above operators provide a powerful D·S·L for building `ExpressionProtocol` values.
+/// When combined, the above operators provide a powerful D·S·L for building `ExpressionProtocol` things.
 /// For example:—
 ///
 /// ```swift
@@ -389,10 +389,10 @@ public extension ExpressionProtocol {
 	///         A `PartialRangeUpTo` with `Int` `Bound`s.
 	///         Negative values are treated as if they were `0`.
 	///      +  righthandOperand:
-	///         An ``ExpressionProtocol`` value.
+	///         An ``ExpressionProtocol`` thing.
 	///
 	///  +  Returns:
-	///     An ``ExpressionProtocol`` value equivalent to `righthandOperand` repeated up to `lefthandOperand.upperBound` times (exclusive).
+	///     An ``ExpressionProtocol`` thing equivalent to `righthandOperand` repeated up to `lefthandOperand.upperBound` times (exclusive).
 	@inlinable
 	static func ✖️ (
 		_ lefthandOperand: PartialRangeUpTo<Int>,

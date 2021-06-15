@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: OptionState🙊
-//  ======================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🐜 OptionState🙊
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -15,16 +15,16 @@ where
 
 	/// An alternative later `State🙊` pointed to by this `OpenState🙊`.
 	///
-	///  +  Note:
-	///     This property introduces the potential for strong reference cycles.
-	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
+	///  >  Note:
+	///  >  This property introduces the potential for strong reference cycles.
+	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
 	var ·alternate·: State🙊? = nil
 
 	/// The `States🙊` which this `OptionState🙊` points to.
 	///
 	/// This is computed lazily and follows `OptionState🙊` paths.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var ·next·: [State🙊]
 	{ ·next🙈· }
@@ -33,22 +33,25 @@ where
 	///
 	/// This is computed lazily and follows `OptionState🙊` paths.
 	///
-	///  +  Note:
-	///     The stored backing of this property introduces the potential for strong reference cycles.
-	///     It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
+	///  >  Note:
+	///  >  The stored backing of this property introduces the potential for strong reference cycles.
+	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
 	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match])
 
 	/// The primary (not alternate) `States🙊` which this `OptionState🙊` points to.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	private var ·primaryNext🙈·: [State🙊]
 	{ super.·next· }
 
 	/// Wipes the internal memory of this `OptionState🙊` to prevent reference cycles / memory leakage.
 	///
-	/// After a `·blast·()`, this `OptionState🙊` will have an empty `.next` and thus cannot ever lead to a match.
+	/// After a `·blast·()`, this `OptionState🙊` will have an empty `·next·` and thus cannot ever lead to a match.
 	/// Only call this function when this `OptionState🙊` is guaranteed to never be used again.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
 		·alternate· = nil
 		·next🙈· = []

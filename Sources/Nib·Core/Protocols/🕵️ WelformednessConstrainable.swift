@@ -16,7 +16,7 @@
 /// To conform to the ``WelformednessConstrainable`` protocol, a type must implement the [`❗️(_:)`](doc:__(_:)) postfix operator.
 public protocol WelformednessConstrainable {
 
-	/// Throws if the provided ``WelformednessConstrainable`` thing is not welformed; otherwise returns the same value.
+	/// Throws if the provided ``WelformednessConstrainable`` thing is not welformed; otherwise returns the same thing.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -39,7 +39,7 @@ public protocol WelformednessConstrainable {
 
 public extension WelformednessConstrainable {
 
-	/// Returns `nil` if the provided ``WelformednessConstrainable`` value is not welformed; otherwise returns the same value.
+	/// Returns `nil` if the provided ``WelformednessConstrainable`` thing is not welformed; otherwise returns the same thing.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -49,7 +49,7 @@ public extension WelformednessConstrainable {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         A ``WelformednessConstrainable`` value.
+	///         A ``WelformednessConstrainable`` thing.
 	///
 	///  +  Returns:
 	///     `operand` if welformed; otherwise, `nil`.

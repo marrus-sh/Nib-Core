@@ -16,9 +16,3 @@ Expressions and exclusions in 🖋🥑 Nib Core.
 
  +  ``ExpressionProtocol``
  +  ``Expressible``
-
-
-###  Exclusions  ###
-
- +  ``Excludable``
- +  ``ExclusionProtocol``

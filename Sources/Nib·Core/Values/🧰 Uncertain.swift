@@ -7,7 +7,7 @@
 
 /// A value which may or may not be known.
 ///
-/// Many internet specifications distinguish between *knowability* (whether a value is **_known_** or **_unknown_**) and *presence* (whether a value is **_present_** or **_absent_**).
+/// Many internet specifications distinguish between *knowability* (whether a thing is **_known_** or **_unknown_**) and *presence* (whether a thing is **_present_** or **_absent_**).
 /// For example, the X·M·L Infoset specification [has this to say](http://www.w3.org/TR/xml-infoset/#intro.null):—
 ///
 /// _Some properties may sometimes have the value **_unknown_** or **_no value_**, and it is said that a property value is unknown or that a property has no value respectively.
@@ -15,8 +15,8 @@
 /// In particular they are distinct from the empty string, the empty set, and the empty list, each of which simply has no members.
 /// This specification does not use the term **_null_** since in some communities it has particular connotations which may not match those intended here._
 ///
-/// Values of optional presence are easily represented in Swift using the `Optional` type.
-/// For values of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.
+/// Things of optional presence are easily represented in Swift using the `Optional` type.
+/// For things of uncertain knowability, 🖋🥑 Nib Core provides the ``Uncertain`` type instead.
 ///
 ///  >  Tip:
 ///  >  It is not possible to create an unowned ``Uncertain`` value.

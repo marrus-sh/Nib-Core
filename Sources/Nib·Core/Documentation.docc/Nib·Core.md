@@ -22,8 +22,6 @@ You won’t find that here, though.
  +  Protocols for defining expressions which can be composed from other expressions
  +  Generic regular expression matching
 
-For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:Parsing>.
-
  +  term Framework version:
     0·_2pre.
 
@@ -34,11 +32,6 @@ For an example of how to use 🖋🥑 Nib Core in your own project, see <doc:P
     [github:marrus-sh/Nib-Core](https://github.com/marrus-sh/Nib-Core).
 
 ##  Topics  ##
-
-
-###  Tutorials  ###
-
- +  <doc:Parsing>
 
 
 ###  Features  ###

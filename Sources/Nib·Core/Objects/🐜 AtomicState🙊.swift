@@ -1,5 +1,5 @@
-//  🖋🍎 Nib Core :: Core :: AtomicState🙊
-//  ======================================
+//  🖋🥑 Nib Core :: Nib·Core :: 🐜 AtomicState🙊
+//  ========================
 //
 //  Copyright © 2021 kibigo!
 //
@@ -13,12 +13,12 @@ where
 	Index : Comparable
 {
 
-	/// The `Atom` which this `AtomicState🙊` matches against when it `.consumes(_:)` a value.
+	/// The `Atom` which this `AtomicState🙊` matches against when it `.consumes(_:)` a thing.
 	var ·atom·: Atom
 
 	/// Creates a new `AtomicState🙊` from the provided `atom`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
@@ -33,7 +33,7 @@ where
 
 	/// Returns whether this `AtomicState🙊` does consume the provided `element`.
 	///
-	///  +  Authors:
+	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
@@ -41,7 +41,7 @@ where
 	///         A `SourceElement` of this `OpenState🙊`’s `Atom` type.
 	///
 	///  +  Returns:
-	///     `true` if the `.·atom·` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
+	///     `true` if the `·atom·` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
 	override func ·consumes· (
 		_ element: Atom.SourceElement
 	) -> Bool
