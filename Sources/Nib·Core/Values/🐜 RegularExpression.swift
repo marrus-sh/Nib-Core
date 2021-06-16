@@ -433,15 +433,30 @@ extension RegularExpression:
 where Atom : Hashable {}
 
 /// Extends ``RegularExpression`` to conform to `Symbolic` when its `Atom` type is `Hashable`.
+///
+/// This allows anonymous `RegularExpression`s to be used directly as symbols in more complex expressions.
+///
+///  +  term Available since:
+///     0·3.
 extension RegularExpression:
 	Symbolic
 where Atom : Hashable {
 
-	@usableFromInline
-	/*public*/ typealias Expressed = RegularExpression<Atom>
+	/// The ``ExpressionProtocol`` type of expression which this ``RegularExpression`` represents.
+	///
+	/// This is just the `RegularExpression` type itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public typealias Expressed = RegularExpression<Atom>
 
-	@usableFromInline
-	/*public*/ var expression: Expressed
+	/// Returns the ``Expressed`` thing which this ``RegularExpression`` represents.
+	///
+	/// This is just the `RegularExpression` itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var expression: Expressed
 	{ self }
 
 }
