@@ -57,11 +57,13 @@ where Expressed : SymbolicExpression {
 	///  +  Returns:
 	///     A ``SymbolicExpression`` which represents `operand` repeated zero or one times.
 	@inlinable
-	static postfix func ^? <Expression> (
+	static postfix func ^? (
 		_ operand: Self
-	) -> Expression
-	where Expression == Expressed
-	{ 0...1 ✖️ Expression(operand) }
+	) -> Expressed {
+		0...1 ✖️ Expressed(
+			nesting: operand
+		)
+	}
 
 	/// Returns a ``SymbolicExpression`` representing the provided `operand` repeated one time.
 	///
@@ -78,11 +80,13 @@ where Expressed : SymbolicExpression {
 	///  +  Returns:
 	///     A ``SymbolicExpression`` which represents `operand` repeated one time.
 	@inlinable
-	static postfix func ^! <Expression> (
+	static postfix func ^! (
 		_ operand: Self
-	) -> Expression
-	where Expression == Expressed
-	{ Expression(operand) }
+	) -> Expressed {
+		Expressed(
+			nesting: operand
+		)
+	}
 
 	/// Returns a ``SymbolicExpression`` representing the provided `operand` repeated one or more times.
 	///
@@ -99,11 +103,13 @@ where Expressed : SymbolicExpression {
 	///  +  Returns:
 	///     A ``SymbolicExpression`` which represents `operand` repeated one or more times.
 	@inlinable
-	static postfix func ^+ <Expression> (
+	static postfix func ^+ (
 		_ operand: Self
-	) -> Expression
-	where Expression == Expressed
-	{ 1... ✖️ Expression(operand) }
+	) -> Expressed {
+		1... ✖️ Expressed(
+			nesting: operand
+		)
+	}
 
 	/// Returns a ``SymbolicExpression`` representing the provided `operand` repeated zero or more times.
 	///
@@ -120,10 +126,12 @@ where Expressed : SymbolicExpression {
 	///  +  Returns:
 	///     A ``SymbolicExpression`` which represents `operand` repeated zero or more times.
 	@inlinable
-	static postfix func ^* <Expression> (
+	static postfix func ^* (
 		_ operand: Self
-	) -> Expression
-	where Expression == Expressed
-	{ 0... ✖️ Expression(operand) }
+	) -> Expressed {
+		0... ✖️ Expressed(
+			nesting: operand
+		)
+	}
 
 }

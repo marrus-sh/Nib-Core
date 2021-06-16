@@ -372,6 +372,9 @@ where Atom : Atomic {
 
 	/// Returns a ``ContextfreeExpression`` representing the provided `operand`.
 	///
+	///  +  term Available since:
+	///     0·3.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -381,10 +384,21 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A ``ContextfreeExpression`` with the same `Atom` type as `operand`.
-	/*public*/ static postfix func ^! (
+	public static postfix func ^! (
 		_ operand: RegularExpression<Atom>
 	) -> ContextfreeExpression<Atom>
 	{ ContextfreeExpression(operand) }
+
+}
+
+/// Extends ``RegularExpression`` to conform to ``Excludable``.
+extension RegularExpression:
+	Excludable
+{
+
+	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
+	@usableFromInline
+	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
@@ -402,17 +416,6 @@ where Atom : Atomic {
 		_ operand: RegularExpression<Atom>
 	) -> ExcludingExpression<Atom>
 	{ operand.·excludableExpression🙈· }
-
-}
-
-/// Extends ``RegularExpression`` to conform to ``Excludable``.
-extension RegularExpression:
-	Excludable
-{
-
-	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
 
 }
 

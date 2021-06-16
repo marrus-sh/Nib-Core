@@ -24,10 +24,10 @@ public protocol SymbolicExpression:
 	///     0·3.
 	///
 	///  +  Parameters:
-	///      +  atom:
+	///      +  symbol:
 	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is the same as this `Symbolic` type.
 	init <Symbol> (
-		_ symbol: Symbol
+		nesting symbol: Symbol
 	) where
 		Symbol : Symbolic,
 		Symbol.Expressed == Self

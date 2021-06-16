@@ -310,7 +310,7 @@ where Atom : Atomic {
 	///         A ``Symbolic`` thing which is ``Expressible`` as an ``Excludable`` type whose ``Exclusion`` type is the same as this ``ExcludingExpression`` type.
 	@usableFromInline
 	/*public*/ init <Symbol> (
-		_ symbol: Symbol
+		nesting symbol: Symbol
 	) where
 		Symbol : Symbolic,
 		Symbol.Expressed : Excludable,
@@ -703,3 +703,25 @@ where Atom : Equatable {}
 extension ExcludingExpression.Fragment🙉:
 	Hashable
 where Atom : Hashable {}
+
+/// Extends ``ExcludingExpression`` to conform to `Symbolic` when its `Atom` type is `Hashable`.
+///
+/// This allows anonymous `ExcludingExpression`s to be used directly as symbols in more complex expressions.
+extension ExcludingExpression:
+	Symbolic
+where Atom : Hashable {
+
+	/// The ``ExpressionProtocol`` type of expression which this ``ExcludingExpression`` represents.
+	///
+	/// This is just the `ExcludingExpression` type itself.
+	@usableFromInline
+	/*public*/ typealias Expressed = ExcludingExpression<Atom>
+
+	/// Returns the ``Expressed`` thing which this ``ExcludingExpression`` represents.
+	///
+	/// This is just the `ExcludingExpression` itself.
+	@usableFromInline
+	/*public*/ var expression: Expressed
+	{ self }
+
+}

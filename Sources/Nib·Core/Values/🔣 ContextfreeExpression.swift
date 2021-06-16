@@ -6,19 +6,27 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// A generic contextfree expression.
-@usableFromInline
-/*public*/ struct ContextfreeExpression <Atom>:
-	AtomicExpression
+///
+///  +  term Available since:
+///     0·3.
+public struct ContextfreeExpression <Atom>:
+	AtomicExpression,
+	SymbolicExpression
 where Atom : Atomic {
 
 	/// The `ExpressionProtocol` type which this ``ContextfreeExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Expression = ContextfreeExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·3.
+	public typealias Expression = ContextfreeExpression<Atom>
 
 	/// The `Exclusion` which represents this `ContextfreeExpression`.
 	private let ·excludableExpression🙈·: ExcludingExpression<Atom>
 
 	/// Creates a ``ContextfreeExpression`` from the provided `atom`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -26,12 +34,14 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  atom:
 	///         An `Atom`.
-	@usableFromInline
-	/*public*/ init (
+	public init (
 		_ atom: Atom
 	) { ·excludableExpression🙈· = ExcludingExpression(atom) }
 
 	/// Creates a ``ContextfreeExpression`` from the provided `regex`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -39,12 +49,14 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  regex:
 	///         An ``RegularExpression`` value which has the same `Atom` type as this ``ContextfreeExpression`` type.
-	@usableFromInline
-	/*public*/ init (
+	public init (
 		_ regex: RegularExpression<Atom>
 	) { ·excludableExpression🙈· = regex^! }
 
 	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -52,15 +64,21 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  symbol:
 	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is the same as this ``ContextfreeExpression`` type.
-	@usableFromInline
-	/*public*/ init <Symbol> (
-		_ symbol: Symbol
+	public init <Symbol> (
+		nesting symbol: Symbol
 	) where
 		Symbol : Symbolic,
 		Symbol.Expressed == ContextfreeExpression<Atom>
-	{ ·excludableExpression🙈· = ExcludingExpression(symbol) }
+	{
+		·excludableExpression🙈· = ExcludingExpression(
+			nesting: symbol
+		)
+	}
 
 	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -68,15 +86,21 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  symbol:
 	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is a ``RegularExpression`` type which has the same `Atom` type this ``ContextfreeExpression`` type.
-	@usableFromInline
-	/*public*/ init <Symbol> (
-		_ symbol: Symbol
+	public init <Symbol> (
+		nesting symbol: Symbol
 	) where
 		Symbol : Symbolic,
 		Symbol.Expressed == RegularExpression<Atom>
-	{ ·excludableExpression🙈· = ExcludingExpression(symbol) }
+	{
+		·excludableExpression🙈· = ExcludingExpression(
+			nesting: symbol
+		)
+	}
 
 	/// Creates a ``ContextfreeExpression`` which alternates the provided `choices`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -84,8 +108,7 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Sequence` of ``ContextfreeExpression``s, representing choices.
-	@usableFromInline
-	/*public*/ init <Sequence> (
+	public init <Sequence> (
 		alternating choices: Sequence
 	) where
 		Sequence : Swift.Sequence,
@@ -98,14 +121,16 @@ where Atom : Atomic {
 
 	/// Creates a  ``ContextfreeExpression`` which catenates the provided `sequence`.
 	///
+	///  +  term Available since:
+	///     0·3.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Sequence` of ``ContextfreeExpression``s, interpreted in sequence.
-	@usableFromInline
-	/*public*/ init <Sequence> (
+	public init <Sequence> (
 		catenating sequence: Sequence
 	) where
 		Sequence : Swift.Sequence,
@@ -136,6 +161,9 @@ where Atom : Atomic {
 	///  >  Note:
 	///  >  It is generally recommended to use the `prefix(matching:)` methods on `Collection`s instead of calling this method directly.
 	///
+	///  +  term Available since:
+	///     0·3.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -145,8 +173,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this ``ContextfreeExpression``.
-	@usableFromInline
-	/*public*/ func longestMatchingPrefix <Collection> (
+	public func longestMatchingPrefix <Collection> (
 		in collection: Collection
 	) -> Collection.SubSequence?
 	where
@@ -160,15 +187,21 @@ where Atom : Atomic {
 
 	/// A ``ContextfreeExpression`` which never matches.
 	///
+	///  +  term Available since:
+	///     0·3.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	/*public*/ static var never: ContextfreeExpression<Atom> {
+	public static var never: ContextfreeExpression<Atom> {
 		ContextfreeExpression(
 			🆘🙈: .never
 		)
 	}
 
 	/// Returns whether the provided `righthandOperand` has a prefix which matches the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -181,8 +214,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     `true` if `righthandOperand` has a prefix which is a match for `lefthandOperand`; otherwise, `false`.
-	@usableFromInline
-	/*public*/ static func ...~= <Sequence> (
+	public static func ...~= <Sequence> (
 		_ lefthandOperand: ContextfreeExpression<Atom>,
 		_ righthandOperand: Sequence
 	) -> Bool
@@ -192,6 +224,9 @@ where Atom : Atomic {
 	{ lefthandOperand.·excludableExpression🙈· ...~= righthandOperand }
 
 	/// Returns whether the provided `righthandOperand` matches the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -204,8 +239,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     `true` if `righthandOperand` is a match for `lefthandOperand`; otherwise, `false`.
-	@usableFromInline
-	/*public*/ static func ~= <Sequence> (
+	public static func ~= <Sequence> (
 		_ lefthandOperand: ContextfreeExpression<Atom>,
 		_ righthandOperand: Sequence
 	) -> Bool
@@ -215,6 +249,9 @@ where Atom : Atomic {
 	{ lefthandOperand.·excludableExpression🙈· ~= righthandOperand }
 
 	/// Returns a ``ContextfreeExpression`` equivalent to the provided `righthandOperand` repeated some number of times as indicated by the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -228,8 +265,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A ``ContextfreeExpression`` equivalent to `righthandOperand` repeated at least `lefthandOperand.lowerBound` times (inclusive).
-	@usableFromInline
-	/*public*/ static func ✖️ (
+	public static func ✖️ (
 		_ lefthandOperand: PartialRangeFrom<Int>,
 		_ righthandOperand: ContextfreeExpression<Atom>
 	) -> ContextfreeExpression<Atom> {
@@ -241,7 +277,7 @@ where Atom : Atomic {
 	/// Returns a ``ContextfreeExpression`` equivalent to the provided `righthandOperand` repeated some number of times as indicated by the provided `lefthandOperand`.
 	///
 	///  +  term Available since:
-	///     0·2.
+	///     0·3.
 	///
 	///  +  Parameters:
 	///      +  lefthandOperand:
@@ -252,8 +288,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A ``ContextfreeExpression`` equivalent to `righthandOperand` repeated up to `lefthandOperand.upperBound` times (inclusive).
-	@usableFromInline
-	/*public*/ static func ✖️ (
+	public static func ✖️ (
 		_ lefthandOperand: PartialRangeThrough<Int>,
 		_ righthandOperand: ContextfreeExpression<Atom>
 	) -> ContextfreeExpression<Atom> {
@@ -261,6 +296,17 @@ where Atom : Atomic {
 			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
+
+}
+
+/// Extends ``ContextfreeExpression`` to conform to ``Excludable``.
+extension ContextfreeExpression:
+	Excludable
+{
+
+	/// The ``ExclusionProtocol`` type which this ``ContextfreeExpression`` is convertible to.
+	@usableFromInline
+	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
@@ -281,17 +327,6 @@ where Atom : Atomic {
 
 }
 
-/// Extends ``ContextfreeExpression`` to conform to ``Excludable``.
-extension ContextfreeExpression:
-	Excludable
-{
-
-	/// The ``ExclusionProtocol`` type which this ``ContextfreeExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
-
-}
-
 /// Extends ``ContextfreeExpression`` to conform to `Equatable` when its `Atom` type is `Equatable`.
 extension ContextfreeExpression:
 	Equatable
@@ -301,3 +336,32 @@ where Atom : Equatable {}
 extension ContextfreeExpression:
 	Hashable
 where Atom : Hashable {}
+
+/// Extends ``ContextfreeExpression`` to conform to `Symbolic` when its `Atom` type is `Hashable`.
+///
+/// This allows anonymous `ContextfreeExpression`s to be used directly as symbols in more complex expressions.
+///
+///  +  term Available since:
+///     0·3.
+extension ContextfreeExpression:
+	Symbolic
+where Atom : Hashable {
+
+	/// The ``ExpressionProtocol`` type of expression which this ``ContextfreeExpression`` represents.
+	///
+	/// This is just the `ContextfreeExpression` type itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public typealias Expressed = ContextfreeExpression<Atom>
+
+	/// Returns the ``Expressed`` thing which this ``ContextfreeExpression`` represents.
+	///
+	/// This is just the `ContextfreeExpression` itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var expression: Expressed
+	{ self }
+
+}
