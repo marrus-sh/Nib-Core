@@ -23,7 +23,7 @@ You won’t find that here, though.
  +  Generic regular expression matching
 
  +  term Framework version:
-    0·2.
+    0·_3pre.
 
  +  term Maintainer(s):
     [kibigo!](https://go.KIBI.family/About/#me).
