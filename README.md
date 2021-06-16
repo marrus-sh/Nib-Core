@@ -11,7 +11,7 @@ ___
 
 You won’t find that here, though.
 **_🖋🥑 Nib Core_** provides all the fundamental protocols, types, and behaviours that the 🖋 Nib modules depend upon.
-For more information, see the documentation.
+For more information, see [the documentation](Sources/Nib·Core/Documentation.docc).
 
 
 ##  Current State of the Software  ##
