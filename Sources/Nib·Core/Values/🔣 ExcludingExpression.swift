@@ -18,11 +18,11 @@ import func Algorithms.chain
 	ExclusionProtocol
 where Atom : Atomic {
 
-	/// The ``ExclusionProtocol`` type which this value is convertible to.
+	/// The ``ExclusionProtocol`` type which this ``ExcludingExpression`` is convertible to.
 	@usableFromInline
 	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
 
-	/// The ``ExpressionProtocol`` type which this value is convertible to.
+	/// The ``ExpressionProtocol`` type which this ``ExcludingExpression`` is convertible to.
 	@usableFromInline
 	/*public*/ typealias Expression = ExcludingExpression<Atom>
 
@@ -272,8 +272,48 @@ where Atom : Atomic {
 
 	}
 
-	/// The `Fragment🙉` which represents this value.
+	/// A kind of `ExcludingExpression`.
+	private enum Kind🙈:
+		Int,
+		Hashable
+	{
+
+		/// An `ExcludingExpression` which does not contain symbols or exclusions.
+		case regular = 0
+
+		/// An `ExcludingExpression` which contains symbols, but not exclusions.
+		case contextfree = 1
+
+		/// An `ExcludingExpression` which contains exclusions.
+		case excluding = 2
+
+	}
+
+	/// An equivalent ``ContextfreeExpression`` to this ``ExcludingExpression``, if one exists.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var contextfreeExpression: ContextfreeExpression<Atom>? {
+		·kind🙈· != .excluding ? ContextfreeExpression(
+			🆘🙊: self
+		) : nil
+	}
+
+	/// An equivalent ``RegularExpression`` to this ``ExcludingExpression``, if one exists.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var regularExpression: RegularExpression<Atom>? {
+		·kind🙈· == .regular ? RegularExpression(
+			🆘🙊: self
+		) : nil
+	}
+
+	/// The `Fragment🙉` which represents this `ExcludingExpression`.
 	private let ·fragment🙈·: Fragment🙉
+
+	/// The `Kind🙈` which represents this `ExcludingExpression`.
+	private let ·kind🙈·: Kind🙈
 
 	/// Creates an ``ExcludingExpression`` from the provided `atom`.
 	///
@@ -286,7 +326,10 @@ where Atom : Atomic {
 	@usableFromInline
 	/*public*/ init (
 		_ atom: Atom
-	) { ·fragment🙈· = .terminal(atom) }
+	) {
+		·fragment🙈· = .terminal(atom)
+		·kind🙈· = .regular
+	}
 
 	/// Creates an ``ExcludingExpression`` from the provided `regex`.
 	///
@@ -298,27 +341,9 @@ where Atom : Atomic {
 	///         An ``RegularExpression`` value which has the same `Atom` type as this ``ExcludingExpression`` type.
 	/*public*/ init (
 		_ regex: RegularExpression<Atom>
-	) { ·fragment🙈· = regex^!.·fragment🙈· }
-
-	/// Creates an ``ExcludingExpression`` from the provided `symbol`.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  symbol:
-	///         A ``Symbolic`` thing which is ``Expressible`` as an ``Excludable`` type whose ``Exclusion`` type is the same as this ``ExcludingExpression`` type.
-	@usableFromInline
-	/*public*/ init <Symbol> (
-		nesting symbol: Symbol
-	) where
-		Symbol : Symbolic,
-		Symbol.Expressed : Excludable,
-		Symbol.Expressed.Exclusion == ExcludingExpression<Atom>
-	{
-		self.init(
-			🙈: .nonterminal(Symbol🙊[symbol])
-		)
+	) {
+		·fragment🙈· = regex^!.·fragment🙈·
+		·kind🙈· = .regular
 	}
 
 	/// Creates an ``ExcludingExpression`` which alternates the provided `choices`.
@@ -337,21 +362,23 @@ where Atom : Atomic {
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = choices.makeIterator()
+		var 〽️ = Kind🙈.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
 					🙈: .alternation(
-						Array(
-							chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).lazy.flatMap { 🈁 -> [Fragment🙉] in
-								if case .alternation (
-									let 📂
-								) = 🈁.·fragment🙈·
-								{ return 📂 }
-								else
-								{ return [🈁.·fragment🙈·] }
-							}
-						)
-					)
+						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙉] in
+							if 🈁.·kind🙈·.rawValue > 〽️.rawValue
+							{ 〽️ = 🈁.·kind🙈· }
+							if case .alternation (
+								let 📂
+							) = 🈁.·fragment🙈·
+							{ return 📂 }
+							else
+							{ return [🈁.·fragment🙈·] }
+						}
+					),
+					kind: 〽️
 				)
 			} else
 			{ self = 🥇 }
@@ -375,11 +402,14 @@ where Atom : Atomic {
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = sequence.makeIterator()
+		var 〽️ = Kind🙈.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
 					🙈: .catenation(
 						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙉] in
+							if 🈁.·kind🙈·.rawValue > 〽️.rawValue
+							{ 〽️ = 🈁.·kind🙈· }
 							if case .catenation (
 								let 📂
 							) = 🈁.·fragment🙈·
@@ -387,7 +417,8 @@ where Atom : Atomic {
 							else
 							{ return [🈁.·fragment🙈·] }
 						}
-					)
+					),
+					kind: 〽️
 				)
 			} else
 			{ self = 🥇 }
@@ -411,7 +442,32 @@ where Atom : Atomic {
 		from match: ExcludingExpression<Atom>
 	) {
 		self.init(
-			🙈: .exclusion(match.·fragment🙈·, exclusion.·fragment🙈·)
+			🙈: .exclusion(match.·fragment🙈·, exclusion.·fragment🙈·),
+			kind: .excluding
+		)
+	}
+
+	/// Creates an ``ExcludingExpression`` from the provided `symbol`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  symbol:
+	///         A ``Symbolic`` thing which is ``Expressible`` as an ``Excludable`` type whose ``Exclusion`` type is the same as this ``ExcludingExpression`` type.
+	@usableFromInline
+	/*public*/ init <Symbol> (
+		nesting symbol: Symbol
+	) where
+		Symbol : Symbolic,
+		Symbol.Expressed : Excludable,
+		Symbol.Expressed.Exclusion == ExcludingExpression<Atom>
+	{
+		self.init(
+			🙈: .nonterminal(Symbol🙊[symbol]),
+			kind: Kind🙈(
+				rawValue: max(Kind🙈.contextfree.rawValue, (symbol.expression^! as ExcludingExpression<Atom>).·kind🙈·.rawValue)
+			) ?? .excluding
 		)
 	}
 
@@ -424,8 +480,12 @@ where Atom : Atomic {
 	///      +  fragment:
 	///         A `Fragment🙉`.
 	private init (
-		🙈 fragment: Fragment🙉
-	) { ·fragment🙈· = fragment }
+		🙈 fragment: Fragment🙉,
+		kind: Kind🙈
+	) {
+		·fragment🙈· = fragment
+		·kind🙈· = kind
+	}
 
 	/// Returns the first `Index` in the provided `sequence` after matching this ``ExcludingExpression``.
 	///
@@ -543,7 +603,8 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	/*public*/ static var never: ExcludingExpression<Atom> {
 		ExcludingExpression(
-			🙈: .never
+			🙈: .never,
+			kind: .regular
 		)
 	}
 
@@ -624,11 +685,13 @@ where Atom : Atomic {
 	) -> ExcludingExpression<Atom> {
 		if lefthandOperand.lowerBound < 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrMore(righthandOperand.·fragment🙈·)
+				🙈: .zeroOrMore(righthandOperand.·fragment🙈·),
+				kind: righthandOperand.·kind🙈·
 			)
 		} else if lefthandOperand.lowerBound == 1 {
 			return ExcludingExpression(
-				🙈: .oneOrMore(righthandOperand.·fragment🙈·)
+				🙈: .oneOrMore(righthandOperand.·fragment🙈·),
+				kind: righthandOperand.·kind🙈·
 			)
 		} else {
 			return ExcludingExpression(
@@ -639,7 +702,8 @@ where Atom : Atomic {
 					),
 					CollectionOfOne(
 						ExcludingExpression(
-							🙈: .oneOrMore(righthandOperand.·fragment🙈·)
+							🙈: .oneOrMore(righthandOperand.·fragment🙈·),
+							kind: righthandOperand.·kind🙈·
 						)
 					)
 				)
@@ -669,7 +733,8 @@ where Atom : Atomic {
 		{ return .null }
 		else if lefthandOperand.upperBound == 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrOne(righthandOperand.·fragment🙈·)
+				🙈: .zeroOrOne(righthandOperand.·fragment🙈·),
+				kind: righthandOperand.·kind🙈·
 			)
 		} else {
 			return ExcludingExpression(
@@ -677,7 +742,8 @@ where Atom : Atomic {
 					ExcludingExpression(
 						catenating: chain(CollectionOfOne(righthandOperand), CollectionOfOne(...(lefthandOperand.upperBound - 1) ✖️ righthandOperand))
 					).·fragment🙈·
-				)
+				),
+				kind: righthandOperand.·kind🙈·
 			)
 		}
 	}

@@ -110,8 +110,8 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  excludable:
 	///         An `ExcludingExpression` with the same `Atom` type as this `RegularExpression` type.
-	private init (
-		🆘🙈 excludable: ExcludingExpression<Atom>
+	internal init (
+		🆘🙊 excludable: ExcludingExpression<Atom>
 	) { ·excludableExpression🙈· = excludable }
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this ``RegularExpression``.
@@ -152,7 +152,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public static var never: RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: .never
+			🆘🙊: .never
 		)
 	}
 
@@ -340,7 +340,7 @@ where Atom : Atomic {
 		_ righthandOperand: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
@@ -366,7 +366,7 @@ where Atom : Atomic {
 		_ righthandOperand: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
@@ -399,6 +399,26 @@ extension RegularExpression:
 	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
 	@usableFromInline
 	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+
+	/// Creates a ``RegularExpression`` from the provided `excludable`, if it is regular.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  excludable:
+	///         An ``ExcludingExpression``.
+	/*public*/ init? <Excluding> (
+		_ excludable: Excluding
+	) where
+		Excluding : Excludable,
+		Excluding.Exclusion == ExcludingExpression<Atom>
+	{
+		if let 💱 = (excludable^!).regularExpression
+		{ self = 💱 }
+		else
+		{ return nil }
+	}
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///

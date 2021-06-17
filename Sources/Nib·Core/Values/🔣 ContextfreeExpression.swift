@@ -14,11 +14,18 @@ public struct ContextfreeExpression <Atom>:
 	SymbolicExpression
 where Atom : Atomic {
 
-	/// The `ExpressionProtocol` type which this ``ContextfreeExpression`` is convertible to.
+	/// The ``ExpressionProtocol`` type which this ``ContextfreeExpression`` is convertible to.
 	///
 	///  +  term Available since:
 	///     0·3.
 	public typealias Expression = ContextfreeExpression<Atom>
+
+	/// An equivalent ``RegularExpression`` to this ``ContextfreeExpression``, if one exists.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var regularExpression: RegularExpression<Atom>?
+	{ ·excludableExpression🙈·.regularExpression }
 
 	/// The `Exclusion` which represents this `ContextfreeExpression`.
 	private let ·excludableExpression🙈·: ExcludingExpression<Atom>
@@ -52,50 +59,6 @@ where Atom : Atomic {
 	public init (
 		_ regex: RegularExpression<Atom>
 	) { ·excludableExpression🙈· = regex^! }
-
-	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
-	///
-	///  +  term Available since:
-	///     0·3.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  symbol:
-	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is the same as this ``ContextfreeExpression`` type.
-	public init <Symbol> (
-		nesting symbol: Symbol
-	) where
-		Symbol : Symbolic,
-		Symbol.Expressed == ContextfreeExpression<Atom>
-	{
-		·excludableExpression🙈· = ExcludingExpression(
-			nesting: symbol
-		)
-	}
-
-	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
-	///
-	///  +  term Available since:
-	///     0·3.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  symbol:
-	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is a ``RegularExpression`` type which has the same `Atom` type this ``ContextfreeExpression`` type.
-	public init <Symbol> (
-		nesting symbol: Symbol
-	) where
-		Symbol : Symbolic,
-		Symbol.Expressed == RegularExpression<Atom>
-	{
-		·excludableExpression🙈· = ExcludingExpression(
-			nesting: symbol
-		)
-	}
 
 	/// Creates a ``ContextfreeExpression`` which alternates the provided `choices`.
 	///
@@ -141,6 +104,50 @@ where Atom : Atomic {
 		)
 	}
 
+	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
+	///
+	///  +  term Available since:
+	///     0·3.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  symbol:
+	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is the same as this ``ContextfreeExpression`` type.
+	public init <Symbol> (
+		nesting symbol: Symbol
+	) where
+		Symbol : Symbolic,
+		Symbol.Expressed == ContextfreeExpression<Atom>
+	{
+		·excludableExpression🙈· = ExcludingExpression(
+			nesting: symbol
+		)
+	}
+
+	/// Creates a ``ContextfreeExpression`` from the provided `symbol`.
+	///
+	///  +  term Available since:
+	///     0·3.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  symbol:
+	///         A ``Symbolic`` thing with an ``Symbolic/Expressed`` type which is a ``RegularExpression`` type which has the same `Atom` type this ``ContextfreeExpression`` type.
+	public init <Symbol> (
+		nesting symbol: Symbol
+	) where
+		Symbol : Symbolic,
+		Symbol.Expressed == RegularExpression<Atom>
+	{
+		·excludableExpression🙈· = ExcludingExpression(
+			nesting: symbol
+		)
+	}
+
 	/// Creates a `ContextfreeExpression` from the provided `excludable`.
 	///
 	///  >  Important:
@@ -152,8 +159,8 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  excludable:
 	///         An `ExcludingExpression` with the same `Atom` type as this `RegularExpression` type.
-	private init (
-		🆘🙈 excludable: ExcludingExpression<Atom>
+	internal init (
+		🆘🙊 excludable: ExcludingExpression<Atom>
 	) { ·excludableExpression🙈· = excludable }
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this ``ContextfreeExpression``.
@@ -194,7 +201,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public static var never: ContextfreeExpression<Atom> {
 		ContextfreeExpression(
-			🆘🙈: .never
+			🆘🙊: .never
 		)
 	}
 
@@ -270,7 +277,7 @@ where Atom : Atomic {
 		_ righthandOperand: ContextfreeExpression<Atom>
 	) -> ContextfreeExpression<Atom> {
 		ContextfreeExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
@@ -293,7 +300,7 @@ where Atom : Atomic {
 		_ righthandOperand: ContextfreeExpression<Atom>
 	) -> ContextfreeExpression<Atom> {
 		ContextfreeExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
@@ -307,6 +314,26 @@ extension ContextfreeExpression:
 	/// The ``ExclusionProtocol`` type which this ``ContextfreeExpression`` is convertible to.
 	@usableFromInline
 	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+
+	/// Creates a ``ContextfreeExpression`` from the provided `excludable`, if it is contextfree.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  excludable:
+	///         An ``ExcludingExpression``.
+	/*public*/ init? <Excluding> (
+		_ excludable: Excluding
+	) where
+		Excluding : Excludable,
+		Excluding.Exclusion == ExcludingExpression<Atom>
+	{
+		if let 💱 = (excludable^!).contextfreeExpression
+		{ self = 💱 }
+		else
+		{ return nil }
+	}
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
