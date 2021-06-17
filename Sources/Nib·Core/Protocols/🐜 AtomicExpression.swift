@@ -24,14 +24,14 @@ where Atom : Atomic {
 	///     0·2.
 	associatedtype Atom
 
-	/// Creates a new ``AtomicExpression`` from the provided `atom`.
+	/// Creates an ``AtomicExpression`` from the provided `atom`.
 	///
 	///  +  term Available since:
 	///     0·2.
 	///
 	///  +  Parameters:
 	///      +  atom:
-	///         An `Atomic` thing.
+	///         An ``Atomic`` thing.
 	init (
 		_ atom: Atom
 	)
@@ -100,4 +100,3 @@ where Atom : Atomic {
 		Sequence.Element == Atom.SourceElement
 
 }
-

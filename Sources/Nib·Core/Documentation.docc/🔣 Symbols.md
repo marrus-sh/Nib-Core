@@ -1,13 +1,22 @@
-# Article
+#  🔣 Symbols  #
 
-<!--@START_MENU_TOKEN@-->Summary<!--@END_MENU_TOKEN@-->
+Symbols and contextfree expressions in 🖋🥑 Nib Core.
 
-## Overview
+@Comment {
+	Copyright © 2021 kibigo!
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+	This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+}
+
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
 
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+###  Symbols  ###
+
+ +  ``Symbolic``
+
+
+###  Symbolic expressions  ###
+
+ +  ``ContextfreeExpression``

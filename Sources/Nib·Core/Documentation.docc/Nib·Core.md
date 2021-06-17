@@ -41,4 +41,5 @@ You won’t find that here, though.
  +  <doc:--Expressions>
  +  <doc:--Atomics>
  +  <doc:--Miscellany>
+ +  <doc:--Symbols>
 
