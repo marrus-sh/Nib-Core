@@ -70,156 +70,254 @@ where Atom : Atomic {
 			Fragment🙉
 		)
 
-		/// Zero or more of a fragment.
-		indirect case zeroOrMore (
-			Fragment🙉
-		)
-
 		/// One or more of a fragment.
 		indirect case oneOrMore (
 			Fragment🙉
 		)
 
+		/// Zero or more of a fragment.
+		indirect case zeroOrMore (
+			Fragment🙉
+		)
+
+		/// This `Fragment🙉` as a regular expression fragment, or `nil`.
+		///
+		///  +  term Author(s):
+		///     [kibigo!](https://go.KIBI.family/About/#me).
+		var ·regularized·: Fragment🙉? {
+			var 〽️ = [:] as [Symbol🙊<Atom>:Fragment🙉?]
+			return ·regularized·(within: &〽️)
+		}
+
 		/// A `WorkingState🙊` which represents this `Fragment🙈`.
+		///
+		///  >  Note:
+		///  >  This creates a new `WorkingState🙊` every time.
 		///
 		///  +  term Author(s):
 		///     [kibigo!](https://go.KIBI.family/About/#me).
 		///
-		///  >  Note:
-		///  >  This creates a new `WorkingState🙊` every time.
+		///  +  Parameters:
+		///      +  IndexType:
+		///         A `Comparable` type to use as a parse index.
 		private func ·open🙈· <Index> (
 			using IndexType: Index.Type
 		) -> WorkingState🙈
 		where Index : Comparable {
 			switch self {
-			case .terminal(
-				let 🔙
-			):
-				let 🆕 = AtomicState🙊(🔙) as AtomicState🙊<Atom, Index>
-				return (
-					start: 🆕,
-					open: [🆕],
-					reachableFromStart: []
-				)
-			case .catenation (
-				let 🔙
-			):
-				guard let 🔝 = 🔙.first?.·open🙈·(
-					using: IndexType
-				) else {
+				case .terminal(
+					let 📂
+				):
+					let 🆕 = AtomicState🙊(📂) as AtomicState🙊<Atom, Index>
 					return (
-						start: .match,
-						open: [],
+						start: 🆕,
+						open: [🆕],
 						reachableFromStart: []
 					)
-				}
-				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
-					//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
-					return Fragment🙉.·patch🙈·(
-						🔜,
-						forward: 🈁.·open🙈·(
+				case .catenation (
+					let 📂
+				):
+					guard let 🔝 = 📂.first?.·open🙈·(
+						using: IndexType
+					) else {
+						return (
+							start: .match,
+							open: [],
+							reachableFromStart: []
+						)
+					}
+					return 📂.dropFirst().reduce(🔝) { 🔜, 🈁 in
+						//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
+						return Fragment🙉.·patch🙈·(
+							🔜,
+							forward: 🈁.·open🙈·(
+								using: IndexType
+							),
 							using: IndexType
-						),
+						)
+					}
+				case .alternation (
+					let 📂
+				):
+					guard let 🔝 = 📂.first?.·open🙈·(
 						using: IndexType
 					)
-				}
-			case .alternation (
-				let 🔙
-			):
-				guard let 🔝 = 🔙.first?.·open🙈·(
-					using: IndexType
-				)
-				else {
-					return (
-						start: .match,
-						open: [],
-						reachableFromStart: []
-					)
-				}
-				return 🔙.dropFirst().reduce(🔝) { 🔜, 🈁 in
-					//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
+					else {
+						return (
+							start: .match,
+							open: [],
+							reachableFromStart: []
+						)
+					}
+					return 📂.dropFirst().reduce(🔝) { 🔜, 🈁 in
+						//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
+						let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+						let 🆙 = 🈁.·open🙈·(
+							using: IndexType
+						)
+						🆕.·forward· = 🔜.start
+						🆕.·alternate· = 🆙.start
+						return (
+							start: 🆕,
+							open: 🔜.open.union(🆙.open),
+							reachableFromStart: 🔜.reachableFromStart.union(🆙.reachableFromStart)
+						)
+					}
+				case .zeroOrOne (
+					let 📂
+				):
 					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
-					let 🆙 = 🈁.·open🙈·(
+					let 🆙 = 📂.·open🙈·(
+						using: IndexType
+					)
+					🆕.·forward· = 🆙.start
+					return (
+						start: 🆕,
+						open: 🆙.open.union([🆕]),
+						reachableFromStart: 🆙.reachableFromStart.union([🆕])
+					)
+				case .oneOrMore (
+					let 📂
+				):
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆙 = 📂.·open🙈·(
+						using: IndexType
+					)
+					🆕.·forward· = 🆙.start
+					return Fragment🙉.·patch🙈·(
+						🆙,
+						forward: (
+							start: 🆕,
+							open: [🆕],
+							reachableFromStart: []
+						),
+						ignoreReachable: true,
+						using: IndexType
+					)
+				case .zeroOrMore (
+					let 📂
+				):
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆙 = 📂.·open🙈·(
+						using: IndexType
+					)
+					let 🔜 = Fragment🙉.·patch🙈·(
+						🆙,
+						forward: (
+							start: 🆕,
+							open: [🆕],
+							reachableFromStart: []
+						),
+						ignoreReachable: true,
 						using: IndexType
 					)
 					🆕.·forward· = 🔜.start
-					🆕.·alternate· = 🆙.start
 					return (
 						start: 🆕,
-						open: 🔜.open.union(🆙.open),
-						reachableFromStart: 🔜.reachableFromStart.union(🆙.reachableFromStart)
+						open: 🔜.open,
+						reachableFromStart: 🆙.reachableFromStart.union([🆕])
 					)
-				}
-			case .zeroOrOne (
-				let 🔙
-			):
-				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
-				let 🆙 = 🔙.·open🙈·(
-					using: IndexType
-				)
-				🆕.·forward· = 🆙.start
-				return (
-					start: 🆕,
-					open: 🆙.open.union([🆕]),
-					reachableFromStart: 🆙.reachableFromStart.union([🆕])
-				)
-			case .zeroOrMore (
-				let 🔙
-			):
-				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
-				let 🆙 = 🔙.·open🙈·(
-					using: IndexType
-				)
-				let 🔜 = Fragment🙉.·patch🙈·(
-					🆙,
-					forward: (
-						start: 🆕,
-						open: [🆕],
+				default:
+					return (
+						start: .never,
+						open: [],
 						reachableFromStart: []
-					),
-					ignoreReachable: true,
-					using: IndexType
-				)
-				🆕.·forward· = 🔜.start
-				return (
-					start: 🆕,
-					open: 🔜.open,
-					reachableFromStart: 🆙.reachableFromStart.union([🆕])
-				)
-			case .oneOrMore (
-				let 🔙
-			):
-				let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
-				let 🆙 = 🔙.·open🙈·(
-					using: IndexType
-				)
-				🆕.·forward· = 🆙.start
-				return Fragment🙉.·patch🙈·(
-					🆙,
-					forward: (
-						start: 🆕,
-						open: [🆕],
-						reachableFromStart: []
-					),
-					ignoreReachable: true,
-					using: IndexType
-				)
-			default:
-				return (
-					start: .never,
-					open: [],
-					reachableFromStart: []
-				)
+					)
+			}
+		}
+
+		/// Returns this `Fragment🙉` as a regular expression fragment, or `nil` if this conversion is not possible.
+		///
+		///  +  term Author(s):
+		///     [kibigo!](https://go.KIBI.family/About/#me).
+		///
+		///  +  Parameters:
+		///      +  symbols:
+		///         A `Dictionary` mapping already-processed `Symbol🙊`s to optional `Fragment🙉`s.
+		private func ·regularized· (
+			within symbols: inout [Symbol🙊<Atom>:Fragment🙉?]
+		) -> Fragment🙉? {
+			switch self {
+				case .nonterminal(
+					let 📂
+				):
+					if let 💰 = symbols[📂]
+					{ return 💰 }
+					else {
+						symbols.updateValue(
+							nil,
+							forKey: 📂
+						)
+						let 🔜 = 📂.expression.·kind🙈· == .regular ? 📂.expression.·fragment🙈· : 📂.expression.·fragment🙈·.·regularized·(
+							within: &symbols
+						)
+						symbols.updateValue(
+							🔜,
+							forKey: 📂
+						)
+						return 🔜
+					}
+				case
+					.terminal,
+					.never
+				: return self
+				case .catenation (
+					let 📂
+				):
+					var 〽️ = [] as [Fragment🙉]
+					〽️.reserveCapacity(📂.count)
+					for 🈁 in 📂 {
+						if let 🆒 = 🈁.·regularized·(
+							within: &symbols
+						) { 〽️.append(🆒) }
+						else
+						{ return nil }
+					}
+					return .catenation(〽️)
+				case .alternation(
+					let 📂
+				):
+					var 〽️ = [] as [Fragment🙉]
+					〽️.reserveCapacity(📂.count)
+					for 🈁 in 📂 {
+						if let 🆒 = 🈁.·regularized·(
+							within: &symbols
+						) { 〽️.append(🆒) }
+						else
+						{ return nil }
+					}
+					return .alternation(〽️)
+				case .exclusion:
+					return nil
+				case .zeroOrOne(
+					let 📂
+				): return 📂.·regularized·(
+					within: &symbols
+				).map(Fragment🙉.zeroOrOne)
+				case .oneOrMore(
+					let 📂
+				): return 📂.·regularized·(
+					within: &symbols
+				).map(Fragment🙉.oneOrMore)
+				case .zeroOrMore(
+					let 📂
+				): return 📂.·regularized·(
+					within: &symbols
+				).map(Fragment🙉.zeroOrMore)
 			}
 		}
 
 		/// The start `State🙊` from which to process this `Fragment🙉`.
 		///
+		///  >  Note:
+		///  >  This returns a new `State🙊` every time.
+		///
 		///  +  term Author(s):
 		///     [kibigo!](https://go.KIBI.family/About/#me).
 		///
-		///  >  Note:
-		///  >  This returns a new `State🙊` every time.
+		///  +  Parameters:
+		///      +  IndexType:
+		///         A `Comparable` type to use as a parse index.
 		func ·start· <Index> (
 			using IndexType: Index.Type
 		) -> State🙊
@@ -239,6 +337,10 @@ where Atom : Atomic {
 		///         A `WorkingState🙈` to patch.
 		///      +  forward:
 		///         A `WorkingState🙈` to point to.
+		///      +  ignoreReachable:
+		///         Whether to avoid patching `State🙈`s reachable from the start of `fragment`.
+		///      +  IndexType:
+		///         A `Comparable` type to use as a parse index.
 		///
 		///  +  Returns:
 		///     A `WorkingState🙈`.
@@ -304,9 +406,22 @@ where Atom : Atomic {
 	///  +  term Available since:
 	///     0·3.
 	public var regularExpression: RegularExpression<Atom>? {
-		·kind🙈· == .regular ? RegularExpression(
-			🆘🙊: self
-		) : nil
+		if ·kind🙈· == .regular {
+			return RegularExpression(
+				🆘🙊: self
+			)
+		} else if ·kind🙈· == .contextfree {
+			if let 🆒 = ·fragment🙈·.·regularized· {
+				return RegularExpression(
+					🆘🙊: ExcludingExpression(
+						🙈: 🆒,
+						kind: .regular
+					)
+				)
+			} else
+			{ return nil }
+		} else
+		{ return nil }
 	}
 
 	/// The `Fragment🙉` which represents this `ExcludingExpression`.
@@ -504,7 +619,7 @@ where Atom : Atomic {
 	///      +  endIndex:
 	///         A `Comparable` thing of the same type as `sequence`’s `Element`s’ `offset`s.
 	///      +  don·tCheckPartialMatches:
-	///         `true` if this method should only return a non‐`nil` value if the entire `sequence` matches; `false` otherwise.
+	///         `true` if this method should only return a non-`nil` value if the entire `sequence` matches; `false` otherwise.
 	///
 	///  +  Returns:
 	///     The `offset` of the first `Element` in `sequence` following the last match, `endIndex` if the entirety of `sequence` formed a match, or `nil` if no match was possible.
@@ -522,44 +637,57 @@ where Atom : Atomic {
 			element: Atom.SourceElement
 		)
 	{
-		let 🔙 = ·fragment🙈·.·start·(  //  keep to prevent early dealloc
-			using: Index.self
-		)
-		defer {
-			//  Walk the `State🙊` graph and `.·blast·()` each.
-			//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
-			var 〽️ = [🔙] as Set<State🙊>
-			while 〽️.count > 0 {
-				var 🔜 = [] as Set<State🙊>
-				for 🈁 in 〽️
-				where !🈁.·next·.isEmpty {
-					if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
-						if let 🆙 = 💱.·forward·
-						{ 🔜.insert(🆙) }
-						if let 🆙 = 💱.·alternate·
-						{ 🔜.insert(🆙) }
-					} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
-						if let 🆙 = 💱.·forward·
-						{ 🔜.insert(🆙) }
+		if
+			·kind🙈· != .regular,
+			let 💱 = regularExpression
+		{
+			//  If this isn’t a regular expression but can be processed as one, do.
+			//  Checking requires walking the expression an extra time but results in a simpler parse (no nested symbols).
+			return 💱^!.·nextIndexAfterMatchingPrefix🙈·(
+				in: sequence,
+				endIndex: endIndex,
+				onlyCareAboutCompleteMatches: don·tCheckPartialMatches
+			)
+		} else {
+			let 🔙 = ·fragment🙈·.·start·(  //  keep to prevent early dealloc
+				using: Index.self
+			)
+			defer {
+				//  Walk the `State🙊` graph and `.·blast·()` each.
+				//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
+				var 〽️ = [🔙] as Set<State🙊>
+				while 〽️.count > 0 {
+					var 🔜 = [] as Set<State🙊>
+					for 🈁 in 〽️
+					where !🈁.·next·.isEmpty {
+						if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
+							if let 🆙 = 💱.·forward·
+							{ 🔜.insert(🆙) }
+							if let 🆙 = 💱.·alternate·
+							{ 🔜.insert(🆙) }
+						} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
+							if let 🆙 = 💱.·forward·
+							{ 🔜.insert(🆙) }
+						}
+						🈁.·blast·()
 					}
-					🈁.·blast·()
+					〽️ = 🔜
 				}
-				〽️ = 🔜
 			}
+			var 〽️ = Parser🙊<Atom, Index>(
+				🔙,
+				expectingResult: false
+			)
+			var 🆗: Index?
+			for 🆙 in sequence {
+				if !don·tCheckPartialMatches && 〽️.·matches·
+				{ 🆗 = 🆙.offset }
+				〽️.·consume·(🆙)
+				if 〽️.·done·
+				{ break }
+			}
+			return 〽️.·matches· ? endIndex : 🆗
 		}
-		var 〽️ = Parser🙊<Atom, Index>(
-			🔙,
-			expectingResult: false
-		)
-		var 🆗: Index?
-		for 🆙 in sequence {
-			if !don·tCheckPartialMatches && 〽️.·matches·
-			{ 🆗 = 🆙.offset }
-			〽️.·consume·(🆙)
-			if 〽️.·done·
-			{ break }
-		}
-		return 〽️.·matches· ? endIndex : 🆗
 	}
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this ``ExcludingExpression``.
