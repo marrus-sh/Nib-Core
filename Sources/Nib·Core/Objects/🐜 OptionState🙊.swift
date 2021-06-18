@@ -20,30 +20,32 @@ where
 	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
 	var ·alternate·: State🙊? = nil
 
-	/// The `States🙊` which this `OptionState🙊` points to.
+	/// The cached alternate `States🙊` which this `OptionState🙊` will result in after a correct match.
 	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var ·next·: [State🙊]
-	{ ·next🙈· }
+	/// If the value of this property is `.known(nil)`, then the `·next·` value is not cacheable (because it contains a `ParsingState🙊`).
+	private var ·alternateNext🙈·: Uncertain<[State🙊]?> = .unknown
 
-	/// The `States🙊` which this `OptionState🙊` points to.
+	/// The `States🙊` which this `OptionState🙊` will result in after a correct match.
 	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
+	/// This is cached and follows `OptionState🙊` paths.
 	///
 	///  >  Note:
 	///  >  The stored backing of this property introduces the potential for strong reference cycles.
-	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·primaryNext🙈· + (·alternate·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match])
-
-	/// The primary (not alternate) `States🙊` which this `OptionState🙊` points to.
+	///  >  It **must** be cleared when this `OptionState🙊` is no longer needed, to prevent memory leakage.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	private var ·primaryNext🙈·: [State🙊]
-	{ super.·next· }
+	override var ·next·: [State🙊] {
+		if case .known(
+			let 📂
+		) = ·alternateNext🙈·
+		{ return super.·next· + (📂 ?? ·alternate·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]) }
+		else {
+			let 🔜 = ·alternate·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]
+			·alternateNext🙈· = .known(🔜.contains { $0 is ParsingState🙊<Atom, Index> } ? nil : 🔜)
+			return super.·next· + 🔜
+		}
+	}
 
 	/// Wipes the internal memory of this `OptionState🙊` to prevent reference cycles / memory leakage.
 	///
@@ -54,7 +56,7 @@ where
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
 		·alternate· = nil
-		·next🙈· = []
+		·alternateNext🙈· = .known([])
 	}
 
 }

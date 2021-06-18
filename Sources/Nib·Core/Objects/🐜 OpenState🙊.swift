@@ -22,21 +22,30 @@ where
 
 	/// The `States🙊` which this `OpenState🙊` will result in after a correct match.
 	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var ·next·: [State🙊]
-	{ ·next🙈· }
-
-	/// The `States🙊` which this `OpenState🙊` will result in after a correct match (privately stored).
-	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
+	/// This is cached and follows `OptionState🙊` paths.
 	///
 	///  >  Note:
 	///  >  The stored backing of this property introduces the potential for strong reference cycles.
 	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	override var ·next·: [State🙊] {
+		if case .known(
+			let 📂
+		) = ·next🙈·
+		{ return 📂 ?? ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match] }
+		else {
+			let 🔜 = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]
+			·next🙈· = .known(🔜.contains { $0 is ParsingState🙊<Atom, Index> } ? nil : 🔜)
+			return 🔜
+		}
+	}
+
+	/// The cached `States🙊` which this `OpenState🙊` will result in after a correct match.
+	///
+	/// If the value of this property is `.known(nil)`, then the `·next·` value is not cacheable (because it contains a `ParsingState🙊`).
+	private var ·next🙈·: Uncertain<[State🙊]?> = .unknown
 
 	/// Wipes the internal memory of this `OpenState🙊` to prevent reference cycles / memory leakage.
 	///
@@ -47,7 +56,7 @@ where
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
 		·forward· = nil
-		·next🙈· = []
+		·next🙈· = .known([])
 		super.·blast·()
 	}
 
