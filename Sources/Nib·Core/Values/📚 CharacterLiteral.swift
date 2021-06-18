@@ -13,7 +13,13 @@
 ///     0·2.
 public typealias CharacterLiteral = CollectionOfOne<U·C·S·Character>
 
+/// Extends ``CharacterLiteral``  to conform to ``TextProtocol``.
+///
+///  +  term Available since:
+///     0·2.
 extension CharacterLiteral:
+	//  These must be listed separately because it is a qualified extension of a generic type.
+	//  However, they are all implied by `TextProtocol`.
 	CustomTextConvertible,
 	LosslessTextConvertible,
 	TextOutputStreamable,

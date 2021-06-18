@@ -5,7 +5,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Extends `String` to conform to `LosslessTextConvertible` with a [`Text`](doc:CustomTextConvertible/Text-swift.associatedtype) type of `StringLiteral`.
+/// Extends `String` to conform to ``LosslessTextConvertible`` with a [`Text`](doc:CustomTextConvertible/Text-swift.associatedtype) type of ``StringLiteral``.
 ///
 ///  +  term Available since:
 ///     0·2.

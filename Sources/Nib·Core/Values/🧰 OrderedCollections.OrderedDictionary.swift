@@ -7,6 +7,10 @@
 
 import struct OrderedCollections.OrderedDictionary
 
+/// Extends `OrderedDictionary` to conform to ``Lookup``.
+///
+///  +  term Available since:
+///     0·2.
 extension OrderedCollections.OrderedDictionary:
 	Lookup
 {

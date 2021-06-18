@@ -14,6 +14,10 @@
 ///     0·2.
 public typealias U·C·S·Character = StringLiteral.Element
 
+/// Extends ``U·C·S·Character``  to conform to ``LosslessTextConvertible`` with a [`Text`](doc:CustomTextConvertible/Text-swift.associatedtype) type of ``CharacterLiteral``.
+///
+///  +  term Available since:
+///     0·2.
 extension U·C·S·Character:
 	LosslessTextConvertible
 {

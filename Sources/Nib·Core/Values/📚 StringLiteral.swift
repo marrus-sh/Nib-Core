@@ -11,6 +11,10 @@
 ///     0·2.
 public typealias StringLiteral = String.UnicodeScalarView
 
+/// Extends ``StringLiteral``  to conform to ``TextProtocol``.
+///
+///  +  term Available since:
+///     0·2.
 extension StringLiteral:
 	TextProtocol
 {
