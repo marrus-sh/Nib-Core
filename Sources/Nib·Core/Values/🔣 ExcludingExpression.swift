@@ -649,44 +649,23 @@ where Atom : Atomic {
 				onlyCareAboutCompleteMatches: don·tCheckPartialMatches
 			)
 		} else {
-			let 🔙 = ·fragment🙈·.·start·(  //  keep to prevent early dealloc
-				using: Index.self
-			)
-			defer {
-				//  Walk the `State🙊` graph and `.·blast·()` each.
-				//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
-				var 〽️ = [🔙] as Set<State🙊>
-				while 〽️.count > 0 {
-					var 🔜 = [] as Set<State🙊>
-					for 🈁 in 〽️
-					where !🈁.·next·.isEmpty {
-						if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
-							if let 🆙 = 💱.·forward·
-							{ 🔜.insert(🆙) }
-							if let 🆙 = 💱.·alternate·
-							{ 🔜.insert(🆙) }
-						} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
-							if let 🆙 = 💱.·forward·
-							{ 🔜.insert(🆙) }
-						}
-						🈁.·blast·()
-					}
-					〽️ = 🔜
-				}
-			}
-			var 〽️ = Parser🙊<Atom, Index>(
-				🔙,
+			var 📥 = Parser🙊<Atom, Index>(
+				·fragment🙈·.·start·(
+					using: Index.self
+				),
 				expectingResult: false
 			)
-			var 🆗: Index?
-			for 🆙 in sequence {
-				if !don·tCheckPartialMatches && 〽️.·matches·
-				{ 🆗 = 🆙.offset }
-				〽️.·consume·(🆙)
-				if 〽️.·done·
+			defer
+			{ 📥.·blast·() }
+			var 🆒: Index?
+			for 🈁 in sequence {
+				if !don·tCheckPartialMatches && 📥.·matches·
+				{ 🆒 = 🈁.offset }
+				📥.·consume·(🈁)
+				if 📥.·done·
 				{ break }
 			}
-			return 〽️.·matches· ? endIndex : 🆗
+			return 📥.·matches· ? endIndex : 🆒
 		}
 	}
 
