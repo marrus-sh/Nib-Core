@@ -18,31 +18,29 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var ·base·: State🙊
-	{ ·base🙈· ?? self }
+	{ ·base🙈· }
 
-	/// The `ParsingState🙊` which this `ParsingState🙊` was originally derived from, if one exists.
-	private let ·base🙈·: ParsingState🙊<Atom, Index>?
+	/// The `BaseState🙊` which this `ParsingState🙊` was originally derived from, if one exists.
+	private let ·base🙈·: BaseState🙊<Atom, Index>
 
-	/// The internal `Parser🙊` of this `ParsingState🙊`.
-	private var ·parser🙈·: Parser🙊<Atom, Index>? = nil
-
-	/// The start `State🙊` of this `ParsingState🙊`.
-	let ·start·: State🙊
-
-	/// Creates a new `ParsingState🙊` whose `·parser🙈·` starts from the provided `start`.
+	/// The `States🙊` which this `ParsingState🙊` will result in after a correct match.
+	///
+	/// The `ParsingState🙊` itself will be included if it can consume more things.
+	/// Other `States🙊` will only be included if the `·parser🙈·` currently `·matches·`.
+	///
+	///  >  Note:
+	///  >  Because the value of this property changes over the lifecycle of a parse, it mustn’t be cached.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  start:
-	///         A `State🙊`.
-	init (
-		_ start: State🙊
-	) {
-		·base🙈· = nil
-		·start· = start
-	}
+	override var ·next·: [State🙊]
+	{ ·parser🙈·.·open· ? ·parser🙈·.·matches· ? CollectionOfOne(self) + ·base🙈·.·next· : [self] : ·parser🙈·.·matches· ? ·base🙈·.·next· : [] }
+
+	/// The internal `Parser🙊` of this `ParsingState🙊`.
+	private var ·parser🙈·: Parser🙊<Atom, Index>
+
+	/// The start `State🙊` of this `ParsingState🙊`.
+	let ·start·: State🙊
 
 	/// Creates a new `ParsingState🙊` derived from the provided `base` and optionally `rememberingPathComponents`.
 	///
@@ -54,8 +52,8 @@ where
 	///         A `ParsingState🙊`.
 	///      +  rememberingPathComponents:
 	///         Whether to remember path components when consuming with this `ParsingState🙊`.
-	private init (
-		from base: ParsingState🙊<Atom, Index>,
+	init (
+		from base: BaseState🙊<Atom, Index>,
 		expectingResult rememberingPathComponents: Bool
 	) {
 		·base🙈· = base
@@ -66,24 +64,9 @@ where
 		)
 	}
 
-	/// Returns either this `ParsingState🙊` (if it is already a derivative), or a new `ParsingState🙊`s based off of this one.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  rememberingPathComponents:
-	///         Whether to remember path components when consuming with this `ParsingState🙊`.
-	///
-	///  +  Returns:
-	///     A `State🙊`.
-	override func ·resolved· (
-		expectingResult rememberingPathComponents: Bool
-	) -> State🙊 {
-		·base🙈· == nil ? ParsingState🙊(
-			from: self,
-			expectingResult: rememberingPathComponents
-		) : self
+	override func ·blast· () {
+		·parser🙈·.·blast·()
+		super.·blast·()
 	}
 
 }

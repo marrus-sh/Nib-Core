@@ -78,6 +78,16 @@ where
 	/// Whether this `Parser🙊` is remembering the components of paths, or simply testing for a match.
 	private let ·remembersPathComponents·: Bool
 
+	/// The result of the parse.
+	///
+	///  >  Note:
+	///  >  This will be `nil` if this `Parser🙊` is not currently in a match state.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	var ·result·: [PathComponent]?
+	{ ·paths🙈·[.match] ?? nil }
+
 	/// The start `State🙊` for this `Parser🙊`.
 	///
 	/// There is no way to know, during processing, if a `State🙊` will be needed again, so the `State🙊` graph can only be `·blast·()`ed at the end.
@@ -108,7 +118,7 @@ where
 			into: [:]
 		) { 🔜, 🈁 in
 			🔜.updateValue(
-				rememberingPathComponents ? [] : nil,
+				rememberingPathComponents ? 🈁 === State🙊.match ? [.match] : [] : nil,
 				forKey: 🈁
 			)
 		}
@@ -136,6 +146,8 @@ where
 			}
 			〽️ = 🔜
 		}
+		·next🙈· = []
+		·paths🙈· = [:]
 	}
 
 	/// Updates the state of this `Parser🙊` to be that after consuming the provided `indexedElement`.
