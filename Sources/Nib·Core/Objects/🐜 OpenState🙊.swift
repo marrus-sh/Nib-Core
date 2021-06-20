@@ -6,12 +6,9 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// A `State🙊` which points to another `State🙊`; a `State🙊` other than `.match` or `.never`.
-internal class OpenState🙊 <Atom, Index>:
+internal class OpenState🙊 <Atom>:
 	State🙊
-where
-	Atom : Atomic,
-	Index: Comparable
-{
+where Atom : Atomic {
 
 	/// A later `State🙊` pointed to by this `OpenState🙊`.
 	///
@@ -31,21 +28,17 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var ·next·: [State🙊] {
-		if case .known(
-			let 📂
-		) = ·next🙈·
-		{ return 📂 ?? ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match] }
+		if let 📂 = ·next🙈·
+		{ return 📂 }
 		else {
-			let 🔜 = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]
-			·next🙈· = .known(🔜.contains { $0 is ParsingState🙊<Atom, Index> } ? nil : 🔜)
+			let 🔜 = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom>)?.·next· ?? [$0] } ?? [.match]
+			·next🙈· = 🔜
 			return 🔜
 		}
 	}
 
 	/// The cached `States🙊` which this `OpenState🙊` will result in after a correct match.
-	///
-	/// If the value of this property is `.known(nil)`, then the `·next·` value is not cacheable (because it contains a `ParsingState🙊`).
-	private var ·next🙈·: Uncertain<[State🙊]?> = .unknown
+	private var ·next🙈·: [State🙊]? = nil
 
 	/// Wipes the internal memory of this `OpenState🙊` to prevent reference cycles / memory leakage.
 	///
@@ -56,7 +49,7 @@ where
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
 		·forward· = nil
-		·next🙈· = .known([])
+		·next🙈· = []
 		super.·blast·()
 	}
 
@@ -91,13 +84,14 @@ where
 	///
 	///  +  Returns:
 	///     `true` if this `OpenState🙊` does consume the provided `element`; otherwise, `false`.
-	func ·consumes· (
+	func ·consumes· <Index> (
 		_ indexedElement: (
 			offset: Index,
 			element: Atom.SourceElement
 		),
 		into result: inout [Parser🙊<Atom, Index>.PathComponent]
-	) -> Bool {
+	) -> Bool
+	where Index : Comparable {
 		if ·consumes·(indexedElement.element) {
 			if
 				let 🔚 = result.last,

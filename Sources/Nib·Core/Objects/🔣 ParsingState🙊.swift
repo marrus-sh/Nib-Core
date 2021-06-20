@@ -7,7 +7,7 @@
 
 /// An `OpenState🙊` which contains an internal parser.
 internal class ParsingState🙊 <Atom, Index>:
-	OpenState🙊<Atom, Index>
+	OpenState🙊<Atom>
 where
 	Atom : Atomic,
 	Index: Comparable
@@ -21,7 +21,7 @@ where
 	{ ·base🙈· }
 
 	/// The `BaseState🙊` which this `ParsingState🙊` was originally derived from, if one exists.
-	private let ·base🙈·: BaseState🙊<Atom, Index>
+	private let ·base🙈·: BaseState🙊<Atom>
 
 	/// The `States🙊` which this `ParsingState🙊` will result in after a correct match.
 	///
@@ -39,9 +39,6 @@ where
 	/// The internal `Parser🙊` of this `ParsingState🙊`.
 	private var ·parser🙈·: Parser🙊<Atom, Index>
 
-	/// The start `State🙊` of this `ParsingState🙊`.
-	let ·start·: State🙊
-
 	/// Creates a new `ParsingState🙊` derived from the provided `base` and optionally `rememberingPathComponents`.
 	///
 	///  +  term Author(s):
@@ -53,20 +50,34 @@ where
 	///      +  rememberingPathComponents:
 	///         Whether to remember path components when consuming with this `ParsingState🙊`.
 	init (
-		from base: BaseState🙊<Atom, Index>,
+		from base: BaseState🙊<Atom>,
 		expectingResult rememberingPathComponents: Bool
 	) {
 		·base🙈· = base
-		·start· = base.·start·
 		·parser🙈· = Parser🙊(
-			·start·,
+			base.·start·,
 			expectingResult: rememberingPathComponents
 		)
 	}
 
 	override func ·blast· () {
-		·parser🙈·.·blast·()
 		super.·blast·()
+	}
+
+	func ·consumes· (
+		_ indexedElement: (
+			offset: Index,
+			element: Atom.SourceElement
+		)
+	) -> Bool {
+		guard ·parser🙈·.·open·
+		else { return false }
+		·parser🙈·.·consume·(indexedElement)
+		if ·parser🙈·.·done· {
+			·blast·()
+			return false
+		} else
+		{ return true }
 	}
 
 }

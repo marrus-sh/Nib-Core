@@ -67,7 +67,7 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·open·: Bool
-	{ ·next🙈·.contains { $0 is OpenState🙊<Atom, Index> } }
+	{ ·next🙈·.contains { $0 is OpenState🙊<Atom> } }
 
 	/// Paths through the input which may lead to a successful match.
 	///
@@ -88,12 +88,6 @@ where
 	var ·result·: [PathComponent]?
 	{ ·paths🙈·[.match] ?? nil }
 
-	/// The start `State🙊` for this `Parser🙊`.
-	///
-	/// There is no way to know, during processing, if a `State🙊` will be needed again, so the `State🙊` graph can only be `·blast·()`ed at the end.
-	/// Consequently, the start `State🙊` must be remembered.
-	private let ·start🙈·: State🙊
-
 	/// Creates a `Parser🙊` beginning from the provided `start` and potentially `rememberingPathComponents`.
 	///
 	///  +  term Author(s):
@@ -101,17 +95,17 @@ where
 	///
 	///  +  Parameters:
 	///      +  start:
-	///         The `State🙊` to begin parsing from.
+	///         The `StartState🙊` to begin parsing from.
 	///      +  rememberingPathComponents:
 	///         Whether the result of a parse will be needed.
 	init (
-		_ start: State🙊,
+		_ start: StartState🙊<Atom>,
 		expectingResult rememberingPathComponents: Bool
 	) {
-		·start🙈· = start
-		·next🙈· = (start is OptionState🙊<Atom, Index> ? start.·next· : [start]).map { 🈁 in
+		·next🙈· = start.·next·.map { 🈁 in
 			🈁.·resolved·(
-				expectingResult: rememberingPathComponents
+				expectingResult: rememberingPathComponents,
+				using: Index.self
 			)
 		}
 		·paths🙈· = ·next🙈·.reduce(
@@ -123,31 +117,6 @@ where
 			)
 		}
 		·remembersPathComponents· = rememberingPathComponents
-	}
-
-	mutating func ·blast· () {
-		//  Walk the `State🙊` graph and `.·blast·()` each.
-		//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
-		var 〽️ = [·start🙈·] as Set<State🙊>
-		while 〽️.count > 0 {
-			var 🔜 = [] as Set<State🙊>
-			for 🈁 in 〽️
-			where !🈁.·next·.isEmpty {
-				if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
-					if let 🆙 = 💱.·forward·
-					{ 🔜.insert(🆙) }
-					if let 🆙 = 💱.·alternate·
-					{ 🔜.insert(🆙) }
-				} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
-					if let 🆙 = 💱.·forward·
-					{ 🔜.insert(🆙) }
-				}
-				🈁.·blast·()
-			}
-			〽️ = 🔜
-		}
-		·next🙈· = []
-		·paths🙈· = [:]
 	}
 
 	/// Updates the state of this `Parser🙊` to be that after consuming the provided `indexedElement`.
@@ -174,7 +143,7 @@ where
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
-			if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
+			if let 💱 = 🈁 as? OpenState🙊<Atom> {
 				let 🆗: Bool
 				let 🔙: [PathComponent]?
 				if ·remembersPathComponents· {
@@ -192,7 +161,8 @@ where
 					for 🆕 in (
 						💱.·next·.map { 🈁 in
 							🈁.·resolved·(
-								expectingResult: ·remembersPathComponents·
+								expectingResult: ·remembersPathComponents·,
+								using: Index.self
 							)
 						}
 					) where 🔜.paths[🆕] == nil {

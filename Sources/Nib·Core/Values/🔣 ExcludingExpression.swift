@@ -89,6 +89,22 @@ where Atom : Atomic {
 			return ·regularized·(within: &〽️)
 		}
 
+		/// The `StartState🙊` from which to process this `Fragment🙉`.
+		///
+		///  >  Note:
+		///  >  This returns a new `StartState🙊` every time.
+		///
+		///  +  term Author(s):
+		///     [kibigo!](https://go.KIBI.family/About/#me).
+		var ·start·: StartState🙊<Atom> {
+			var 〽️ = [:] as [Symbol🙊<Atom>:BaseState🙊<Atom>]
+			return StartState🙊(
+				·open🙈·(
+					with: &〽️
+				).start
+			)
+		}
+
 		/// A `WorkingState🙊` which represents this `Fragment🙈`.
 		///
 		///  >  Note:
@@ -98,17 +114,16 @@ where Atom : Atomic {
 		///     [kibigo!](https://go.KIBI.family/About/#me).
 		///
 		///  +  Parameters:
-		///      +  IndexType:
-		///         A `Comparable` type to use as a parse index.
-		private func ·open🙈· <Index> (
-			using IndexType: Index.Type
-		) -> WorkingState🙈
-		where Index : Comparable {
+		///      +  symbols:
+		///         A `Dictionary` of already-defined `BaseState🙊`s for `Symbol🙊`s.
+		private func ·open🙈· (
+			with symbols: inout [Symbol🙊<Atom>:BaseState🙊<Atom>]
+		) -> WorkingState🙈 {
 			switch self {
 				case .terminal(
 					let 📂
 				):
-					let 🆕 = AtomicState🙊(📂) as AtomicState🙊<Atom, Index>
+					let 🆕 = AtomicState🙊(📂)
 					return (
 						start: 🆕,
 						open: [🆕],
@@ -118,7 +133,7 @@ where Atom : Atomic {
 					let 📂
 				):
 					guard let 🔝 = 📂.first?.·open🙈·(
-						using: IndexType
+						with: &symbols
 					) else {
 						return (
 							start: .match,
@@ -131,16 +146,15 @@ where Atom : Atomic {
 						return Fragment🙉.·patch🙈·(
 							🔜,
 							forward: 🈁.·open🙈·(
-								using: IndexType
-							),
-							using: IndexType
+								with: &symbols
+							)
 						)
 					}
 				case .alternation (
 					let 📂
 				):
 					guard let 🔝 = 📂.first?.·open🙈·(
-						using: IndexType
+						with: &symbols
 					)
 					else {
 						return (
@@ -151,9 +165,9 @@ where Atom : Atomic {
 					}
 					return 📂.dropFirst().reduce(🔝) { 🔜, 🈁 in
 						//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
-						let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+						let 🆕 = OptionState🙊() as OptionState🙊<Atom>
 						let 🆙 = 🈁.·open🙈·(
-							using: IndexType
+							with: &symbols
 						)
 						🆕.·forward· = 🔜.start
 						🆕.·alternate· = 🆙.start
@@ -166,9 +180,9 @@ where Atom : Atomic {
 				case .zeroOrOne (
 					let 📂
 				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
 					let 🆙 = 📂.·open🙈·(
-						using: IndexType
+						with: &symbols
 					)
 					🆕.·forward· = 🆙.start
 					return (
@@ -179,9 +193,9 @@ where Atom : Atomic {
 				case .oneOrMore (
 					let 📂
 				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
 					let 🆙 = 📂.·open🙈·(
-						using: IndexType
+						with: &symbols
 					)
 					🆕.·forward· = 🆙.start
 					return Fragment🙉.·patch🙈·(
@@ -191,15 +205,14 @@ where Atom : Atomic {
 							open: [🆕],
 							reachableFromStart: []
 						),
-						ignoreReachable: true,
-						using: IndexType
+						ignoreReachable: true
 					)
 				case .zeroOrMore (
 					let 📂
 				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom, Index>
+					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
 					let 🆙 = 📂.·open🙈·(
-						using: IndexType
+						with: &symbols
 					)
 					let 🔜 = Fragment🙉.·patch🙈·(
 						🆙,
@@ -208,8 +221,7 @@ where Atom : Atomic {
 							open: [🆕],
 							reachableFromStart: []
 						),
-						ignoreReachable: true,
-						using: IndexType
+						ignoreReachable: true
 					)
 					🆕.·forward· = 🔜.start
 					return (
@@ -224,6 +236,47 @@ where Atom : Atomic {
 						reachableFromStart: []
 					)
 			}
+		}
+
+		/// Patches `fragment` so that all of its open `State🙈`s point to the `start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
+		///
+		///  +  term Author(s):
+		///     [kibigo!](https://go.KIBI.family/About/#me).
+		///
+		///  +  Parameters:
+		///      +  fragment:
+		///         A `WorkingState🙈` to patch.
+		///      +  forward:
+		///         A `WorkingState🙈` to point to.
+		///      +  ignoreReachable:
+		///         Whether to avoid patching `State🙈`s reachable from the start of `fragment`.
+		///
+		///  +  Returns:
+		///     A `WorkingState🙈`.
+		private static func ·patch🙈· (
+			_ fragment: WorkingState🙈,
+			forward: WorkingState🙈,
+			ignoreReachable: Bool = false
+		) -> WorkingState🙈 {
+			var 🔜 = forward.open
+			for 🈁 in fragment.open {
+				if ignoreReachable && fragment.reachableFromStart.contains(🈁)
+				{ 🔜.insert(🈁) }  //  leave things `reachableFromStart` open instead of patching to prevent endless loops
+				else if let 💱 = 🈁 as? OptionState🙊<Atom> {
+					if 💱.·forward· == nil
+					{ 💱.·forward· = forward.start }
+					if 💱.·alternate· == nil
+					{ 💱.·alternate· = forward.start }
+				} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
+					if 💱.·forward· == nil
+					{ 💱.·forward· = forward.start }
+				}
+			}
+			return (
+				start: fragment.start,
+				open: 🔜,
+				reachableFromStart: ignoreReachable ? fragment.reachableFromStart : fragment.reachableFromStart.isEmpty ? [] : forward.reachableFromStart
+			)
 		}
 
 		/// Returns this `Fragment🙉` as a regular expression fragment, or `nil` if this conversion is not possible.
@@ -307,71 +360,6 @@ where Atom : Atomic {
 			}
 		}
 
-		/// The start `State🙊` from which to process this `Fragment🙉`.
-		///
-		///  >  Note:
-		///  >  This returns a new `State🙊` every time.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		///
-		///  +  Parameters:
-		///      +  IndexType:
-		///         A `Comparable` type to use as a parse index.
-		func ·start· <Index> (
-			using IndexType: Index.Type
-		) -> State🙊
-		where Index: Comparable {
-			·open🙈·(
-				using: IndexType
-			).start
-		}
-
-		/// Patches `fragment` so that all of its open `State🙈`s point to the `start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		///
-		///  +  Parameters:
-		///      +  fragment:
-		///         A `WorkingState🙈` to patch.
-		///      +  forward:
-		///         A `WorkingState🙈` to point to.
-		///      +  ignoreReachable:
-		///         Whether to avoid patching `State🙈`s reachable from the start of `fragment`.
-		///      +  IndexType:
-		///         A `Comparable` type to use as a parse index.
-		///
-		///  +  Returns:
-		///     A `WorkingState🙈`.
-		private static func ·patch🙈· <Index> (
-			_ fragment: WorkingState🙈,
-			forward: WorkingState🙈,
-			ignoreReachable: Bool = false,
-			using IndexType: Index.Type
-		) -> WorkingState🙈
-		where Index : Comparable {
-			var 🔜 = forward.open
-			for 🈁 in fragment.open {
-				if ignoreReachable && fragment.reachableFromStart.contains(🈁)
-				{ 🔜.insert(🈁) }  //  leave things `reachableFromStart` open instead of patching to prevent endless loops
-				else if let 💱 = 🈁 as? OptionState🙊<Atom, Index> {
-					if 💱.·forward· == nil
-					{ 💱.·forward· = forward.start }
-					if 💱.·alternate· == nil
-					{ 💱.·alternate· = forward.start }
-				} else if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
-					if 💱.·forward· == nil
-					{ 💱.·forward· = forward.start }
-				}
-			}
-			return (
-				start: fragment.start,
-				open: 🔜,
-				reachableFromStart: ignoreReachable ? fragment.reachableFromStart : fragment.reachableFromStart.isEmpty ? [] : forward.reachableFromStart
-			)
-		}
-
 	}
 
 	/// A kind of `ExcludingExpression`.
@@ -430,6 +418,9 @@ where Atom : Atomic {
 	/// The `Kind🙈` which represents this `ExcludingExpression`.
 	private let ·kind🙈·: Kind🙈
 
+	/// The `StartState🙊` from which parsing this `ExcludingExpression` begins.
+	private let ·start🙈·: StartState🙊<Atom>
+
 	/// Creates an ``ExcludingExpression`` from the provided `atom`.
 	///
 	///  +  term Author(s):
@@ -442,8 +433,10 @@ where Atom : Atomic {
 	/*public*/ init (
 		_ atom: Atom
 	) {
-		·fragment🙈· = .terminal(atom)
-		·kind🙈· = .regular
+		self.init(
+			🙈: .terminal(atom),
+			kind: .regular
+		)
 	}
 
 	/// Creates an ``ExcludingExpression`` from the provided `regex`.
@@ -457,8 +450,10 @@ where Atom : Atomic {
 	/*public*/ init (
 		_ regex: RegularExpression<Atom>
 	) {
-		·fragment🙈· = regex^!.·fragment🙈·
-		·kind🙈· = .regular
+		self.init(
+			🙈: regex^!.·fragment🙈·,
+			kind: .regular
+		)
 	}
 
 	/// Creates an ``ExcludingExpression`` which alternates the provided `choices`.
@@ -600,6 +595,7 @@ where Atom : Atomic {
 	) {
 		·fragment🙈· = fragment
 		·kind🙈· = kind
+		·start🙈· = fragment.·start·
 	}
 
 	/// Returns the first `Index` in the provided `sequence` after matching this ``ExcludingExpression``.
@@ -650,13 +646,9 @@ where Atom : Atomic {
 			)
 		} else {
 			var 📥 = Parser🙊<Atom, Index>(
-				·fragment🙈·.·start·(
-					using: Index.self
-				),
+				·start🙈·,
 				expectingResult: false
 			)
-			defer
-			{ 📥.·blast·() }
 			var 🆒: Index?
 			for 🈁 in sequence {
 				if !don·tCheckPartialMatches && 📥.·matches·
