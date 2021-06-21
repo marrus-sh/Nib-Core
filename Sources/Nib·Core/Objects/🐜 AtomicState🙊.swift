@@ -39,7 +39,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     `true` if the `·atom·` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
-	override func ·consumes· (
+	func ·consumes· (
 		_ element: Atom.SourceElement
 	) -> Bool
 	{ ·atom· ~= element }

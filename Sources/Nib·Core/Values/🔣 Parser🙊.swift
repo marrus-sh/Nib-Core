@@ -17,7 +17,9 @@ where
 	/// Path components can be either `string`s (ranges of matching indices) or `symbol`s (which themselves have a `subpath` of strings and/or symbols).
 	/// `symbol`s may represent an inprogress match; a `symbol` only represents a proper match when its `subpath` ends in a `match`.
 	/// The special `match` component indicates that the entire preceding path successfully matches, and should only ever appear at the end.
-	enum PathComponent {
+	enum PathComponent:
+		Equatable
+	{
 
 		/// Indicates that a path results in a successful match.
 		case match
@@ -50,7 +52,7 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·matches·: Bool
-	{ ·paths🙈·[.match] != nil }
+	{ ·paths🙈·[.match] == .some(nil) }
 
 	/// The `State🙊`s wot will be evaluated on the next `·consume·(_:).
 	///
@@ -143,45 +145,55 @@ where
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
-			if let 💱 = 🈁 as? OpenState🙊<Atom> {
-				let 🆗: Bool
-				let 🔙: [PathComponent]?
-				if ·remembersPathComponents· {
-					var 〽️ = ·paths🙈·[🈁]!!
-					🆗 = 💱.·consumes·(
-						indexedElement,
-						into: &〽️
-					)
-					🔙 = 〽️
-				} else {
-					🆗 = 💱.·consumes·(indexedElement.element)
-					🔙 = nil
-				}
-				if 🆗 {
-					for 🆕 in (
-						💱.·next·.map { 🈁 in
-							🈁.·resolved·(
-								expectingResult: ·remembersPathComponents·,
-								using: Index.self
-							)
-						}
-					) where 🔜.paths[🆕] == nil {
-						🔜.next.append(🆕)
+			let 🔙: [PathComponent]?
+			switch 🈁 {
+				case let 💱 as AtomicState🙊<Atom>:
+					guard 💱.·consumes·(indexedElement.element)
+					else
+					{ return }
+					if ·remembersPathComponents· {
+						var 〽️ = ·paths🙈·[🈁]!!
 						if
-							🆕 === State🙊.match,
-							let 🆒 = 🔙
+							let 🔚 = 〽️.last,
+							case .string (
+								let 📂
+							) = 🔚
 						{
-							🔜.paths.updateValue(
-								🆒 + CollectionOfOne(.match),
-								forKey: 🆕
-							)
-						} else {
-							🔜.paths.updateValue(
-								🔙,
-								forKey: 🆕
-							)
-						}
-					}
+							〽️[
+								〽️.index(
+									before: 〽️.endIndex
+								)
+							] = .string(📂.lowerBound...indexedElement.offset)
+						} else
+						{ 〽️.append(.string(indexedElement.offset...indexedElement.offset)) }
+						🔙 = 〽️
+					} else
+					{ 🔙 = nil }
+				default:
+					return
+			}
+			for 🆕 in (
+				🈁.·next·.map { 🈁 in
+					🈁.·resolved·(
+						expectingResult: ·remembersPathComponents·,
+						using: Index.self
+					)
+				}
+			) where 🔜.paths[🆕] == nil {
+				🔜.next.append(🆕)
+				if
+					🆕 === State🙊.match,
+					let 🆒 = 🔙
+				{
+					🔜.paths.updateValue(
+						🆒 + CollectionOfOne(.match),
+						forKey: 🆕
+					)
+				} else {
+					🔜.paths.updateValue(
+						🔙,
+						forKey: 🆕
+					)
 				}
 			}
 		}
