@@ -11,7 +11,7 @@ internal class BaseState🙊 <Atom>:
 where Atom : Atomic {
 
 	/// The start `State🙊` of this `BaseState🙊`.
-	let ·start·: StartState🙊<Atom>
+	var ·start·: StartState🙊<Atom>?
 
 	/// Creates a new `BaseState🙊` whose derived `ParsingState🙊s` will start from the provided `start`.
 	///
@@ -24,6 +24,18 @@ where Atom : Atomic {
 	init (
 		_ start: StartState🙊<Atom>
 	) { ·start· = start }
+
+	/// Wipes the internal memory of this `BaseState🙊` to prevent reference cycles / memory leakage.
+	///
+	/// After a `·blast·()`, this `BaseState🙊` will have an empty `·start·` and `·next·` and thus cannot ever lead to a match.
+	/// Only call this function when this `BaseState🙊` is guaranteed to never be used again.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	override func ·blast· () {
+		·start· = nil
+		super.·blast·()
+	}
 
 	/// Returns a new `ParsingState🙊`s based off of this one.
 	///
@@ -44,7 +56,7 @@ where Atom : Atomic {
 		ParsingState🙊(
 			from: self as! Self,
 			expectingResult: rememberingPathComponents
-		) as ParsingState🙊<Self, Atom, Index>
+		) as ParsingState🙊<Self, Atom, Index>? ?? .never
 	}
 
 }

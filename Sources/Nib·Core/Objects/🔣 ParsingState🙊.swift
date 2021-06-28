@@ -49,19 +49,18 @@ where
 	///         A `ParsingState🙊`.
 	///      +  rememberingPathComponents:
 	///         Whether to remember path components when consuming with this `ParsingState🙊`.
-	init (
+	init? (
 		from base: Base,
 		expectingResult rememberingPathComponents: Bool
 	) {
+		guard let 📂 = base.·start·
+		else
+		{ return nil }
 		·base· = base
 		·parser🙈· = Parser🙊(
-			base.·start·,
+			📂,
 			expectingResult: rememberingPathComponents
 		)
-	}
-
-	override func ·blast· () {
-		super.·blast·()
 	}
 
 	func ·consumes· (

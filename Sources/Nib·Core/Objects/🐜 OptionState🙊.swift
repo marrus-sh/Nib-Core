@@ -50,6 +50,7 @@ where Atom : Atomic {
 	override func ·blast· () {
 		·alternate· = nil
 		·next🙈· = []
+		super.·blast·()
 	}
 
 }
