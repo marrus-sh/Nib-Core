@@ -13,13 +13,6 @@ internal class State🙊:
 	Identifiable
 {
 
-	/// The `State🙊` which this `State🙊` was originally derived from, or `self` if it was not derived from an existing `State🙊`.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var ·base·: State🙊
-	{ self }
-
 	/// The `State🙊`s which this `State🙊` will result in after a correct match.
 	///
 	///  +  term Author(s):

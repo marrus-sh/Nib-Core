@@ -5,6 +5,8 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+import func Algorithms.chain
+
 /// A parser for an atomic expression.
 internal struct Parser🙊 <Atom, Index>
 where
@@ -15,14 +17,10 @@ where
 	/// A component of a “path” through a known input according to a known regular expression.
 	///
 	/// Path components can be either `string`s (ranges of matching indices) or `symbol`s (which themselves have a `subpath` of strings and/or symbols).
-	/// `symbol`s may represent an inprogress match; a `symbol` only represents a proper match when its `subpath` ends in a `match`.
-	/// The special `match` component indicates that the entire preceding path successfully matches, and should only ever appear at the end.
+	/// `symbol`s may represent an inprogress match; a `symbol` only (necessarily) represents a proper match when its `subpath` is not `nil`.
 	enum PathComponent:
 		Equatable
 	{
-
-		/// Indicates that a path results in a successful match.
-		case match
 
 		/// A range of indices which match.
 		case string (
@@ -31,11 +29,11 @@ where
 
 		/// A symbol which matches (so far).
 		///
-		/// If `subpath` ends in `match`, the symbol matches.
+		/// If `subpath` is not `nil`, the symbol matches.
 		/// Otherwise, the symbol may or may not match, depending on later input.
 		indirect case symbol (
 			Symbol🙊<Atom>,
-			subpath: [PathComponent]
+			subpath: [PathComponent]?
 		)
 
 	}
@@ -52,7 +50,7 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·matches·: Bool
-	{ ·paths🙈·[.match] == .some(nil) }
+	{ ·paths🙈·[.match] != nil }
 
 	/// The `State🙊`s wot will be evaluated on the next `·consume·(_:).
 	///
@@ -114,7 +112,7 @@ where
 			into: [:]
 		) { 🔜, 🈁 in
 			🔜.updateValue(
-				rememberingPathComponents ? 🈁 === State🙊.match ? [.match] : [] : nil,
+				rememberingPathComponents ? [] : nil,
 				forKey: 🈁
 			)
 		}
@@ -154,10 +152,9 @@ where
 					if ·remembersPathComponents· {
 						var 〽️ = ·paths🙈·[🈁]!!
 						if
-							let 🔚 = 〽️.last,
 							case .string (
 								let 📂
-							) = 🔚
+							) = 〽️.last
 						{
 							〽️[
 								〽️.index(
@@ -166,6 +163,37 @@ where
 							] = .string(📂.lowerBound...indexedElement.offset)
 						} else
 						{ 〽️.append(.string(indexedElement.offset...indexedElement.offset)) }
+						🔙 = 〽️
+					} else
+					{ 🔙 = nil }
+				case let 💱 as ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>:
+					guard 💱.·consumes·(indexedElement)
+					else
+					{ return }
+					if ·remembersPathComponents· {
+						var 〽️ = ·paths🙈·[🈁]!!
+						if
+							case .symbol(
+								💱.·base·.·symbol·,
+								subpath: nil
+							) = 〽️.last
+						{
+							〽️[
+								〽️.index(
+									before: 〽️.endIndex
+								)
+							] = .symbol(
+								💱.·base·.·symbol·,
+								subpath: 💱.·result·
+							)
+						} else {
+							〽️.append(
+								.symbol(
+									💱.·base·.·symbol·,
+									subpath: 💱.·result·
+								)
+							)
+						}
 						🔙 = 〽️
 					} else
 					{ 🔙 = nil }
@@ -182,13 +210,39 @@ where
 			) where 🔜.paths[🆕] == nil {
 				🔜.next.append(🆕)
 				if
-					🆕 === State🙊.match,
+					🆕 === 🈁,
 					let 🆒 = 🔙
 				{
-					🔜.paths.updateValue(
-						🆒 + CollectionOfOne(.match),
-						forKey: 🆕
-					)
+					//  If the state points to itself, ensure the result subpath does not suggest a complete match.
+					switch 🆒.last {
+						case .symbol (
+							let 📛,
+							subpath: .some(_)
+						):
+							🔜.paths.updateValue(
+								Array(
+									chain(
+										🆒[
+											🆒.startIndex..<🆒.index(
+												before: 🆒.endIndex
+											)
+										],
+										CollectionOfOne(
+											.symbol(
+												📛,
+												subpath: nil
+											)
+										)
+									)
+								),
+								forKey: 🆕
+							)
+						default:
+							🔜.paths.updateValue(
+								🔙,
+								forKey: 🆕
+							)
+					}
 				} else {
 					🔜.paths.updateValue(
 						🔙,

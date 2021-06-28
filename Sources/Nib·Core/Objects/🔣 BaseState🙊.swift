@@ -42,9 +42,9 @@ where Atom : Atomic {
 	) -> State🙊
 	where Index : Comparable {
 		ParsingState🙊(
-			from: self,
+			from: self as! Self,
 			expectingResult: rememberingPathComponents
-		) as ParsingState🙊<Atom, Index>
+		) as ParsingState🙊<Self, Atom, Index>
 	}
 
 }
