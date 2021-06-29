@@ -13,10 +13,10 @@ internal final class StartState🙊 <Atom>:
 where Atom : Atomic {
 
 	init (
-		_ fragment: Fragment🙊<Atom>
+		_ next: State🙊
 	) {
 		super.init()
-		·forward· = fragment.·start·
+		·forward· = next
 	}
 
 	deinit {

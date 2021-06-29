@@ -259,7 +259,7 @@ where Atom : Atomic {
 	) {
 		·fragment· = fragment
 		·kind· = kind
-		·start· = StartState🙊(·fragment·)
+		·start· = StartState🙊(·fragment·.·start·)
 	}
 
 	/// Returns the first `Index` in the provided `sequence` after matching this ``ExcludingExpression``.

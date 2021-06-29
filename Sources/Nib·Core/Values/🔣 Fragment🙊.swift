@@ -117,11 +117,16 @@ where Atom : Atomic {
 						open: [🆒],
 						reachableFromStart: []
 					)
-				}
-				else {
+				} else {
+					//  Note that this necessarily creates a *different* `StartState🙊` than the `·start·` of this fragment, even when they share the same symbol.
+					//  **This is desired behaviour** as it ensures there are **_no_** recursive references to the fragment’s `·start·`, allowing it to be deinitialized!
 					let 🆕 = SymbolicState🙊(
 						📂,
-						from: 📂.expression.·start·
+						from: StartState🙊(
+							📂.expression.·fragment·.·open🙈·(
+								with: &symbols
+							).start
+						) as StartState🙊<Atom>
 					)
 					symbols[📂] = 🆕
 					return (
