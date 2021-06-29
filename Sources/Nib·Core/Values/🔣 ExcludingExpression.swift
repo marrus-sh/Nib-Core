@@ -26,344 +26,8 @@ where Atom : Atomic {
 	@usableFromInline
 	/*public*/ typealias Expression = ExcludingExpression<Atom>
 
-	/// A fragment of an `ExcludingExpression`, representing a single operation.
-	fileprivate enum Fragment🙉 {
-
-		/// A tuple of a start `State🙊` and a `Set` of `States🙊` which have not yet had all their paths connected.
-		private typealias WorkingState🙈 = (
-			start: State🙊,
-			open: Set<State🙊>,
-			reachableFromStart: Set<State🙊>
-		)
-
-		/// A reference to a nonterminal thing.
-		case nonterminal (
-			Symbol🙊<Atom>
-		)
-
-		/// A reference to a terminal thing.
-		case terminal (
-			Atom
-		)
-
-		/// A fragment which never matches.
-		case never
-
-		/// A catenation of zero or more fragments.
-		indirect case catenation (
-			[Fragment🙉]
-		)
-
-		/// An alternation of zero or more fragments.
-		indirect case alternation (
-			[Fragment🙉]
-		)
-
-		/// An exclusion of a second fragment from a first.
-		indirect case exclusion (
-			Fragment🙉,
-			Fragment🙉
-		)
-
-		/// Zero or one of a fragment.
-		indirect case zeroOrOne (
-			Fragment🙉
-		)
-
-		/// One or more of a fragment.
-		indirect case oneOrMore (
-			Fragment🙉
-		)
-
-		/// Zero or more of a fragment.
-		indirect case zeroOrMore (
-			Fragment🙉
-		)
-
-		/// This `Fragment🙉` as a regular expression fragment, or `nil`.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		var ·regularized·: Fragment🙉? {
-			var 〽️ = [:] as [Symbol🙊<Atom>:Fragment🙉?]
-			return ·regularized·(within: &〽️)
-		}
-
-		/// The `StartState🙊` from which to process this `Fragment🙉`.
-		///
-		///  >  Note:
-		///  >  This returns a new `StartState🙊` every time.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		var ·start·: StartState🙊<Atom> {
-			var 〽️ = [:] as [Symbol🙊<Atom>:BaseState🙊<Atom>]
-			return StartState🙊(
-				·open🙈·(
-					with: &〽️
-				).start
-			)
-		}
-
-		/// A `WorkingState🙊` which represents this `Fragment🙈`.
-		///
-		///  >  Note:
-		///  >  This creates a new `WorkingState🙊` every time.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		///
-		///  +  Parameters:
-		///      +  symbols:
-		///         A `Dictionary` of already-defined `BaseState🙊`s for `Symbol🙊`s.
-		private func ·open🙈· (
-			with symbols: inout [Symbol🙊<Atom>:BaseState🙊<Atom>]
-		) -> WorkingState🙈 {
-			switch self {
-				case .terminal(
-					let 📂
-				):
-					let 🆕 = AtomicState🙊(📂)
-					return (
-						start: 🆕,
-						open: [🆕],
-						reachableFromStart: []
-					)
-				case .catenation (
-					let 📂
-				):
-					guard let 🔝 = 📂.first?.·open🙈·(
-						with: &symbols
-					) else {
-						return (
-							start: .match,
-							open: [],
-							reachableFromStart: []
-						)
-					}
-					return 📂.dropFirst().reduce(🔝) { 🔜, 🈁 in
-						//  Patch each previous `WorkingState🙊` (`🔜`) with the one which follows.
-						return Fragment🙉.·patch🙈·(
-							🔜,
-							forward: 🈁.·open🙈·(
-								with: &symbols
-							)
-						)
-					}
-				case .alternation (
-					let 📂
-				):
-					guard let 🔝 = 📂.first?.·open🙈·(
-						with: &symbols
-					)
-					else {
-						return (
-							start: .match,
-							open: [],
-							reachableFromStart: []
-						)
-					}
-					return 📂.dropFirst().reduce(🔝) { 🔜, 🈁 in
-						//  Alternate between this `WorkingState🙊` (`🔜`) and the one which follows (`🆙`).
-						let 🆕 = OptionState🙊() as OptionState🙊<Atom>
-						let 🆙 = 🈁.·open🙈·(
-							with: &symbols
-						)
-						🆕.·forward· = 🔜.start
-						🆕.·alternate· = 🆙.start
-						return (
-							start: 🆕,
-							open: 🔜.open.union(🆙.open),
-							reachableFromStart: 🔜.reachableFromStart.union(🆙.reachableFromStart)
-						)
-					}
-				case .zeroOrOne (
-					let 📂
-				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
-					let 🆙 = 📂.·open🙈·(
-						with: &symbols
-					)
-					🆕.·forward· = 🆙.start
-					return (
-						start: 🆕,
-						open: 🆙.open.union([🆕]),
-						reachableFromStart: 🆙.reachableFromStart.union([🆕])
-					)
-				case .oneOrMore (
-					let 📂
-				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
-					let 🆙 = 📂.·open🙈·(
-						with: &symbols
-					)
-					🆕.·forward· = 🆙.start
-					return Fragment🙉.·patch🙈·(
-						🆙,
-						forward: (
-							start: 🆕,
-							open: [🆕],
-							reachableFromStart: []
-						),
-						ignoreReachable: true
-					)
-				case .zeroOrMore (
-					let 📂
-				):
-					let 🆕 = OptionState🙊() as OptionState🙊<Atom>
-					let 🆙 = 📂.·open🙈·(
-						with: &symbols
-					)
-					let 🔜 = Fragment🙉.·patch🙈·(
-						🆙,
-						forward: (
-							start: 🆕,
-							open: [🆕],
-							reachableFromStart: []
-						),
-						ignoreReachable: true
-					)
-					🆕.·forward· = 🔜.start
-					return (
-						start: 🆕,
-						open: 🔜.open,
-						reachableFromStart: 🆙.reachableFromStart.union([🆕])
-					)
-				default:
-					return (
-						start: .never,
-						open: [],
-						reachableFromStart: []
-					)
-			}
-		}
-
-		/// Patches `fragment` so that all of its open `State🙈`s point to the `start` of `forward` through an owned reference, and returns the resulting `WorkingState🙈`.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		///
-		///  +  Parameters:
-		///      +  fragment:
-		///         A `WorkingState🙈` to patch.
-		///      +  forward:
-		///         A `WorkingState🙈` to point to.
-		///      +  ignoreReachable:
-		///         Whether to avoid patching `State🙈`s reachable from the start of `fragment`.
-		///
-		///  +  Returns:
-		///     A `WorkingState🙈`.
-		private static func ·patch🙈· (
-			_ fragment: WorkingState🙈,
-			forward: WorkingState🙈,
-			ignoreReachable: Bool = false
-		) -> WorkingState🙈 {
-			var 🔜 = forward.open
-			for 🈁 in fragment.open {
-				if ignoreReachable && fragment.reachableFromStart.contains(🈁)
-				{ 🔜.insert(🈁) }  //  leave things `reachableFromStart` open instead of patching to prevent endless loops
-				else if let 💱 = 🈁 as? OptionState🙊<Atom> {
-					if 💱.·forward· == nil
-					{ 💱.·forward· = forward.start }
-					if 💱.·alternate· == nil
-					{ 💱.·alternate· = forward.start }
-				} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
-					if 💱.·forward· == nil
-					{ 💱.·forward· = forward.start }
-				}
-			}
-			return (
-				start: fragment.start,
-				open: 🔜,
-				reachableFromStart: ignoreReachable ? fragment.reachableFromStart : fragment.reachableFromStart.isEmpty ? [] : forward.reachableFromStart
-			)
-		}
-
-		/// Returns this `Fragment🙉` as a regular expression fragment, or `nil` if this conversion is not possible.
-		///
-		///  +  term Author(s):
-		///     [kibigo!](https://go.KIBI.family/About/#me).
-		///
-		///  +  Parameters:
-		///      +  symbols:
-		///         A `Dictionary` mapping already-processed `Symbol🙊`s to optional `Fragment🙉`s.
-		private func ·regularized· (
-			within symbols: inout [Symbol🙊<Atom>:Fragment🙉?]
-		) -> Fragment🙉? {
-			switch self {
-				case .nonterminal(
-					let 📂
-				):
-					if let 💰 = symbols[📂]
-					{ return 💰 }
-					else {
-						symbols.updateValue(
-							nil,
-							forKey: 📂
-						)
-						let 🔜 = 📂.expression.·kind🙈· == .regular ? 📂.expression.·fragment🙈· : 📂.expression.·fragment🙈·.·regularized·(
-							within: &symbols
-						)
-						symbols.updateValue(
-							🔜,
-							forKey: 📂
-						)
-						return 🔜
-					}
-				case
-					.terminal,
-					.never
-				: return self
-				case .catenation (
-					let 📂
-				):
-					var 〽️ = [] as [Fragment🙉]
-					〽️.reserveCapacity(📂.count)
-					for 🈁 in 📂 {
-						if let 🆒 = 🈁.·regularized·(
-							within: &symbols
-						) { 〽️.append(🆒) }
-						else
-						{ return nil }
-					}
-					return .catenation(〽️)
-				case .alternation(
-					let 📂
-				):
-					var 〽️ = [] as [Fragment🙉]
-					〽️.reserveCapacity(📂.count)
-					for 🈁 in 📂 {
-						if let 🆒 = 🈁.·regularized·(
-							within: &symbols
-						) { 〽️.append(🆒) }
-						else
-						{ return nil }
-					}
-					return .alternation(〽️)
-				case .exclusion:
-					return nil
-				case .zeroOrOne(
-					let 📂
-				): return 📂.·regularized·(
-					within: &symbols
-				).map(Fragment🙉.zeroOrOne)
-				case .oneOrMore(
-					let 📂
-				): return 📂.·regularized·(
-					within: &symbols
-				).map(Fragment🙉.oneOrMore)
-				case .zeroOrMore(
-					let 📂
-				): return 📂.·regularized·(
-					within: &symbols
-				).map(Fragment🙉.zeroOrMore)
-			}
-		}
-
-	}
-
 	/// A kind of `ExcludingExpression`.
-	private enum Kind🙈:
+	enum Kind:
 		Int,
 		Hashable
 	{
@@ -384,7 +48,7 @@ where Atom : Atomic {
 	///  +  term Available since:
 	///     0·3.
 	public var contextfreeExpression: ContextfreeExpression<Atom>? {
-		·kind🙈· != .excluding ? ContextfreeExpression(
+		·kind· != .excluding ? ContextfreeExpression(
 			🆘🙊: self
 		) : nil
 	}
@@ -394,12 +58,12 @@ where Atom : Atomic {
 	///  +  term Available since:
 	///     0·3.
 	public var regularExpression: RegularExpression<Atom>? {
-		if ·kind🙈· == .regular {
+		if ·kind· == .regular {
 			return RegularExpression(
 				🆘🙊: self
 			)
-		} else if ·kind🙈· == .contextfree {
-			if let 🆒 = ·fragment🙈·.·regularized· {
+		} else if ·kind· == .contextfree {
+			if let 🆒 = ·fragment·.·regularized· {
 				return RegularExpression(
 					🆘🙊: ExcludingExpression(
 						🙈: 🆒,
@@ -412,14 +76,14 @@ where Atom : Atomic {
 		{ return nil }
 	}
 
-	/// The `Fragment🙉` which represents this `ExcludingExpression`.
-	private let ·fragment🙈·: Fragment🙉
+	/// The `Fragment🙊` which represents this `ExcludingExpression`.
+	let ·fragment·: Fragment🙊<Atom>
 
-	/// The `Kind🙈` which represents this `ExcludingExpression`.
-	private let ·kind🙈·: Kind🙈
+	/// The `Kind` which represents this `ExcludingExpression`.
+	let ·kind·: Kind
 
 	/// The `StartState🙊` from which parsing this `ExcludingExpression` begins.
-	private let ·start🙈·: StartState🙊<Atom>
+	let ·start·: StartState🙊<Atom>
 
 	/// Creates an ``ExcludingExpression`` from the provided `atom`.
 	///
@@ -451,7 +115,7 @@ where Atom : Atomic {
 		_ regex: RegularExpression<Atom>
 	) {
 		self.init(
-			🙈: regex^!.·fragment🙈·,
+			🙈: regex^!.·fragment·,
 			kind: .regular
 		)
 	}
@@ -472,20 +136,20 @@ where Atom : Atomic {
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = choices.makeIterator()
-		var 〽️ = Kind🙈.regular
+		var 〽️ = Kind.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
 					🙈: .alternation(
-						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙉] in
-							if 🈁.·kind🙈·.rawValue > 〽️.rawValue
-							{ 〽️ = 🈁.·kind🙈· }
+						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙊<Atom>] in
+							if 🈁.·kind·.rawValue > 〽️.rawValue
+							{ 〽️ = 🈁.·kind· }
 							if case .alternation (
 								let 📂
-							) = 🈁.·fragment🙈·
+							) = 🈁.·fragment·
 							{ return 📂 }
 							else
-							{ return [🈁.·fragment🙈·] }
+							{ return [🈁.·fragment·] }
 						}
 					),
 					kind: 〽️
@@ -512,20 +176,20 @@ where Atom : Atomic {
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = sequence.makeIterator()
-		var 〽️ = Kind🙈.regular
+		var 〽️ = Kind.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
 					🙈: .catenation(
-						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙉] in
-							if 🈁.·kind🙈·.rawValue > 〽️.rawValue
-							{ 〽️ = 🈁.·kind🙈· }
+						chain(chain(CollectionOfOne(🥇), CollectionOfOne(🥈)), IteratorSequence(📤)).flatMap { 🈁 -> [Fragment🙊<Atom>] in
+							if 🈁.·kind·.rawValue > 〽️.rawValue
+							{ 〽️ = 🈁.·kind· }
 							if case .catenation (
 								let 📂
-							) = 🈁.·fragment🙈·
+							) = 🈁.·fragment·
 							{ return 📂 }
 							else
-							{ return [🈁.·fragment🙈·] }
+							{ return [🈁.·fragment·] }
 						}
 					),
 					kind: 〽️
@@ -552,7 +216,7 @@ where Atom : Atomic {
 		from match: ExcludingExpression<Atom>
 	) {
 		self.init(
-			🙈: .exclusion(match.·fragment🙈·, exclusion.·fragment🙈·),
+			🙈: .exclusion(match.·fragment·, exclusion.·fragment·),
 			kind: .excluding
 		)
 	}
@@ -575,8 +239,8 @@ where Atom : Atomic {
 	{
 		self.init(
 			🙈: .nonterminal(Symbol🙊[symbol]),
-			kind: Kind🙈(
-				rawValue: max(Kind🙈.contextfree.rawValue, (symbol.expression^! as ExcludingExpression<Atom>).·kind🙈·.rawValue)
+			kind: Kind(
+				rawValue: max(Kind.contextfree.rawValue, (symbol.expression^! as ExcludingExpression<Atom>).·kind·.rawValue)
 			) ?? .excluding
 		)
 	}
@@ -590,12 +254,12 @@ where Atom : Atomic {
 	///      +  fragment:
 	///         A `Fragment🙉`.
 	private init (
-		🙈 fragment: Fragment🙉,
-		kind: Kind🙈
+		🙈 fragment: Fragment🙊<Atom>,
+		kind: Kind
 	) {
-		·fragment🙈· = fragment
-		·kind🙈· = kind
-		·start🙈· = fragment.·start·
+		·fragment· = fragment
+		·kind· = kind
+		·start· = StartState🙊(·fragment·)
 	}
 
 	/// Returns the first `Index` in the provided `sequence` after matching this ``ExcludingExpression``.
@@ -634,7 +298,7 @@ where Atom : Atomic {
 		)
 	{
 		if
-			·kind🙈· != .regular,
+			·kind· != .regular,
 			let 💱 = regularExpression
 		{
 			//  If this isn’t a regular expression but can be processed as one, do.
@@ -646,7 +310,7 @@ where Atom : Atomic {
 			)
 		} else {
 			var 📥 = Parser🙊<Atom, Index>(
-				·start🙈·,
+				·start·,
 				expectingResult: false
 			)
 			var 🆒: Index?
@@ -784,13 +448,13 @@ where Atom : Atomic {
 	) -> ExcludingExpression<Atom> {
 		if lefthandOperand.lowerBound < 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrMore(righthandOperand.·fragment🙈·),
-				kind: righthandOperand.·kind🙈·
+				🙈: .zeroOrMore(righthandOperand.·fragment·),
+				kind: righthandOperand.·kind·
 			)
 		} else if lefthandOperand.lowerBound == 1 {
 			return ExcludingExpression(
-				🙈: .oneOrMore(righthandOperand.·fragment🙈·),
-				kind: righthandOperand.·kind🙈·
+				🙈: .oneOrMore(righthandOperand.·fragment·),
+				kind: righthandOperand.·kind·
 			)
 		} else {
 			return ExcludingExpression(
@@ -801,8 +465,8 @@ where Atom : Atomic {
 					),
 					CollectionOfOne(
 						ExcludingExpression(
-							🙈: .oneOrMore(righthandOperand.·fragment🙈·),
-							kind: righthandOperand.·kind🙈·
+							🙈: .oneOrMore(righthandOperand.·fragment·),
+							kind: righthandOperand.·kind·
 						)
 					)
 				)
@@ -832,17 +496,17 @@ where Atom : Atomic {
 		{ return .null }
 		else if lefthandOperand.upperBound == 1 {
 			return ExcludingExpression(
-				🙈: .zeroOrOne(righthandOperand.·fragment🙈·),
-				kind: righthandOperand.·kind🙈·
+				🙈: .zeroOrOne(righthandOperand.·fragment·),
+				kind: righthandOperand.·kind·
 			)
 		} else {
 			return ExcludingExpression(
 				🙈: .zeroOrOne(
 					ExcludingExpression(
 						catenating: chain(CollectionOfOne(righthandOperand), CollectionOfOne(...(lefthandOperand.upperBound - 1) ✖️ righthandOperand))
-					).·fragment🙈·
+					).·fragment·
 				),
-				kind: righthandOperand.·kind🙈·
+				kind: righthandOperand.·kind·
 			)
 		}
 	}
@@ -856,16 +520,6 @@ where Atom : Equatable {}
 
 /// Extends ``ExcludingExpression`` to conform to `Hashable` when its `Atom` type is `Hashable`.
 extension ExcludingExpression:
-	Hashable
-where Atom : Hashable {}
-
-/// Extends `Fragment🙉` to conform to `Equatable` when its `Atom` type is `Equatable`.
-extension ExcludingExpression.Fragment🙉:
-	Equatable
-where Atom : Equatable {}
-
-/// Extends `Fragment🙉` to conform to `Hashable` when its `Atom` type is `Hashable`.
-extension ExcludingExpression.Fragment🙉:
 	Hashable
 where Atom : Hashable {}
 

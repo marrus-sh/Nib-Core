@@ -13,10 +13,10 @@ internal final class StartState🙊 <Atom>:
 where Atom : Atomic {
 
 	init (
-		_ first: State🙊
+		_ fragment: Fragment🙊<Atom>
 	) {
 		super.init()
-		·forward· = first
+		·forward· = fragment.·start·
 	}
 
 	deinit {
@@ -27,14 +27,20 @@ where Atom : Atomic {
 			var 🔜 = [] as Set<State🙊>
 			for 🈁 in 🆙
 			where !🈁.·next·.isEmpty {
-				if let 💱 = 🈁 as? OptionState🙊<Atom> {
-					if let 🆙 = 💱.·forward·
-					{ 🔜.insert(🆙) }
-					if let 🆙 = 💱.·alternate·
-					{ 🔜.insert(🆙) }
-				} else if let 💱 = 🈁 as? OpenState🙊<Atom> {
-					if let 🆙 = 💱.·forward·
-					{ 🔜.insert(🆙) }
+				switch 🈁 {
+					case let 💱 as OptionState🙊<Atom>:
+						if let 🆙 = 💱.·forward·
+						{ 🔜.insert(🆙) }
+						if let 🆙 = 💱.·alternate·
+						{ 🔜.insert(🆙) }
+					case let 💱 as OpenState🙊<Atom>:
+						if let 🆙 = 💱.·forward·
+						{ 🔜.insert(🆙) }
+					case let 💱 as BaseState🙊<Atom>:
+						if let 🆙 = 💱.·start·
+						{ 🔜.insert(🆙) }
+					default:
+						break
 				}
 				🈁.·blast·()
 			}
