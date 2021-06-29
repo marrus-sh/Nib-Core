@@ -239,9 +239,7 @@ where Atom : Atomic {
 	{
 		self.init(
 			🙈: .nonterminal(Symbol🙊[symbol]),
-			kind: Kind(
-				rawValue: max(Kind.contextfree.rawValue, (symbol.expression^! as ExcludingExpression<Atom>).·kind·.rawValue)
-			) ?? .excluding
+			kind: Symbol.Expressed.self == RegularExpression<Atom>.self || Symbol.Expressed.self == ContextfreeExpression<Atom>.self ? .contextfree : .excluding
 		)
 	}
 
@@ -259,7 +257,7 @@ where Atom : Atomic {
 	) {
 		·fragment· = fragment
 		·kind· = kind
-		·start· = StartState🙊(·fragment·.·start·)
+		·start· = StartState🙊(·fragment·)
 	}
 
 	/// Returns the first `Index` in the provided `sequence` after matching this ``ExcludingExpression``.

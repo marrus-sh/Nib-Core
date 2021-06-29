@@ -77,7 +77,7 @@ where Atom : Atomic {
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·start·: State🙊 {
-		var 〽️ = [:] as [Symbol🙊<Atom>:BaseState🙊<Atom>]
+		var 〽️ = [:] as [Symbol🙊<Atom>:StartState🙊<Atom>]
 		return ·open🙈·(
 			with: &〽️
 		).start
@@ -95,7 +95,7 @@ where Atom : Atomic {
 	///      +  symbols:
 	///         A `Dictionary` of already-defined `BaseState🙊`s for `Symbol🙊`s.
 	private func ·open🙈· (
-		with symbols: inout [Symbol🙊<Atom>:BaseState🙊<Atom>]
+		with symbols: inout [Symbol🙊<Atom>:StartState🙊<Atom>]
 	) -> WorkingState🙈 {
 		switch self {
 			case .terminal(
@@ -111,30 +111,25 @@ where Atom : Atomic {
 				let 📂
 			):
 				//  Only create a given `SymbolicState🙊` once for any `Symbol🙊`.
-				if let 🆒 = symbols[📂] {
-					return (
-						start: 🆒,
-						open: [🆒],
-						reachableFromStart: []
-					)
-				} else {
+				let 🆙: StartState🙊<Atom>
+				if let 🆒 = symbols[📂]
+				{ 🆙 = 🆒 }
+				else {
 					//  Note that this necessarily creates a *different* `StartState🙊` than the `·start·` of this fragment, even when they share the same symbol.
 					//  **This is desired behaviour** as it ensures there are **_no_** recursive references to the fragment’s `·start·`, allowing it to be deinitialized!
-					let 🆕 = SymbolicState🙊(
-						📂,
-						from: StartState🙊(
-							📂.expression.·fragment·.·open🙈·(
-								with: &symbols
-							).start
-						) as StartState🙊<Atom>
-					)
-					symbols[📂] = 🆕
-					return (
-						start: 🆕,
-						open: [🆕],
-						reachableFromStart: []
-					)
+					🆙 = StartState🙊(📂.expression.·fragment·)
+					symbols[📂] = 🆙
+					🆙.·forward· = 📂.expression.·fragment·.·open🙈·(
+						with: &symbols
+					).start
 				}
+				let 🆕 = SymbolicState🙊(📂)
+				🆕.·start· = 🆙
+				return (
+					start: 🆕,
+					open: [🆕],
+					reachableFromStart: []
+				)
 			case .catenation (
 				let 📂
 			):

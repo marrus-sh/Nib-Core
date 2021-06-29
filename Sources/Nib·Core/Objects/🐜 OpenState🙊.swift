@@ -48,7 +48,7 @@ where Atom : Atomic {
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
-		·forward· = nil
+		·forward· = .never
 		·next🙈· = []
 		super.·blast·()
 	}

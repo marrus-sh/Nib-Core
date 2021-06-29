@@ -12,16 +12,30 @@ internal final class StartState🙊 <Atom>:
 	OpenState🙊<Atom>
 where Atom : Atomic {
 
-	init (
-		_ next: State🙊
-	) {
-		super.init()
-		·forward· = next
+	override var ·forward·: State🙊? {
+		get {
+			if let 📂 = super.·forward·
+			{ return 📂 }
+			else {
+				let 🔜 = ·fragment·.·start·
+				super.·forward· = 🔜
+				return 🔜
+			}
+		}
+		set { super.·forward· = newValue }
 	}
+
+	private let ·fragment·: Fragment🙊<Atom>
+
+	init (
+		_ fragment: Fragment🙊<Atom>
+	) { ·fragment· = fragment }
 
 	deinit {
 		//  Walk the `State🙊` graph and `.·blast·()` each.
 		//  Note that `State🙊`s with an empty `.next` are assumed to have been blasted; ensure that states with empty `.next` will never have stored references.
+		guard super.·forward· != nil
+		else { return }
 		var 🆙 = [self] as Set<State🙊>
 		while 🆙.count > 0 {
 			var 🔜 = [] as Set<State🙊>

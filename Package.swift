@@ -46,7 +46,13 @@ let package = Package(
 		),
 		.testTarget(
 			name: "CoreTests",
-			dependencies: ["Nib·Core"]
+			dependencies: [
+				"Nib·Core",
+				.product(
+					name: "Algorithms",
+					package: "swift-algorithms"
+				)
+			]
 		)
 	],
 	swiftLanguageVersions: [.v5]

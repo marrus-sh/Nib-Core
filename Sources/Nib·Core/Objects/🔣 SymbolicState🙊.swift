@@ -24,11 +24,7 @@ where Atom : Atomic {
 	///      +  start:
 	///         A `State🙊`.
 	init (
-		_ symbol: Symbol🙊<Atom>,
-		from start: StartState🙊<Atom>
-	) {
-		·symbol· = symbol
-		super.init(start)
-	}
+		_ symbol: Symbol🙊<Atom>
+	) { ·symbol· = symbol }
 
 }
