@@ -38,6 +38,9 @@ where
 
 	}
 
+	/// Whether this `Parser🙊` contains a nested `Parser🙊` via one of its active states.
+	private(set) var ·complex·: Bool = false
+
 	/// Whether this `Parser🙊` will change state upon consuming some number of additional things.
 	///
 	///  +  term Author(s):
@@ -50,7 +53,7 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·matches·: Bool
-	{ ·paths🙈·[.match] != nil }
+	{ ·upcomingStates·.contains(.match) }
 
 	/// The `State🙊`s wot will be evaluated on the next `·consume·(_:).
 	///
@@ -73,10 +76,12 @@ where
 	///
 	/// The `Array` of `PathComponent`s corresponding to `State🙊.match`, if present, will end in `match` and indicate the first successful (possibly partial) match.
 	/// All other values indicate inprogress matches which may or may not be invalidated depending on later input.
-	private var ·paths🙈·: [State🙊:[PathComponent]?] = [:]
+	private var ·paths🙈·: [State🙊:[PathComponent]] = [:]
 
 	/// Whether this `Parser🙊` is remembering the components of paths, or simply testing for a match.
 	private let ·remembersPathComponents·: Bool
+
+	private(set) var ·upcomingStates·: Set<State🙊> = []
 
 	/// The result of the parse.
 	///
@@ -102,21 +107,30 @@ where
 		_ start: StartState🙊<Atom>,
 		expectingResult rememberingPathComponents: Bool
 	) {
+		·remembersPathComponents· = rememberingPathComponents
 		·next🙈· = start.·next·.map { 🈁 in
 			🈁.·resolved·(
 				expectingResult: rememberingPathComponents,
 				using: Index.self
 			)
 		}
-		·paths🙈· = ·next🙈·.reduce(
-			into: [:]
-		) { 🔜, 🈁 in
-			🔜.updateValue(
-				rememberingPathComponents ? [] : nil,
-				forKey: 🈁
+		(
+			paths: ·paths🙈·,
+			states: ·upcomingStates·
+		) = ·next🙈·.reduce(
+			into: (
+				paths: [:],
+				states: []
 			)
+		) { 🔜, 🈁 in
+			if rememberingPathComponents
+			{ 🔜.0[🈁] = [] }
+			🔜.1.insert(🈁)
+			if
+				!·complex·,
+				🈁 is ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>
+			{ ·complex· = true }
 		}
-		·remembersPathComponents· = rememberingPathComponents
 	}
 
 	/// Updates the state of this `Parser🙊` to be that after consuming the provided `indexedElement`.
@@ -135,11 +149,15 @@ where
 	) {
 		(
 			next: ·next🙈·,
-			paths: ·paths🙈·
+			paths: ·paths🙈·,
+			states: ·upcomingStates·,
+			complex: ·complex·
 		) = ·next🙈·.reduce(
 			into: (
 				next: [],
-				paths: [:]
+				paths: [:],
+				states: [],
+				complex: false
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
@@ -150,7 +168,7 @@ where
 					else
 					{ return }
 					if ·remembersPathComponents· {
-						var 〽️ = ·paths🙈·[🈁]!!
+						var 〽️ = ·paths🙈·[🈁]!
 						if
 							case .string (
 								let 📂
@@ -171,7 +189,7 @@ where
 					else
 					{ return }
 					if ·remembersPathComponents· {
-						var 〽️ = ·paths🙈·[🈁]!!
+						var 〽️ = ·paths🙈·[🈁]!
 						if
 							case .symbol(
 								💱.·base·.·symbol·,
@@ -207,47 +225,61 @@ where
 						using: Index.self
 					)
 				}
-			) where 🔜.paths[🆕] == nil {
+			) {
+				do {
+					//  Check to ensure that the substitution of `🆕` actually provides new upcoming states.
+					//  If not, then a match by `🆕` has already been covered by existing states.
+					var 🆗 = false
+					if let 💱 = 🆕 as? ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index> {
+						for 🆙 in 💱.·substitution·
+						where 🔜.states.insert(🆙).inserted {
+							if !🆗
+							{ 🆗 = true }
+						}
+					} else
+					{ 🆗 = 🔜.states.insert(🆕).inserted }
+					guard 🆗
+					else { continue }
+				}
 				🔜.next.append(🆕)
 				if
-					🆕 === 🈁,
-					let 🆒 = 🔙
-				{
-					//  If the state points to itself, ensure the result subpath does not suggest a complete match.
-					switch 🆒.last {
+					!🔜.complex,
+					🆕 is ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>
+				{ 🔜.complex = true }
+				if ·remembersPathComponents· {
+					if
+						🆕 === 🈁,
+						let 🆒 = 🔙,
 						case .symbol (
 							let 📛,
 							subpath: .some(_)
-						):
-							🔜.paths.updateValue(
-								Array(
-									chain(
-										🆒[
-											🆒.startIndex..<🆒.index(
-												before: 🆒.endIndex
-											)
-										],
-										CollectionOfOne(
-											.symbol(
-												📛,
-												subpath: nil
-											)
+						) = 🆒.last
+					{
+						//  If the state points to itself, ensure the result subpath does not suggest a complete match.
+						🔜.paths.updateValue(
+							Array(
+								chain(
+									🆒[
+										🆒.startIndex..<🆒.index(
+											before: 🆒.endIndex
+										)
+									],
+									CollectionOfOne(
+										.symbol(
+											📛,
+											subpath: nil
 										)
 									)
-								),
-								forKey: 🆕
-							)
-						default:
-							🔜.paths.updateValue(
-								🔙,
-								forKey: 🆕
-							)
+								)
+							),
+							forKey: 🆕
+						)
+					} else {
+						🔜.paths.updateValue(
+							🔙!,
+							forKey: 🆕
+						)
 					}
-				} else {
-					🔜.paths.updateValue(
-						🔙,
-						forKey: 🆕
-					)
 				}
 			}
 		}

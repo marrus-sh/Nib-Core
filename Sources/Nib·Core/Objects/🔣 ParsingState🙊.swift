@@ -20,6 +20,15 @@ where
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	let ·base·: Base
 
+	/// Whether this `ParsingState🙊` is a prerequisite for some other state (i.e., whether an internal match may lead to an external match in future parse steps).
+	///
+	///  +  Note:
+	///     `·isTail·` and `·isPrerequisite·` aren’t inverses; a `ParsingState🙊` can be both.
+	let ·isPrerequisite·: Bool
+
+	/// Whether this `ParsingState🙊` is in the tail position (i.e., whether an internal match necessitates an external match).
+	let ·isTail·: Bool
+
 	/// The `States🙊` which this `ParsingState🙊` will result in after a correct match.
 	///
 	/// The `ParsingState🙊` itself will be included if it can consume more things.
@@ -39,6 +48,12 @@ where
 	/// The result of the parse, if this `ParsingState🙊` is in a match state and expecting a result.
 	var ·result·: [Parser🙊<Atom, Index>.PathComponent]?
 
+	var ·simple·: Bool
+	{ !·parser🙈·.·complex· }
+
+	var ·substitution·: Set<State🙊>
+	{ ·isPrerequisite· ? ·isTail· ? ·parser🙈·.·upcomingStates·.union(CollectionOfOne(self)) : [self] : ·isTail· ? ·parser🙈·.·upcomingStates· : [] }
+
 	/// Creates a new `ParsingState🙊` derived from the provided `base` and optionally `rememberingPathComponents`.
 	///
 	///  +  term Author(s):
@@ -57,6 +72,25 @@ where
 		else
 		{ return nil }
 		·base· = base
+		var 🆗 = (
+			prerequisite: false,
+			tail: false
+		)
+		for 🈁 in base.·next· {
+			if 🈁 == .match {
+				if !🆗.tail
+				{ 🆗.tail = true }
+			} else {
+				if !🆗.prerequisite
+				{ 🆗.prerequisite = true }
+			}
+			if 🆗.tail && 🆗.prerequisite
+			{ break }
+		}
+		(
+			prerequisite: ·isPrerequisite·,
+			tail: ·isTail·
+		) = 🆗
 		·parser🙈· = Parser🙊(
 			📂,
 			expectingResult: rememberingPathComponents
