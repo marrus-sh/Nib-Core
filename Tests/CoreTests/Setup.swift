@@ -48,3 +48,38 @@ extension Matcher :
 	typealias Expression = RegularExpression<Matcher>
 
 }
+
+/// A `Symbolic` which can match certain `Character`s.
+enum Symbol:
+	Symbolic
+{
+
+	/// The `ContextfreeExpression` which this `Symbol` represents.
+	typealias Expressed = ContextfreeExpression<Matcher>
+
+	/// A `"🆒"` followed by one or more A·S·C·I·I letters.
+	case coolLetters
+
+	/// A `"🆒"` followed by one or more A·S·C·I·I letters, but using nested symbolic regular expressions.
+	case coolSymbolicLetters
+
+	/// One or more `"🆒"`, defined recursively.
+	case cools
+
+	/// The `Expressed` expression for this `Symbol`.
+	var expression: Expressed {
+		switch self {
+			case .coolLetters:
+				return .🆒^! & .🔤^+
+			case .coolSymbolicLetters:
+				return ContextfreeExpression(
+					nesting: .🆒^! as RegularExpression<Matcher>
+				) & ContextfreeExpression(
+					nesting: .🔤^+ as RegularExpression<Matcher>
+				)
+			case .cools:
+				return .🆒^! & Symbol.cools^?
+		}
+	}
+
+}

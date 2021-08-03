@@ -79,6 +79,10 @@ where Wrapped : Defaultable {
 
 }
 
+/// Extends `Optional` to conform to ``Defaultable`` with a ``Defaultable/default`` of `nil`.
+///
+///  +  term Available since:
+///     0·2.
 extension Swift.Optional:
 	Defaultable
 {

@@ -6,12 +6,9 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// An `OpenState🙊` which matches a single `Atom`.
-internal final class AtomicState🙊 <Atom, Index>:
-	OpenState🙊<Atom, Index>
-where
-	Atom : Atomic,
-	Index : Comparable
-{
+internal final class AtomicState🙊 <Atom>:
+	OpenState🙊<Atom>
+where Atom : Atomic {
 
 	/// The `Atom` which this `AtomicState🙊` matches against when it `.consumes(_:)` a thing.
 	var ·atom·: Atom
@@ -42,7 +39,7 @@ where
 	///
 	///  +  Returns:
 	///     `true` if the `·atom·` of this `AtomicState🙊` matches the provided `element`; `false` otherwise.
-	override func ·consumes· (
+	func ·consumes· (
 		_ element: Atom.SourceElement
 	) -> Bool
 	{ ·atom· ~= element }

@@ -279,6 +279,10 @@ where Wrapped : Defaultable {
 
 }
 
+/// Extends ``Uncertain``  to conform to ``Defaultable`` with a ``Defaultable/default`` of ``unknown``.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	Defaultable
 {
@@ -296,6 +300,14 @@ extension Uncertain:
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByArrayLiteral` when its ``Wrapped`` thing does.
+///
+///  >  Note:
+///  >  Due to limitations in Swift, ``Uncertain`` can only conform to `ExpressibleByArrayLiteral` when `Wrapped` is a `RangeReplaceableCollection` with an `Element` type of `ArrayLiteralElement`.
+///  >  This is true for `Array`s, but not for `Set`.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByArrayLiteral
 where
@@ -308,10 +320,6 @@ where
 	public typealias ArrayLiteralElement = Wrapped.ArrayLiteralElement
 
 	/// Creates an ``Uncertain`` value from the provided `elements`.
-	///
-	///  >  Note:
-	///  >  Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByArrayLiteral`` when `Wrapped` is a ``RangeReplaceableCollection``.
-	///  >  This is true for `Array`s, but not for `Set`.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -329,6 +337,10 @@ where
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByBooleanLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByBooleanLiteral
 where Wrapped : ExpressibleByBooleanLiteral {
@@ -360,6 +372,14 @@ where Wrapped : ExpressibleByBooleanLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByDictionaryLiteral` when its ``Wrapped`` thing does.
+///
+///  >  Note:
+///  >  Due to limitations in Swift, ``Uncertain`` can only conform to `ExpressibleByDictionaryLiteral` when `Wrapped` is a ``Lookup`` with an `KeyForLookup` type of `Key` and a `ThingFromLookup` type of `Value`.
+///  >  This is true for `Dictionary` and `OrderedDictionary`` values.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByDictionaryLiteral
 where
@@ -377,10 +397,6 @@ where
 
 	/// Creates an ``Uncertain`` value from the provided `elements`.
 	///
-	///  >  Note:
-	///  >  Due to limitations in Swift, ``Uncertain`` can only conform to ``ExpressibleByDictionaryLiteral`` when `Wrapped` is a ``Lookup``.
-	///  >  Conformance to the ``Lookup`` protocol is declared for `Dictionary` and `OrderedDictionary`` values.
-	///
 	///  +  term Available since:
 	///     0·2.
 	///
@@ -397,6 +413,10 @@ where
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByExtendedGraphemeClusterLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByExtendedGraphemeClusterLiteral
 where Wrapped : ExpressibleByExtendedGraphemeClusterLiteral {
@@ -428,6 +448,10 @@ where Wrapped : ExpressibleByExtendedGraphemeClusterLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByFloatLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByFloatLiteral
 where Wrapped : ExpressibleByFloatLiteral {
@@ -459,6 +483,10 @@ where Wrapped : ExpressibleByFloatLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByIntegerLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByIntegerLiteral
 where Wrapped : ExpressibleByIntegerLiteral {
@@ -490,6 +518,10 @@ where Wrapped : ExpressibleByIntegerLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByNilLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByNilLiteral
 where Wrapped : ExpressibleByNilLiteral {
@@ -518,6 +550,10 @@ where Wrapped : ExpressibleByNilLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByStringLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByStringLiteral
 where Wrapped : ExpressibleByStringLiteral {
@@ -549,6 +585,10 @@ where Wrapped : ExpressibleByStringLiteral {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByStringInterpolation` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByStringInterpolation
 where Wrapped : ExpressibleByStringInterpolation {
@@ -580,6 +620,10 @@ where Wrapped : ExpressibleByStringInterpolation {
 
 }
 
+/// Extends ``Uncertain``  to conform to `ExpressibleByUnicodeScalarLiteral` when its ``Wrapped`` thing does.
+///
+///  +  term Available since:
+///     0·2.
 extension Uncertain:
 	ExpressibleByUnicodeScalarLiteral
 where Wrapped : ExpressibleByUnicodeScalarLiteral {

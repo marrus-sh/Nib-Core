@@ -5,6 +5,8 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+import func Algorithms.chain
+
 /// A parser for an atomic expression.
 internal struct Parser🙊 <Atom, Index>
 where
@@ -15,12 +17,10 @@ where
 	/// A component of a “path” through a known input according to a known regular expression.
 	///
 	/// Path components can be either `string`s (ranges of matching indices) or `symbol`s (which themselves have a `subpath` of strings and/or symbols).
-	/// `symbol`s may represent an inprogress match; a `symbol` only represents a proper match when its `subpath` ends in a `match`.
-	/// The special `match` component indicates that the entire preceding path successfully matches, and should only ever appear at the end.
-	enum PathComponent {
-
-		/// Indicates that a path results in a successful match.
-		case match
+	/// `symbol`s may represent an inprogress match; a `symbol` only (necessarily) represents a proper match when its `subpath` is not `nil`.
+	enum PathComponent:
+		Equatable
+	{
 
 		/// A range of indices which match.
 		case string (
@@ -29,11 +29,11 @@ where
 
 		/// A symbol which matches (so far).
 		///
-		/// If `subpath` ends in `match`, the symbol matches.
+		/// If `subpath` is not `nil`, the symbol matches.
 		/// Otherwise, the symbol may or may not match, depending on later input.
 		indirect case symbol (
 			Symbol🙊<Atom>,
-			subpath: [PathComponent]
+			subpath: [PathComponent]?
 		)
 
 	}
@@ -50,7 +50,7 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·matches·: Bool
-	{ ·paths🙈·[.match] != nil }
+	{ ·upcomingStates·.contains(.match) }
 
 	/// The `State🙊`s wot will be evaluated on the next `·consume·(_:).
 	///
@@ -58,14 +58,37 @@ where
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	private var ·next🙈·: [State🙊]
 
+	/// Whether this `Parser🙊` can consume additional values and still result in a match.
+	///
+	///  >  Note:
+	///  >  This property is not an inverse of `·done·`.
+	///  >  A `Parser🙊` which is only in the match state will be neither `·open·` nor `·done·`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	var ·open·: Bool
+	{ ·next🙈·.contains { $0 is OpenState🙊<Atom> } }
+
 	/// Paths through the input which may lead to a successful match.
 	///
 	/// The `Array` of `PathComponent`s corresponding to `State🙊.match`, if present, will end in `match` and indicate the first successful (possibly partial) match.
 	/// All other values indicate inprogress matches which may or may not be invalidated depending on later input.
-	private var ·paths🙈·: [State🙊:[PathComponent]?] = [:]
+	private var ·paths🙈·: [State🙊:[PathComponent]] = [:]
 
 	/// Whether this `Parser🙊` is remembering the components of paths, or simply testing for a match.
 	private let ·remembersPathComponents·: Bool
+
+	private(set) var ·upcomingStates·: Set<State🙊> = []
+
+	/// The result of the parse.
+	///
+	///  >  Note:
+	///  >  This will be `nil` if this `Parser🙊` is not currently in a match state.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	var ·result·: [PathComponent]?
+	{ ·paths🙈·[.match] ?? nil }
 
 	/// Creates a `Parser🙊` beginning from the provided `start` and potentially `rememberingPathComponents`.
 	///
@@ -74,27 +97,33 @@ where
 	///
 	///  +  Parameters:
 	///      +  start:
-	///         The `State🙊` to begin parsing from.
+	///         The `StartState🙊` to begin parsing from.
 	///      +  rememberingPathComponents:
 	///         Whether the result of a parse will be needed.
 	init (
-		_ start: State🙊,
+		_ start: StartState🙊<Atom>,
 		expectingResult rememberingPathComponents: Bool
 	) {
-		·next🙈· = (start is OptionState🙊<Atom, Index> ? start.·next· : [start]).map { 🈁 in
-			🈁.·resolved·(
-				expectingResult: rememberingPathComponents
-			)
-		}
-		·paths🙈· = ·next🙈·.reduce(
-			into: [:]
-		) { 🔜, 🈁 in
-			🔜.updateValue(
-				rememberingPathComponents ? [] : nil,
-				forKey: 🈁
-			)
-		}
 		·remembersPathComponents· = rememberingPathComponents
+		·next🙈· = start.·next·.map { 🈁 in
+			🈁.·resolved·(
+				expectingResult: rememberingPathComponents,
+				using: Index.self
+			)
+		}
+		(
+			paths: ·paths🙈·,
+			states: ·upcomingStates·
+		) = ·next🙈·.reduce(
+			into: (
+				paths: [:],
+				states: []
+			)
+		) { 🔜, 🈁 in
+			if rememberingPathComponents
+			{ 🔜.0[🈁] = [] }
+			🔜.1.insert(🈁)
+		}
 	}
 
 	/// Updates the state of this `Parser🙊` to be that after consuming the provided `indexedElement`.
@@ -113,52 +142,134 @@ where
 	) {
 		(
 			next: ·next🙈·,
-			paths: ·paths🙈·
+			paths: ·paths🙈·,
+			states: ·upcomingStates·
 		) = ·next🙈·.reduce(
 			into: (
 				next: [],
-				paths: [:]
+				paths: [:],
+				states: []
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
-			if let 💱 = 🈁 as? OpenState🙊<Atom, Index> {
-				let 🆗: Bool
-				let 🔙: [PathComponent]?
-				if ·remembersPathComponents· {
-					var 〽️ = ·paths🙈·[🈁]!!
-					🆗 = 💱.·consumes·(
-						indexedElement,
-						into: &〽️
-					)
-					🔙 = 〽️
-				} else {
-					🆗 = 💱.·consumes·(indexedElement.element)
-					🔙 = nil
-				}
-				if 🆗 {
-					for 🆕 in (
-						💱.·next·.map { 🈁 in
-							🈁.·resolved·(
-								expectingResult: ·remembersPathComponents·
-							)
-						}
-					) where 🔜.paths[🆕] == nil {
-						🔜.next.append(🆕)
+			let 🔙: [PathComponent]?
+			switch 🈁 {
+				//  Attempt to consume the provided `element`.
+				//  If successful, get the relevant existing path component and extend it for this state.
+				//  Otherwise, return.
+				case let 💱 as AtomicState🙊<Atom>:
+					//  Consume into an `AtomicState🙊` and append a string.
+					guard 💱.·consumes·(indexedElement.element)
+					else
+					{ return }
+					if ·remembersPathComponents· {
+						var 〽️ = ·paths🙈·[🈁]!
 						if
-							🆕 === State🙊.match,
-							let 🆒 = 🔙
+							case .string (
+								let 📂
+							) = 〽️.last
 						{
-							🔜.paths.updateValue(
-								🆒 + CollectionOfOne(.match),
-								forKey: 🆕
+							〽️[
+								〽️.index(
+									before: 〽️.endIndex
+								)
+							] = .string(📂.lowerBound...indexedElement.offset)
+						} else
+						{ 〽️.append(.string(indexedElement.offset...indexedElement.offset)) }
+						🔙 = 〽️
+					} else
+					{ 🔙 = nil }
+				case let 💱 as ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>:
+					//  Consume into a `ParsingState🙊` and append a symbol.
+					guard 💱.·consumes·(indexedElement)
+					else
+					{ return }
+					if ·remembersPathComponents· {
+						var 〽️ = ·paths🙈·[🈁]!
+						if
+							case .symbol(
+								💱.·base·.·symbol·,
+								subpath: nil
+							) = 〽️.last
+						{
+							〽️[
+								〽️.index(
+									before: 〽️.endIndex
+								)
+							] = .symbol(
+								💱.·base·.·symbol·,
+								subpath: 💱.·result·
 							)
 						} else {
-							🔜.paths.updateValue(
-								🔙,
-								forKey: 🆕
+							〽️.append(
+								.symbol(
+									💱.·base·.·symbol·,
+									subpath: 💱.·result·
+								)
 							)
 						}
-					}
+						🔙 = 〽️
+					} else
+					{ 🔙 = nil }
+				default:
+					//  Only the above varieties of `State🙊` can be consumed into.
+					return
+			}
+			for 🆕 in (
+				🈁.·next·.map { 🈁 in
+					🈁.·resolved·(
+						expectingResult: ·remembersPathComponents·,
+						using: Index.self
+					)
+				}
+			) {
+				//  Consuming the `element` was successful; handle the next states.
+				do {
+					//  Ensure that each `🆕` next state hasn’t already been handled.
+					//  If it has, then continue.
+					var 🆗 = false
+					if let 💱 = 🆕 as? ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index> {
+						//  Check to ensure that the substitution of the `🆕` state actually provides new upcoming states.
+						//  If not, then a match by `🆕` has already been covered by existing states.
+						for 🆙 in 💱.·substitution·
+						where 🔜.states.insert(🆙).inserted {
+							if !🆗
+							{ 🆗 = true }
+						}
+					} else
+					{ 🆗 = 🔜.states.insert(🆕).inserted }
+					guard 🆗
+					else { continue }
+				}
+				🔜.next.append(🆕)
+				if ·remembersPathComponents· {
+					//  Store the path components for the `🆕` state.
+					if
+						🆕 === 🈁,
+						let 🆒 = 🔙,
+						case .symbol (
+							let 📛,
+							subpath: .some(_)
+						) = 🆒.last
+					{
+						//  If the state points to itself, ensure the result subpath does not suggest a complete match.
+						🔜.paths[🆕] = Array(
+							chain(
+								🆒[
+									🆒.startIndex..<🆒.index(
+										before: 🆒.endIndex
+									)
+								],
+								CollectionOfOne(
+									.symbol(
+										📛,
+										subpath: nil
+									)
+								)
+							)
+						)
+					} else
+					{ 🔜.paths[🆕] = 🔙! }
 				}
 			}
 		}

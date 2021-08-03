@@ -110,8 +110,8 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  excludable:
 	///         An `ExcludingExpression` with the same `Atom` type as this `RegularExpression` type.
-	private init (
-		🆘🙈 excludable: ExcludingExpression<Atom>
+	internal init (
+		🆘🙊 excludable: ExcludingExpression<Atom>
 	) { ·excludableExpression🙈· = excludable }
 
 	/// Returns the longest matching `SubSequence` which prefixes the provided `collection` and matches this ``RegularExpression``.
@@ -152,7 +152,7 @@ where Atom : Atomic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	public static var never: RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: .never
+			🆘🙊: .never
 		)
 	}
 
@@ -340,7 +340,7 @@ where Atom : Atomic {
 		_ righthandOperand: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
@@ -366,11 +366,14 @@ where Atom : Atomic {
 		_ righthandOperand: RegularExpression<Atom>
 	) -> RegularExpression<Atom> {
 		RegularExpression(
-			🆘🙈: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
+			🆘🙊: lefthandOperand ✖️ righthandOperand.·excludableExpression🙈·
 		)
 	}
 
 	/// Returns a ``ContextfreeExpression`` representing the provided `operand`.
+	///
+	///  +  term Available since:
+	///     0·3.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -381,10 +384,41 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A ``ContextfreeExpression`` with the same `Atom` type as `operand`.
-	/*public*/ static postfix func ^! (
+	public static postfix func ^! (
 		_ operand: RegularExpression<Atom>
 	) -> ContextfreeExpression<Atom>
 	{ ContextfreeExpression(operand) }
+
+}
+
+/// Extends ``RegularExpression`` to conform to ``Excludable``.
+extension RegularExpression:
+	Excludable
+{
+
+	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
+	@usableFromInline
+	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+
+	/// Creates a ``RegularExpression`` from the provided `excludable`, if it is regular.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  excludable:
+	///         An ``ExcludingExpression``.
+	/*public*/ init? <Excluding> (
+		_ excludable: Excluding
+	) where
+		Excluding : Excludable,
+		Excluding.Exclusion == ExcludingExpression<Atom>
+	{
+		if let 💱 = (excludable^!).regularExpression
+		{ self = 💱 }
+		else
+		{ return nil }
+	}
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
@@ -405,17 +439,6 @@ where Atom : Atomic {
 
 }
 
-/// Extends ``RegularExpression`` to conform to ``Excludable``.
-extension RegularExpression:
-	Excludable
-{
-
-	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
-
-}
-
 /// Extends ``RegularExpression`` to conform to `Equatable` when its `Atom` type is `Equatable`.
 ///
 ///  +  term Available since:
@@ -433,15 +456,30 @@ extension RegularExpression:
 where Atom : Hashable {}
 
 /// Extends ``RegularExpression`` to conform to `Symbolic` when its `Atom` type is `Hashable`.
+///
+/// This allows anonymous `RegularExpression`s to be used directly as symbols in more complex expressions.
+///
+///  +  term Available since:
+///     0·3.
 extension RegularExpression:
 	Symbolic
 where Atom : Hashable {
 
-	@usableFromInline
-	/*public*/ typealias Expressed = RegularExpression<Atom>
+	/// The ``ExpressionProtocol`` type of expression which this ``RegularExpression`` represents.
+	///
+	/// This is just the `RegularExpression` type itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public typealias Expressed = RegularExpression<Atom>
 
-	@usableFromInline
-	/*public*/ var expression: Expressed
+	/// Returns the ``Expressed`` thing which this ``RegularExpression`` represents.
+	///
+	/// This is just the `RegularExpression` itself.
+	///
+	///  +  term Available since:
+	///     0·3.
+	public var expression: Expressed
 	{ self }
 
 }

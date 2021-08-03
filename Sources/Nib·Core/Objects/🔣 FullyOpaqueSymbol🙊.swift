@@ -27,7 +27,7 @@ internal class FullyOpaqueSymbol🙊:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	init () {}
 
-	/// A set of already‐minted `FullyOpaqueSymbol🙊`s.
+	/// A set of already-minted `FullyOpaqueSymbol🙊`s.
 	///
 	/// This will exist for the lifetime of the program, but this is acceptable considering that `Symbolic` types are typically finite in number, and used in finite contexts (expressions).
 	private static var ·cache🙈·: Set<FullyOpaqueSymbol🙊> = []

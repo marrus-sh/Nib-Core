@@ -13,13 +13,6 @@ internal class State🙊:
 	Identifiable
 {
 
-	/// The `State🙊` which this `State🙊` was originally derived from, or `self` if it was not derived from an existing `State🙊`.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var ·base·: State🙊
-	{ self }
-
 	/// The `State🙊`s which this `State🙊` will result in after a correct match.
 	///
 	///  +  term Author(s):
@@ -46,7 +39,7 @@ internal class State🙊:
 
 	/// Returns a `State🙊`s which this `State🙊` is equivalent to, which should be used for parsing.
 	///
-	/// This will be the same `State🙊`, except for `ParsingState🙊`s whose `·base·` is their `self`.
+	/// This will be the same `State🙊`, except for `BaseState🙊`s, which return a `ParsingState🙊`.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -56,10 +49,12 @@ internal class State🙊:
 	///         Whether to remember path components when consuming with this `State🙊`.
 	///
 	///  +  Returns:
-	///     An `Array` of `State🙊`s.
-	func ·resolved· (
-		expectingResult rememberingPathComponents: Bool
+	///     A `State🙊`.
+	func ·resolved· <Index> (
+		expectingResult rememberingPathComponents: Bool,
+		using IndexType: Index.Type
 	) -> State🙊
+	where Index : Comparable
 	{ self }
 
 	/// Hashes this `State🙊` into the provided `hasher`.

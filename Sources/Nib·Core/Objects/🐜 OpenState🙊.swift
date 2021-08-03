@@ -6,12 +6,9 @@
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// A `State🙊` which points to another `State🙊`; a `State🙊` other than `.match` or `.never`.
-internal class OpenState🙊 <Atom, Index>:
+internal class OpenState🙊 <Atom>:
 	State🙊
-where
-	Atom : Atomic,
-	Index: Comparable
-{
+where Atom : Atomic {
 
 	/// A later `State🙊` pointed to by this `OpenState🙊`.
 	///
@@ -22,21 +19,26 @@ where
 
 	/// The `States🙊` which this `OpenState🙊` will result in after a correct match.
 	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	override var ·next·: [State🙊]
-	{ ·next🙈· }
-
-	/// The `States🙊` which this `OpenState🙊` will result in after a correct match (privately stored).
-	///
-	/// This is computed lazily and follows `OptionState🙊` paths.
+	/// This is cached and follows `OptionState🙊` paths.
 	///
 	///  >  Note:
 	///  >  The stored backing of this property introduces the potential for strong reference cycles.
 	///  >  It **must** be cleared when this `OpenState🙊` is no longer needed, to prevent memory leakage.
-	private lazy var ·next🙈·: [State🙊] = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom, Index>)?.·next· ?? [$0] } ?? [.match]
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	override var ·next·: [State🙊] {
+		if let 📂 = ·next🙈·
+		{ return 📂 }
+		else {
+			let 🔜 = ·forward·.map { $0 == .never ? [] : ($0 as? OptionState🙊<Atom>)?.·next· ?? [$0] } ?? [.match]
+			·next🙈· = 🔜
+			return 🔜
+		}
+	}
+
+	/// The cached `States🙊` which this `OpenState🙊` will result in after a correct match.
+	private var ·next🙈·: [State🙊]? = nil
 
 	/// Wipes the internal memory of this `OpenState🙊` to prevent reference cycles / memory leakage.
 	///
@@ -46,66 +48,9 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override func ·blast· () {
-		·forward· = nil
+		·forward· = .never
 		·next🙈· = []
 		super.·blast·()
-	}
-
-	/// Returns whether this `OpenState🙊` does consume the provided `element`.
-	///
-	/// This is a default implementation which always returns `false`.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  element:
-	///         A `SourceElement` of this `OpenState🙊`’s `Atom` type.
-	///
-	///  +  Returns:
-	///     `true` if this `OpenState🙊` does consume the provided `element`; otherwise, `false`.
-	func ·consumes· (
-		_ element: Atom.SourceElement
-	) -> Bool
-	{ false }
-
-	/// Returns whether this `OpenState🙊` does consume the provided `element`, accumulating into the provided `result`.
-	///
-	///  +  term Author(s):
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Parameters:
-	///      +  element:
-	///         A tuple whose `offset` is an `Index` and whose `element` is a `SourceElement` of this `OpenState🙊`’s `Atom` type.
-	///      +  result:
-	///         An `Array` of `Parser🙊.PathComponent`s into which the result should be collected.
-	///
-	///  +  Returns:
-	///     `true` if this `OpenState🙊` does consume the provided `element`; otherwise, `false`.
-	func ·consumes· (
-		_ indexedElement: (
-			offset: Index,
-			element: Atom.SourceElement
-		),
-		into result: inout [Parser🙊<Atom, Index>.PathComponent]
-	) -> Bool {
-		if ·consumes·(indexedElement.element) {
-			if
-				let 🔚 = result.last,
-				case .string (
-					let 🔙
-				) = 🔚
-			{
-				result[
-					result.index(
-						before: result.endIndex
-					)
-				] = .string(🔙.lowerBound...indexedElement.offset)
-			} else
-			{ result.append(.string(indexedElement.offset...indexedElement.offset)) }
-			return true
-		} else
-		{ return false }
 	}
 
 }

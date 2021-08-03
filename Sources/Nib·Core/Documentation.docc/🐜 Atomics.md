@@ -132,7 +132,7 @@ On the other hand, advanced regular expression capabilities (such as character c
 ##  Topics  ##
 
 
-###  Atomic things  ###
+###  Atoms  ###
 
  +  ``Atomic``
 

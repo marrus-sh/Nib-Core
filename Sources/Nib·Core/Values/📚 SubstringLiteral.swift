@@ -11,6 +11,10 @@
 ///     0·2.
 public typealias SubstringLiteral = StringLiteral.SubSequence
 
+/// Extends ``SubstringLiteral``  to conform to ``TextProtocol``.
+///
+///  +  term Available since:
+///     0·2.
 extension SubstringLiteral:
 	TextProtocol
 {

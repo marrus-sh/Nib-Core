@@ -17,7 +17,7 @@ For more information, see [the documentation](Sources/Nib·Core/Documentation.do
 ##  Current State of the Software  ##
 
 Provisional.
-The features which are public are likely to stick around in a same or similar form, but there are a number of dark corners in the codebase which are not fully‐fleshed·out yet.
+The features which are public are likely to stick around in a same or similar form, but there are a number of dark corners in the codebase which are not fully-fleshed·out yet.
 The source isn’t quite to a place where it makes sense to just browse through and read, and some things are simply placeholders for a later implementation.
 The documentation should be good though.
 

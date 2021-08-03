@@ -9,7 +9,7 @@ import struct OrderedCollections.OrderedDictionary
 
 /// A thing which can be subscripted by a ``KeyForLookup`` to get a ``ThingFromLookup``, if one exists.
 ///
-/// ``Lookup``s provide `Dictionary`‐like behaviour for both initialization (via ``init(_:uniquingKeysWith:)``) and subscript access (via ``subscript(_:)``).
+/// ``Lookup``s provide `Dictionary`-like behaviour for both initialization (via ``init(_:uniquingKeysWith:)``) and subscript access (via ``subscript(_:)``).
 /// Both Swift’s `Dictionary` type and Swift Collections’s `OrderedDictionary` type conform to the `Lookup` protocol, so you can use it to handle both in a generic manner.
 ///
 /// ``Lookup`` is generally **not** suitable for types which do not support arbitrary keys of type ``KeyForLookup``.
