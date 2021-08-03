@@ -12,7 +12,7 @@
 ///  >  Computed `expression`s can add a layer of indirection, for example when two symbols need to refer to each other.
 ///
 ///  >  Note:
-///  >  [`^?(_:)`](doc:__(_:)), [`^!(_:)`](doc:_!(_:)), [`^+(_:)`](doc:_+(_:)), [`^*(_:)`](doc:_*(_:)) postifx operators are defined for converting `Symbolic`s into with a ``SymbolicExpression`` ``Expressed`` type into the corresponding ``SymbolicExpression`` type, with the same meaning as with ``Expressible`` types.
+///  >  [`^?(_:)`](doc:__(_:)), [`^!(_:)`](doc:_!(_:)), [`^+(_:)`](doc:_+(_:)), [`^*(_:)`](doc:_*(_:)) postifx operators are defined for converting `Symbolic`s with a ``SymbolicExpression`` ``Expressed`` type into the corresponding ``SymbolicExpression`` type, with the same meaning as with ``Expressible`` types.
 ///  >  You can consequently declare `Expressible` conformance for such `Symbolic`s to their `Expressed` type and receive the implementation for free.
 ///
 ///  +  term Available since:

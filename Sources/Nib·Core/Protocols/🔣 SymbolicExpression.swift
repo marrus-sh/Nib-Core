@@ -13,7 +13,7 @@
 ///
 /// ###  Conformance  ###
 ///
-/// To conform to the `SymbolicExpression` protocol, a type must conform to the ``ExpressionProtocol`` and implement the ``init(_:)`` initializer.
+/// To conform to the `SymbolicExpression` protocol, a type must conform to the ``ExpressionProtocol`` and implement the ``init(nesting:)`` initializer.
 public protocol SymbolicExpression:
 	ExpressionProtocol
 {

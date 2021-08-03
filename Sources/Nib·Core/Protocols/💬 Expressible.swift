@@ -88,7 +88,7 @@ where Expression : ExpressionProtocol {
 
 public extension Expressible {
 
-	/// Returns an ``Expression`` representing the provided `operand` repeated zero or one times.
+	/// Returns an ``Expressible/Expression`` representing the provided `operand` repeated zero or one times.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -101,14 +101,14 @@ public extension Expressible {
 	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
-	///     An ``Expression`` representing the provided `operand` repeated zero or one times.
+	///     An ``Expressible/Expression`` representing the provided `operand` repeated zero or one times.
 	@inlinable
 	static postfix func ^? (
 		_ operand: Self
 	) -> Expression
 	{ 0...1 ✖️ operand^! }
 
-	/// Returns an ``Expression`` representing the provided `operand` repeated one or more times.
+	/// Returns an ``Expressible/Expression`` representing the provided `operand` repeated one or more times.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -121,14 +121,14 @@ public extension Expressible {
 	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
-	///     An ``Expression`` representing the provided `operand` repeated one or more times.
+	///     An ``Expressible/Expression`` representing the provided `operand` repeated one or more times.
 	@inlinable
 	static postfix func ^+ (
 		_ operand: Self
 	) -> Expression
 	{ 1... ✖️ operand^! }
 
-	/// Returns an ``Expression`` representing the provided `operand` repeated zero or more times.
+	/// Returns an ``Expressible/Expression`` representing the provided `operand` repeated zero or more times.
 	///
 	///  +  term Available since:
 	///     0·2.
@@ -141,7 +141,7 @@ public extension Expressible {
 	///         An ``Expressible`` thing.
 	///
 	///  +  Returns:
-	///     An ``Expression`` representing the provided `operand` repeated zero or more times.
+	///     An ``Expressible/Expression`` representing the provided `operand` repeated zero or more times.
 	@inlinable
 	static postfix func ^* (
 		_ operand: Self
