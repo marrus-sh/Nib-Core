@@ -49,10 +49,12 @@ extension Matcher :
 
 }
 
+/// A `Symbolic` which can match certain `Character`s.
 enum Symbol:
 	Symbolic
 {
 
+	/// The `ContextfreeExpression` which this `Symbol` represents.
 	typealias Expressed = ContextfreeExpression<Matcher>
 
 	/// A `"🆒"` followed by one or more A·S·C·I·I letters.
@@ -61,8 +63,10 @@ enum Symbol:
 	/// A `"🆒"` followed by one or more A·S·C·I·I letters, but using nested symbolic regular expressions.
 	case coolSymbolicLetters
 
+	/// One or more `"🆒"`, defined recursively.
 	case cools
 
+	/// The `Expressed` expression for this `Symbol`.
 	var expression: Expressed {
 		switch self {
 			case .coolLetters:

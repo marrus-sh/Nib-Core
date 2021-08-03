@@ -1,4 +1,4 @@
-//  🖋🥑 Nib Core :: Nib·Core :: 🔣 SymbolicExpressio
+//  🖋🥑 Nib Core :: Nib·Core :: 🔣 SymbolicExpression
 //  ========================
 //
 //  Copyright © 2021 kibigo!

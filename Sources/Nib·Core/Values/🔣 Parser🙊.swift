@@ -38,9 +38,6 @@ where
 
 	}
 
-	/// Whether this `Parser🙊` contains a nested `Parser🙊` via one of its active states.
-	private(set) var ·complex·: Bool = false
-
 	/// Whether this `Parser🙊` will change state upon consuming some number of additional things.
 	///
 	///  +  term Author(s):
@@ -126,10 +123,6 @@ where
 			if rememberingPathComponents
 			{ 🔜.0[🈁] = [] }
 			🔜.1.insert(🈁)
-			if
-				!·complex·,
-				🈁 is ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>
-			{ ·complex· = true }
 		}
 	}
 
@@ -150,20 +143,22 @@ where
 		(
 			next: ·next🙈·,
 			paths: ·paths🙈·,
-			states: ·upcomingStates·,
-			complex: ·complex·
+			states: ·upcomingStates·
 		) = ·next🙈·.reduce(
 			into: (
 				next: [],
 				paths: [:],
-				states: [],
-				complex: false
+				states: []
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
 			let 🔙: [PathComponent]?
 			switch 🈁 {
+				//  Attempt to consume the provided `element`.
+				//  If successful, get the relevant existing path component and extend it for this state.
+				//  Otherwise, return.
 				case let 💱 as AtomicState🙊<Atom>:
+					//  Consume into an `AtomicState🙊` and append a string.
 					guard 💱.·consumes·(indexedElement.element)
 					else
 					{ return }
@@ -185,6 +180,7 @@ where
 					} else
 					{ 🔙 = nil }
 				case let 💱 as ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>:
+					//  Consume into a `ParsingState🙊` and append a symbol.
 					guard 💱.·consumes·(indexedElement)
 					else
 					{ return }
@@ -216,6 +212,7 @@ where
 					} else
 					{ 🔙 = nil }
 				default:
+					//  Only the above varieties of `State🙊` can be consumed into.
 					return
 			}
 			for 🆕 in (
@@ -226,11 +223,14 @@ where
 					)
 				}
 			) {
+				//  Consuming the `element` was successful; handle the next states.
 				do {
-					//  Check to ensure that the substitution of `🆕` actually provides new upcoming states.
-					//  If not, then a match by `🆕` has already been covered by existing states.
+					//  Ensure that each `🆕` next state hasn’t already been handled.
+					//  If it has, then continue.
 					var 🆗 = false
 					if let 💱 = 🆕 as? ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index> {
+						//  Check to ensure that the substitution of the `🆕` state actually provides new upcoming states.
+						//  If not, then a match by `🆕` has already been covered by existing states.
 						for 🆙 in 💱.·substitution·
 						where 🔜.states.insert(🆙).inserted {
 							if !🆗
@@ -242,11 +242,8 @@ where
 					else { continue }
 				}
 				🔜.next.append(🆕)
-				if
-					!🔜.complex,
-					🆕 is ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>
-				{ 🔜.complex = true }
 				if ·remembersPathComponents· {
+					//  Store the path components for the `🆕` state.
 					if
 						🆕 === 🈁,
 						let 🆒 = 🔙,
@@ -256,30 +253,23 @@ where
 						) = 🆒.last
 					{
 						//  If the state points to itself, ensure the result subpath does not suggest a complete match.
-						🔜.paths.updateValue(
-							Array(
-								chain(
-									🆒[
-										🆒.startIndex..<🆒.index(
-											before: 🆒.endIndex
-										)
-									],
-									CollectionOfOne(
-										.symbol(
-											📛,
-											subpath: nil
-										)
+						🔜.paths[🆕] = Array(
+							chain(
+								🆒[
+									🆒.startIndex..<🆒.index(
+										before: 🆒.endIndex
+									)
+								],
+								CollectionOfOne(
+									.symbol(
+										📛,
+										subpath: nil
 									)
 								)
-							),
-							forKey: 🆕
+							)
 						)
-					} else {
-						🔜.paths.updateValue(
-							🔙!,
-							forKey: 🆕
-						)
-					}
+					} else
+					{ 🔜.paths[🆕] = 🔙! }
 				}
 			}
 		}

@@ -22,11 +22,14 @@ where
 
 	/// Whether this `ParsingState🙊` is a prerequisite for some other state (i.e., whether an internal match may lead to an external match in future parse steps).
 	///
-	///  +  Note:
-	///     `·isTail·` and `·isPrerequisite·` aren’t inverses; a `ParsingState🙊` can be both.
+	///  >  Note:
+	///  >  `·isTail·` and `·isPrerequisite·` aren’t inverses; a `ParsingState🙊` can be both.
 	let ·isPrerequisite·: Bool
 
 	/// Whether this `ParsingState🙊` is in the tail position (i.e., whether an internal match necessitates an external match).
+	///
+	///  >  Note:
+	///  >  `·isTail·` and `·isPrerequisite·` aren’t inverses; a `ParsingState🙊` can be both.
 	let ·isTail·: Bool
 
 	/// The `States🙊` which this `ParsingState🙊` will result in after a correct match.
@@ -48,9 +51,12 @@ where
 	/// The result of the parse, if this `ParsingState🙊` is in a match state and expecting a result.
 	var ·result·: [Parser🙊<Atom, Index>.PathComponent]?
 
-	var ·simple·: Bool
-	{ !·parser🙈·.·complex· }
-
+	/// The `State🙊`s from which reaching a match necessitates a match in the expression which contains this `ParsingState🙊`.
+	///
+	/// This will include this `ParsingState🙊` if it `·isPrerequisite·`, and will include its internal upcoming states if it `·isTail·`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	var ·substitution·: Set<State🙊>
 	{ ·isPrerequisite· ? ·isTail· ? ·parser🙈·.·upcomingStates·.union(CollectionOfOne(self)) : [self] : ·isTail· ? ·parser🙈·.·upcomingStates· : [] }
 
@@ -72,31 +78,45 @@ where
 		else
 		{ return nil }
 		·base· = base
-		var 🆗 = (
-			prerequisite: false,
-			tail: false
-		)
-		for 🈁 in base.·next· {
-			if 🈁 == .match {
-				if !🆗.tail
-				{ 🆗.tail = true }
-			} else {
-				if !🆗.prerequisite
-				{ 🆗.prerequisite = true }
-			}
-			if 🆗.tail && 🆗.prerequisite
-			{ break }
-		}
-		(
-			prerequisite: ·isPrerequisite·,
-			tail: ·isTail·
-		) = 🆗
 		·parser🙈· = Parser🙊(
 			📂,
 			expectingResult: rememberingPathComponents
 		)
+		do {
+			//  Calculate `·isPrerequisite·` and `·isTail·` based on the provided `base`.
+			var 🆗 = (
+				prerequisite: false,
+				tail: false
+			)
+			for 🈁 in base.·next· {
+				if 🈁 == .match {
+					if !🆗.tail
+					{ 🆗.tail = true }
+				} else {
+					if !🆗.prerequisite
+					{ 🆗.prerequisite = true }
+				}
+				if 🆗.tail && 🆗.prerequisite
+				{ break }
+			}
+			(
+				prerequisite: ·isPrerequisite·,
+				tail: ·isTail·
+			) = 🆗
+		}
 	}
 
+	/// Returns whether this `ParsingState🙊` does consume the provided `indexedElement`.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Parameters:
+	///      +  indexedElement:
+	///         A tuple of an `Index` `offset` and an `element` of this `OpenState🙊`’s `Atom`’s `SourceElement` type.
+	///
+	///  +  Returns:
+	///     `true` if the internal parser of this `ParsingState🙊` can consume the provided `indexedElement`; `false` otherwise.
 	func ·consumes· (
 		_ indexedElement: (
 			offset: Index,

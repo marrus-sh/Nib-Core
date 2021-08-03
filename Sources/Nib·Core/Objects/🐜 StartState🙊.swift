@@ -12,6 +12,9 @@ internal final class StartState🙊 <Atom>:
 	OpenState🙊<Atom>
 where Atom : Atomic {
 
+	/// The first meaningful `State🙊` in a parse tree.
+	///
+	/// This property is computed lazily and then cached, based on the `·fragment·` of this `StartState🙊`.
 	override var ·forward·: State🙊? {
 		get {
 			if let 📂 = super.·forward·
@@ -25,8 +28,17 @@ where Atom : Atomic {
 		set { super.·forward· = newValue }
 	}
 
+	/// The `Fragment🙊` from which the parse tree started by this `StartState🙊` begins.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	private let ·fragment·: Fragment🙊<Atom>
 
+	/// Creates a new `StartState🙊` from the provided `fragment`.
+	///
+	///  +  Parameters:
+	///      +  fragment:
+	///         A `Fragment🙊` with the same `Atom` type as this `StartState🙊`.
 	init (
 		_ fragment: Fragment🙊<Atom>
 	) { ·fragment· = fragment }

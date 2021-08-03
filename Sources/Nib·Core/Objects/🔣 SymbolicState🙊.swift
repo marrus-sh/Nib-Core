@@ -13,7 +13,7 @@ where Atom : Atomic {
 	/// The `Symbol🙊` of this `SymbolicState🙊`.
 	let ·symbol·: Symbol🙊<Atom>
 
-	/// Creates a new `SymbolicState🙊` with the provided `symbol` whose derived `ParsingState🙊s` will start from the provided `start`.
+	/// Creates a new `SymbolicState🙊` using the provided `symbol`.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -21,8 +21,6 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  symbol:
 	///         A `Symbol🙊`.
-	///      +  start:
-	///         A `State🙊`.
 	init (
 		_ symbol: Symbol🙊<Atom>
 	) { ·symbol· = symbol }
