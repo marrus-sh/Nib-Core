@@ -32,7 +32,9 @@ Use [SwiftPM](https://swift.org/package-manager/) to add 🖋🥑 Nib Core as a 
 //  Add this to the `dependencies` for your project.
 .package(
 	url: "https://github.com/marrus-sh/Nib-Core.git",
-	from: "0.2.0"
+	.upToNextMinor(
+		from: Version(0, 3, 0)
+	)
 )
 ```
 
