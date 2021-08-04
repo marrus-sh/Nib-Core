@@ -11,17 +11,22 @@
 /// The infix operator [`÷(_:_:)`](doc:Excludable/_(_:_:)-7k8fq) is defined for ``Excludable`` things, including `ExclusionProtocol` things, such that `A ÷ B` is equivalent to `.init(excluding: B, from: A)`.
 /// Similarly, the infix operator [`÷=(_:_:)`](doc:Excludable/_=(_:_:)-2v227) is provided to make it easier to break up exclusions over multiple lines.
 ///
+///  +  term Available since:
+///     0·4.
+///
 ///
 /// ###  Conformance  ###
 ///
 /// To conform to the `ExclusionProtocol`, a type must implement the ``init(excluding:from:)`` initializer.
 /// `ExclusionProtocol`s must declare an ``Excludable/Exclusion`` type of themselves.
-@usableFromInline
-/*public*/ protocol ExclusionProtocol:
+public protocol ExclusionProtocol:
 	Excludable
 where Exclusion == Self {
 
 	/// Creates an ``ExclusionProtocol`` thing which excludes the provided `exclusion` from the provided `match`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  Parameters:
 	///      +  exclusion:
@@ -35,9 +40,12 @@ where Exclusion == Self {
 
 }
 
-/*public*/ extension ExclusionProtocol {
+public extension ExclusionProtocol {
 
 	/// Creates an ``ExclusionProtocol`` thing which represents the provided `excludable`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).

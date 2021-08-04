@@ -12,22 +12,28 @@ import func Algorithms.chain
 ///  >  Important:
 ///  >  Be very careful when constructing expressions of this type to not introduce moments of strong ambiguity.
 ///  >  It is impossible to guarantee efficient processing of `ExcludingExpression`s in all cases
-@usableFromInline
-/*public*/ struct ExcludingExpression <Atom>:
+///
+///  +  term Available since:
+///     0·4.
+public struct ExcludingExpression <Atom>:
 	AtomicExpression,
 	ExclusionProtocol
 where Atom : Atomic {
 
 	/// The ``ExclusionProtocol`` type which this ``ExcludingExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·4.
+	public typealias Exclusion = ExcludingExpression<Atom>
 
 	/// The ``ExpressionProtocol`` type which this ``ExcludingExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Expression = ExcludingExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·4.
+	public typealias Expression = ExcludingExpression<Atom>
 
 	/// A kind of `ExcludingExpression`.
-	enum Kind:
+	internal enum Kind🙊:
 		Int,
 		Hashable
 	{
@@ -46,7 +52,7 @@ where Atom : Atomic {
 	/// An equivalent ``ContextfreeExpression`` to this ``ExcludingExpression``, if one exists.
 	///
 	///  +  term Available since:
-	///     0·3.
+	///     0·4.
 	public var contextfreeExpression: ContextfreeExpression<Atom>? {
 		·kind· != .excluding ? ContextfreeExpression(
 			🆘🙊: self
@@ -56,7 +62,7 @@ where Atom : Atomic {
 	/// An equivalent ``RegularExpression`` to this ``ExcludingExpression``, if one exists.
 	///
 	///  +  term Available since:
-	///     0·3.
+	///     0·4.
 	public var regularExpression: RegularExpression<Atom>? {
 		if ·kind· == .regular {
 			return RegularExpression(
@@ -77,15 +83,18 @@ where Atom : Atomic {
 	}
 
 	/// The `Fragment🙊` which represents this `ExcludingExpression`.
-	let ·fragment·: Fragment🙊<Atom>
+	internal let ·fragment·: Fragment🙊<Atom>
 
 	/// The `Kind` which represents this `ExcludingExpression`.
-	let ·kind·: Kind
+	internal let ·kind·: Kind🙊
 
 	/// The `StartState🙊` from which parsing this `ExcludingExpression` begins.
-	let ·start·: StartState🙊<Atom>
+	internal let ·start·: StartState🙊<Atom>
 
 	/// Creates an ``ExcludingExpression`` from the provided `atom`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -93,8 +102,7 @@ where Atom : Atomic {
 	///  +  Parameters:
 	///      +  atom:
 	///         An `Atom`.
-	@usableFromInline
-	/*public*/ init (
+	public init (
 		_ atom: Atom
 	) {
 		self.init(
@@ -105,13 +113,16 @@ where Atom : Atomic {
 
 	/// Creates an ``ExcludingExpression`` from the provided `regex`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  regex:
 	///         An ``RegularExpression`` value which has the same `Atom` type as this ``ExcludingExpression`` type.
-	/*public*/ init (
+	public init (
 		_ regex: RegularExpression<Atom>
 	) {
 		self.init(
@@ -122,21 +133,23 @@ where Atom : Atomic {
 
 	/// Creates an ``ExcludingExpression`` which alternates the provided `choices`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Sequence` of ``ExcludingExpression``s, representing choices.
-	@usableFromInline
-	/*public*/ init <Sequence> (
+	public init <Sequence> (
 		alternating choices: Sequence
 	) where
 		Sequence : Swift.Sequence,
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = choices.makeIterator()
-		var 〽️ = Kind.regular
+		var 〽️ = Kind🙊.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
@@ -162,21 +175,23 @@ where Atom : Atomic {
 
 	/// Creates an ``ExcludingExpression`` which catenates the provided `sequence`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  choices:
 	///         A `Sequence` of ``ExcludingExpression``s, interpreted in sequence.
-	@usableFromInline
-	/*public*/ init <Sequence> (
+	public init <Sequence> (
 		catenating sequence: Sequence
 	) where
 		Sequence : Swift.Sequence,
 		Sequence.Element == ExcludingExpression<Atom>
 	{
 		var 📤 = sequence.makeIterator()
-		var 〽️ = Kind.regular
+		var 〽️ = Kind🙊.regular
 		if let 🥇 = 📤.next() {
 			if let 🥈 = 📤.next() {
 				self.init(
@@ -202,6 +217,9 @@ where Atom : Atomic {
 
 	/// Creates an ``ExcludingExpression`` which excludes the provided `exclusion` from the provided `match`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -210,8 +228,7 @@ where Atom : Atomic {
 	///         An ``ExcludingExpression`` to be excluded.
 	///      +  match:
 	///         An ``ExcludingExpression`` to be excluded from.
-	@usableFromInline
-	/*public*/ init (
+	public init (
 		excluding exclusion: ExcludingExpression<Atom>,
 		from match: ExcludingExpression<Atom>
 	) {
@@ -223,14 +240,16 @@ where Atom : Atomic {
 
 	/// Creates an ``ExcludingExpression`` from the provided `symbol`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  symbol:
 	///         A ``Symbolic`` thing which is ``Expressible`` as an ``Excludable`` type whose ``Exclusion`` type is the same as this ``ExcludingExpression`` type.
-	@usableFromInline
-	/*public*/ init <Symbol> (
+	public init <Symbol> (
 		nesting symbol: Symbol
 	) where
 		Symbol : Symbolic,
@@ -253,7 +272,7 @@ where Atom : Atomic {
 	///         A `Fragment🙉`.
 	private init (
 		🙈 fragment: Fragment🙊<Atom>,
-		kind: Kind
+		kind: Kind🙊
 	) {
 		·fragment· = fragment
 		·kind· = kind
@@ -328,6 +347,9 @@ where Atom : Atomic {
 	///  >  Note:
 	///  >  It is generally recommended to use the `prefix(matching:)` methods on `Collection`s instead of calling this method directly.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -337,8 +359,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     A `SubSequence` of the longest matching prefix in `collection` which matches this ``ExcludingExpression``.
-	@usableFromInline
-	/*public*/ func longestMatchingPrefix <Collection> (
+	public func longestMatchingPrefix <Collection> (
 		in collection: Collection
 	) -> Collection.SubSequence?
 	where
@@ -360,10 +381,12 @@ where Atom : Atomic {
 
 	/// An ``ExcludingExpression`` which never matches.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	@usableFromInline
-	/*public*/ static var never: ExcludingExpression<Atom> {
+	public static var never: ExcludingExpression<Atom> {
 		ExcludingExpression(
 			🙈: .never,
 			kind: .regular
@@ -372,10 +395,12 @@ where Atom : Atomic {
 
 	/// An ``ExcludingExpression`` which catenates nothing; i.e. an empty thing.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	@usableFromInline
-	/*public*/ static var null: ExcludingExpression<Atom> {
+	public static var null: ExcludingExpression<Atom> {
 		self.init(
 			🙈: .catenation([]),
 			kind: .regular
@@ -383,6 +408,9 @@ where Atom : Atomic {
 	}
 
 	/// Returns whether the provided `righthandOperand` has a prefix which matches the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -395,8 +423,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     `true` if `righthandOperand` has a prefix which is a match for `lefthandOperand`; otherwise, `false`.
-	@usableFromInline
-	/*public*/ static func ...~= <Sequence> (
+	public static func ...~= <Sequence> (
 		_ lefthandOperand: ExcludingExpression<Atom>,
 		_ righthandOperand: Sequence
 	) -> Bool
@@ -412,6 +439,9 @@ where Atom : Atomic {
 
 	/// Returns whether the provided `righthandOperand` matches the provided `lefthandOperand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -423,8 +453,7 @@ where Atom : Atomic {
 	///
 	///  +  Returns:
 	///     `true` if `righthandOperand` is a match for `lefthandOperand`; otherwise, `false`.
-	@usableFromInline
-	/*public*/ static func ~= <Sequence> (
+	public static func ~= <Sequence> (
 		_ lefthandOperand: ExcludingExpression<Atom>,
 		_ righthandOperand: Sequence
 	) -> Bool
@@ -440,6 +469,9 @@ where Atom : Atomic {
 	}
 
 	/// Returns an ``ExcludingExpression`` equivalent to the provided `righthandOperand` repeated some number of times as indicated by the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -487,6 +519,9 @@ where Atom : Atomic {
 
 	/// Returns an ``ExcludingExpression`` equivalent to the provided `righthandOperand` repeated some number of times as indicated by the provided `lefthandOperand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -525,11 +560,17 @@ where Atom : Atomic {
 }
 
 /// Extends ``ExcludingExpression`` to conform to `Equatable` when its `Atom` type is `Equatable`.
+///
+///  +  term Available since:
+///     0·4.
 extension ExcludingExpression:
 	Equatable
 where Atom : Equatable {}
 
 /// Extends ``ExcludingExpression`` to conform to `Hashable` when its `Atom` type is `Hashable`.
+///
+///  +  term Available since:
+///     0·4.
 extension ExcludingExpression:
 	Hashable
 where Atom : Hashable {}
@@ -537,6 +578,9 @@ where Atom : Hashable {}
 /// Extends ``ExcludingExpression`` to conform to `Symbolic` when its `Atom` type is `Hashable`.
 ///
 /// This allows anonymous `ExcludingExpression`s to be used directly as symbols in more complex expressions.
+///
+///  +  term Available since:
+///     0·4.
 extension ExcludingExpression:
 	Symbolic
 where Atom : Hashable {
@@ -544,14 +588,21 @@ where Atom : Hashable {
 	/// The ``ExpressionProtocol`` type of expression which this ``ExcludingExpression`` represents.
 	///
 	/// This is just the `ExcludingExpression` type itself.
-	@usableFromInline
-	/*public*/ typealias Expressed = ExcludingExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·4.
+	public typealias Expressed = ExcludingExpression<Atom>
 
 	/// Returns the ``Expressed`` thing which this ``ExcludingExpression`` represents.
 	///
 	/// This is just the `ExcludingExpression` itself.
-	@usableFromInline
-	/*public*/ var expression: Expressed
+	///
+	///  +  term Available since:
+	///     0·4.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	public var expression: Expressed
 	{ self }
 
 }

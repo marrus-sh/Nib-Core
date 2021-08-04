@@ -12,21 +12,26 @@ import func Algorithms.chain
 /// `Excludable` expressions are logical subsets of `ExclusionProtocol` expressions and can create exclusions using the [`÷(_:_:)`](doc:Excludable/_(_:_:)-7k8fq) operator.
 ///
 ///  +  term Available since:
-///     0·2.
+///     0·4.
 ///
 ///
 /// ###  Conformance  ###
 ///
 /// To conform to the `Excludable` protocol, a type must implement the [`^!(_:)`](doc:_!(_:)) postfix operator to produce an ``Exclusion``.
-@usableFromInline
-/*public*/ protocol Excludable:
+public protocol Excludable:
 	ExpressionProtocol
 where Exclusion : ExclusionProtocol {
 
 	/// The ``ExclusionProtocol`` type which this thing is convertible to.
+	///
+	///  +  term Available since:
+	///     0·4.
 	associatedtype Exclusion
 
 	/// Returns an ``Exclusion`` representing the provided `operand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -40,9 +45,12 @@ where Exclusion : ExclusionProtocol {
 
 }
 
-/*public*/ extension Excludable {
+public extension Excludable {
 
 	/// Returns an ``Exclusion`` which catenates the provided `righthandOperand` to the end of the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -71,6 +79,9 @@ where Exclusion : ExclusionProtocol {
 
 	/// Catenates the provided `lefthandOperand` with the ``Exclusion`` of the provided `righthandOperand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -90,6 +101,9 @@ where Exclusion : ExclusionProtocol {
 	}
 
 	/// Returns an ``Exclusion`` which alternates the provided `lefthandOperand` with the provided `righthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -118,6 +132,9 @@ where Exclusion : ExclusionProtocol {
 
 	/// Alternates the provided `lefthandOperand` with the ``Exclusion`` of the provided `righthandOperand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -137,6 +154,9 @@ where Exclusion : ExclusionProtocol {
 	}
 
 	/// Returns an ``Exclusion`` which excludes the provided `righthandOperand` from the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -165,6 +185,9 @@ where Exclusion : ExclusionProtocol {
 	}
 
 	/// Excludes the provided `righthandOperand` with the ``Exclusion`` of the provided `lefthandOperand`.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).

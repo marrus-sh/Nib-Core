@@ -307,15 +307,23 @@ where Atom : Atomic {
 }
 
 /// Extends ``ContextfreeExpression`` to conform to ``Excludable``.
+///
+///  +  term Available since:
+///     0·4.
 extension ContextfreeExpression:
 	Excludable
 {
 
 	/// The ``ExclusionProtocol`` type which this ``ContextfreeExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·4.
+	public typealias Exclusion = ExcludingExpression<Atom>
 
 	/// Creates a ``ContextfreeExpression`` from the provided `excludable`, if it is contextfree.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -323,7 +331,7 @@ extension ContextfreeExpression:
 	///  +  Parameters:
 	///      +  excludable:
 	///         An ``ExcludingExpression``.
-	/*public*/ init? <Excluding> (
+	public init? <Excluding> (
 		_ excludable: Excluding
 	) where
 		Excluding : Excludable,
@@ -337,6 +345,9 @@ extension ContextfreeExpression:
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -346,8 +357,7 @@ extension ContextfreeExpression:
 	///
 	///  +  Returns:
 	///     An ``ExcludingExpression`` with the same `Atom` type as `operand`.
-	@usableFromInline
-	/*public*/ static postfix func ^! (
+	public static postfix func ^! (
 		_ operand: ContextfreeExpression<Atom>
 	) -> ExcludingExpression<Atom>
 	{ operand.·excludableExpression🙈· }

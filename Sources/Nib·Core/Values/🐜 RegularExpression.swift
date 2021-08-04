@@ -392,15 +392,23 @@ where Atom : Atomic {
 }
 
 /// Extends ``RegularExpression`` to conform to ``Excludable``.
+///
+///  +  term Available since:
+///     0·4.
 extension RegularExpression:
 	Excludable
 {
 
 	/// The ``ExclusionProtocol`` type which this ``RegularExpression`` is convertible to.
-	@usableFromInline
-	/*public*/ typealias Exclusion = ExcludingExpression<Atom>
+	///
+	///  +  term Available since:
+	///     0·4.
+	public typealias Exclusion = ExcludingExpression<Atom>
 
 	/// Creates a ``RegularExpression`` from the provided `excludable`, if it is regular.
+	///
+	///  +  term Available since:
+	///     0·4.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -408,7 +416,7 @@ extension RegularExpression:
 	///  +  Parameters:
 	///      +  excludable:
 	///         An ``ExcludingExpression``.
-	/*public*/ init? <Excluding> (
+	public init? <Excluding> (
 		_ excludable: Excluding
 	) where
 		Excluding : Excludable,
@@ -422,6 +430,9 @@ extension RegularExpression:
 
 	/// Returns an ``ExcludingExpression`` representing the provided `operand`.
 	///
+	///  +  term Available since:
+	///     0·4.
+	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
@@ -431,8 +442,7 @@ extension RegularExpression:
 	///
 	///  +  Returns:
 	///     An ``ExcludingExpression`` with the same `Atom` type as `operand`.
-	@usableFromInline
-	/*public*/ static postfix func ^! (
+	public static postfix func ^! (
 		_ operand: RegularExpression<Atom>
 	) -> ExcludingExpression<Atom>
 	{ operand.·excludableExpression🙈· }
