@@ -49,7 +49,7 @@ where
 	private var ·parser🙈·: Parser🙊<Atom, Index>
 
 	/// The result of the parse, if this `ParsingState🙊` is in a match state and expecting a result.
-	var ·result·: [Parser🙊<Atom, Index>.PathComponent]?
+	var ·result·: [PathComponent🙊<Index>]?
 
 	/// The `State🙊`s from which reaching a match necessitates a match in the expression which contains this `ParsingState🙊`.
 	///

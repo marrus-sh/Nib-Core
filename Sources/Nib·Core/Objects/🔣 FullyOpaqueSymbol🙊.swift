@@ -25,7 +25,8 @@ internal class FullyOpaqueSymbol🙊:
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	init () {}
+	init ()
+	{}
 
 	/// A set of already-minted `FullyOpaqueSymbol🙊`s.
 	///

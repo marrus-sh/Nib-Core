@@ -14,30 +14,6 @@ where
 	Index : Comparable
 {
 
-	/// A component of a “path” through a known input according to a known regular expression.
-	///
-	/// Path components can be either `string`s (ranges of matching indices) or `symbol`s (which themselves have a `subpath` of strings and/or symbols).
-	/// `symbol`s may represent an inprogress match; a `symbol` only (necessarily) represents a proper match when its `subpath` is not `nil`.
-	enum PathComponent:
-		Equatable
-	{
-
-		/// A range of indices which match.
-		case string (
-			ClosedRange<Index>
-		)
-
-		/// A symbol which matches (so far).
-		///
-		/// If `subpath` is not `nil`, the symbol matches.
-		/// Otherwise, the symbol may or may not match, depending on later input.
-		indirect case symbol (
-			Symbol🙊<Atom>,
-			subpath: [PathComponent]?
-		)
-
-	}
-
 	/// Whether this `Parser🙊` will change state upon consuming some number of additional things.
 	///
 	///  +  term Author(s):
@@ -73,7 +49,7 @@ where
 	///
 	/// The `Array` of `PathComponent`s corresponding to `State🙊.match`, if present, will end in `match` and indicate the first successful (possibly partial) match.
 	/// All other values indicate inprogress matches which may or may not be invalidated depending on later input.
-	private var ·paths🙈·: [State🙊:[PathComponent]] = [:]
+	private var ·paths🙈·: [State🙊:[PathComponent🙊<Index>]] = [:]
 
 	/// Whether this `Parser🙊` is remembering the components of paths, or simply testing for a match.
 	private let ·remembersPathComponents·: Bool
@@ -87,8 +63,8 @@ where
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
-	var ·result·: [PathComponent]?
-	{ ·paths🙈·[.match] ?? nil }
+	var ·result·: [PathComponent🙊<Index>]?
+	{ ·paths🙈·[.match] }
 
 	/// Creates a `Parser🙊` beginning from the provided `start` and potentially `rememberingPathComponents`.
 	///
@@ -152,7 +128,7 @@ where
 			)
 		) { 🔜, 🈁 in
 			//  Attempt to consume the provided `element` and collect the next states if this succeeds.
-			let 🔙: [PathComponent]?
+			let 🔙: [PathComponent🙊<Index>]?
 			switch 🈁 {
 				//  Attempt to consume the provided `element`.
 				//  If successful, get the relevant existing path component and extend it for this state.
