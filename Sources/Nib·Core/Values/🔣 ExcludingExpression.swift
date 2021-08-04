@@ -362,9 +362,22 @@ where Atom : Atomic {
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
+	@usableFromInline
 	/*public*/ static var never: ExcludingExpression<Atom> {
 		ExcludingExpression(
 			🙈: .never,
+			kind: .regular
+		)
+	}
+
+	/// An ``ExcludingExpression`` which catenates nothing; i.e. an empty thing.
+	///
+	///  +  term Author(s):
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	@usableFromInline
+	/*public*/ static var null: ExcludingExpression<Atom> {
+		self.init(
+			🙈: .catenation([]),
 			kind: .regular
 		)
 	}
