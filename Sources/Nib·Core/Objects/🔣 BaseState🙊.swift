@@ -25,7 +25,7 @@ where Atom : Atomic {
 		super.·blast·()
 	}
 
-	/// Returns a new `ParsingState🙊`s based off of this one.
+	/// Returns a new `ParsingState🙊` based off of this `BaseState🙊`.
 	///
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).

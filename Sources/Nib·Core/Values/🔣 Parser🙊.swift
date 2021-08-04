@@ -155,6 +155,28 @@ where
 						🔙 = 〽️
 					} else
 					{ 🔙 = nil }
+				case let 💱 as ExclusionState🙊<Atom, Index>:
+					//  Consume into an `ExclusionState🙊` and append a string.
+					guard 💱.·consumes·(indexedElement)
+					else
+					{ return }
+					if ·remembersPathComponents· {
+						var 〽️ = ·paths🙈·[🈁]!
+						if
+							case .string (
+								let 📂
+							) = 〽️.last
+						{
+							〽️[
+								〽️.index(
+									before: 〽️.endIndex
+								)
+							] = .string(📂.lowerBound...indexedElement.offset)
+						} else
+						{ 〽️.append(.string(indexedElement.offset...indexedElement.offset)) }
+						🔙 = 〽️
+					} else
+					{ 🔙 = nil }
 				case let 💱 as ParsingState🙊<SymbolicState🙊<Atom>, Atom, Index>:
 					//  Consume into a `ParsingState🙊` and append a symbol.
 					guard 💱.·consumes·(indexedElement)

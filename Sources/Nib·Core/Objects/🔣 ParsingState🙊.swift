@@ -35,7 +35,7 @@ where
 	/// The `States🙊` which this `ParsingState🙊` will result in after a correct match.
 	///
 	/// The `ParsingState🙊` itself will be included if it can consume more things.
-	/// Other `States🙊` will only be included if the `·parser🙈·` currently `·matches·`.
+	/// Other `States🙊` will only be included if the internal parser currently matches.
 	///
 	///  >  Note:
 	///  >  Because the value of this property changes over the lifecycle of a parse, it mustn’t be cached.
@@ -43,7 +43,10 @@ where
 	///  +  term Author(s):
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	override var ·next·: [State🙊]
-	{ ·parser🙈·.·open· ? ·parser🙈·.·matches· ? CollectionOfOne(self) + ·base·.·next· : [self] : ·parser🙈·.·matches· ? ·base·.·next· : [] }
+	{ ·open· ? ·parser🙈·.·matches· ? CollectionOfOne(self) + ·base·.·next· : [self] : ·parser🙈·.·matches· ? ·base·.·next· : [] }
+
+	var ·open·: Bool
+	{ ·parser🙈·.·open· }
 
 	/// The internal `Parser🙊` of this `ParsingState🙊`.
 	private var ·parser🙈·: Parser🙊<Atom, Index>
@@ -67,7 +70,7 @@ where
 	///
 	///  +  Parameters:
 	///      +  base:
-	///         A `ParsingState🙊`.
+	///         A `BaseState🙊`.
 	///      +  rememberingPathComponents:
 	///         Whether to remember path components when consuming with this `ParsingState🙊`.
 	init? (
@@ -113,7 +116,7 @@ where
 	///
 	///  +  Parameters:
 	///      +  indexedElement:
-	///         A tuple of an `Index` `offset` and an `element` of this `OpenState🙊`’s `Atom`’s `SourceElement` type.
+	///         A tuple of an `Index` `offset` and an `element` of this `ParsingState🙊`’s `Atom`’s `SourceElement` type.
 	///
 	///  +  Returns:
 	///     `true` if the internal parser of this `ParsingState🙊` can consume the provided `indexedElement`; `false` otherwise.

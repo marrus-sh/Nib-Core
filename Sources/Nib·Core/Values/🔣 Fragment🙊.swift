@@ -98,6 +98,12 @@ where Atom : Atomic {
 		with symbols: inout [Symbol🙊<Atom>:StartState🙊<Atom>]
 	) -> WorkingState🙈 {
 		switch self {
+			case .never:
+				return (
+					start: .never,
+					open: [],
+					reachableFromStart: []
+				)
 			case .terminal(
 				let 📂
 			):
@@ -178,6 +184,32 @@ where Atom : Atomic {
 						reachableFromStart: 🔜.reachableFromStart.union(🆙.reachableFromStart)
 					)
 				}
+			case .exclusion(
+				let 🆗,
+				let 🆖
+			):
+				let 🆕 = ExcludingState🙊() as ExcludingState🙊<Atom>
+				do {
+					//  Build the matching `StartState🙊`.
+					let 🆙 = StartState🙊(🆗)
+					🆙.·forward· = 🆗.·open🙈·(
+						with: &symbols
+					).start
+					🆕.·start· = 🆙
+				}
+				do {
+					//  Build the excluding `StartState🙊`.
+					let 🆙 = StartState🙊(🆖)
+					🆙.·forward· = 🆖.·open🙈·(
+						with: &symbols
+					).start
+					🆕.·exclusionStart· = 🆙
+				}
+				return (
+					start: 🆕,
+					open: [🆕],
+					reachableFromStart: []
+				)
 			case .zeroOrOne (
 				let 📂
 			):
@@ -229,12 +261,6 @@ where Atom : Atomic {
 					start: 🆕,
 					open: 🔜.open,
 					reachableFromStart: 🆙.reachableFromStart.union([🆕])
-				)
-			default:
-				return (
-					start: .never,
-					open: [],
-					reachableFromStart: []
 				)
 		}
 	}
